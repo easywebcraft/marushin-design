@@ -355,10 +355,12 @@ def page_index():
 <span class="hero-scroll" aria-hidden="true">scroll</span>
 </section>
 
-<section class="sec">
+<section class="sec sec-lift">
 <div class="wrap">
+<div class="lift">
 {h2c('丸信の解体工事について')}
 <p class="lead">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、建築様式を問わず解体工事が可能です。</p>
+</div>
 </div>
 </section>
 
@@ -378,12 +380,12 @@ def page_index():
 </div>
 </section>
 
-<section class="band" aria-labelledby="h-price">
-<div class="wrap band-in">
+<section class="band band-raise" aria-labelledby="h-price">
+<div class="wrap"><div class="band-in">
 <h2 class="band-ttl" id="h-price">料金案内</h2>
 <p class="band-tx">木造・鉄骨造・鉄筋コンクリート造の解体工事と、庭木伐採・ブロック塀などその他の料金表を掲載しています。</p>
 {more('price.html', '料金案内を見る')}
-</div>
+</div></div>
 </section>
 
 <section class="sec">
@@ -394,12 +396,12 @@ def page_index():
 </div>
 </section>
 
-<section class="band" aria-labelledby="h-voice">
-<div class="wrap band-in">
+<section class="band band-raise" aria-labelledby="h-voice">
+<div class="wrap"><div class="band-in">
 <h2 class="band-ttl" id="h-voice">お客様の声</h2>
 <ul class="band-voices">{voices}</ul>
 {more('voice.html', 'お客様の声を見る')}
-</div>
+</div></div>
 </section>
 
 <section class="sec sec-area">

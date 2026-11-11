@@ -531,6 +531,49 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .phf-map{aspect-ratio:4/3}
 }
 
+/* ---- トップの立体感（2026-11-12 松本さん希望）：重なり・影・触れると浮く・現れる動き ----
+   色・文言・写真は変えない。現れる動きは JS が .rv を付けたときだけ（JS なし・動きを減らす設定では最初から全部見える） */
+.work,.qa,.cta-box,.band-raise .band-in,.cards3>li,.flowmini .circ{transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
+.work{border-color:transparent;border-radius:12px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 10px 28px rgba(23,53,75,.12)}
+.work-ph figure{overflow:hidden}
+.work-ph img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.work:hover{transform:translateY(-6px);box-shadow:0 2px 4px rgba(23,53,75,.08),0 18px 40px rgba(23,53,75,.18)}
+.work:hover .work-ph img{transform:scale(1.06)}
+.qa{border-color:transparent;box-shadow:0 1px 2px rgba(23,53,75,.06),0 6px 16px rgba(23,53,75,.09)}
+.qa:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(23,53,75,.08),0 12px 26px rgba(23,53,75,.14)}
+.cta{background:linear-gradient(var(--pale2),var(--pale))}
+.cta-box{border-color:transparent;border-radius:14px;box-shadow:0 2px 4px rgba(23,53,75,.08),0 18px 44px rgba(23,53,75,.18)}
+.hero-btns .btn-teal{box-shadow:0 8px 22px rgba(8,50,58,.45)}
+.hero-btns .btn:hover{transform:translateY(-2px)}
+.flowmini .circ{background:linear-gradient(180deg,#fff,var(--pale));box-shadow:0 6px 14px rgba(23,53,75,.14),inset 0 -3px 0 rgba(56,168,184,.2)}
+.flowmini li:hover .circ{transform:translateY(-4px);box-shadow:0 12px 22px rgba(23,53,75,.2),inset 0 -3px 0 rgba(56,168,184,.3)}
+.band-raise{padding:44px 0;background:linear-gradient(var(--pale2),var(--pale))}
+.band-raise .band-in{padding:28px 36px;background:#fff;border-radius:14px;box-shadow:0 2px 4px rgba(23,53,75,.06),0 14px 36px rgba(23,53,75,.13)}
+.band-raise .band-tx,.band-raise .band-voices{border-left-color:var(--line)}
+.sec-pale:has(.cards3){background:linear-gradient(180deg,var(--pale2),var(--pale) 55%)}
+.cards3{gap:28px}
+.cards3>li{padding:34px 28px 30px;background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 12px 30px rgba(23,53,75,.11)}
+.cards3>li+li{border-left:0}
+.cards3>li:hover{transform:translateY(-6px);box-shadow:0 2px 4px rgba(23,53,75,.08),0 20px 42px rgba(23,53,75,.18)}
+.cards3 .circ{background:linear-gradient(180deg,#fff,var(--pale));box-shadow:0 6px 14px rgba(23,53,75,.14),inset 0 -3px 0 rgba(56,168,184,.2)}
+@media (min-width:768px){
+  .hero-scroll{bottom:100px}
+  .hero .img-note{bottom:92px}
+  .sec-lift{padding:0 0 64px}
+  .lift{position:relative;z-index:2;margin-top:-76px;padding:48px 48px 52px;background:#fff;border-radius:16px;
+    box-shadow:0 2px 6px rgba(23,53,75,.08),0 24px 56px rgba(16,40,56,.22)}
+  .lift .lead{margin-bottom:0}
+}
+@media (max-width:767px){
+  .cards3{gap:14px}
+  .cards3>li{padding:18px 16px;grid-template-columns:auto 1fr}
+  .cards3>li+li{border-top:0}
+  .band-raise{padding:24px 0}
+  .band-raise .band-in{padding:20px 18px}
+}
+html.js .rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease var(--d,0s),transform .7s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
+html.js .rv.in{opacity:1;transform:none}
+
 /* ---- 冒頭の演出（トップだけ・1回の訪問で1度・動きを減らす設定では出さない） ----
    白い幕の中央で輪が満ち、社名がヘッダーの社名の位置へ移ってから、写真と文字が現れる */
 html{scrollbar-gutter:stable}

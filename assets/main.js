@@ -42,6 +42,25 @@
     setSolid();
   }
 
+  // ---- トップ：下へ進むと、各部分がふわっと現れる（動きを減らす設定・JS なしでは最初から見える） ----
+  if (ovl && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        io.unobserve(el);
+        el.classList.add('in');
+        setTimeout(function () { el.classList.remove('rv', 'in', 'rv-w'); el.style.removeProperty('--d'); }, 1300);
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.lift,.sec .h2c,.cards3>li,.works .work,.band-raise .band-in,.flowmini li,.area,.qas .qa,.cta-box').forEach(function (el, i, all) {
+      var sib = el.parentNode.children, n = Array.prototype.indexOf.call(sib, el);
+      if (el.parentNode.matches('.cards3,.works,.flowmini')) el.style.setProperty('--d', ((n % 5) * 0.09).toFixed(2) + 's');
+      el.classList.add('rv');
+      io.observe(el);
+    });
+  }
+
   // ---- よくある質問：#q3 のようなリンクで来たら、その質問を開く ----
   var openFromHash = function () {
     var id = decodeURIComponent(location.hash.slice(1));
