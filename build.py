@@ -95,8 +95,10 @@ def frame(label, cls=''):
     FRAMES.append((CUR, label))
     if RELEASE:
         return ''
-    return (f'<div class="phf {cls}" role="img" aria-label="写真を入れる場所（仮の枠）">'
-            f'<span>写真を入れる場所<small>{esc(label)}</small></span></div>')
+    box = (f'<div class="phf {cls}" role="img" aria-label="写真を入れる場所（仮の枠）">'
+           f'<span>写真を入れる場所<small>{esc(label)}</small></span></div>')
+    # 斜めに切った枠は影が切り取られるので、外側の箱に影を付ける（2026-11-12 全ページを立体的に）
+    return f'<div class="phw">{box}</div>' if cls.startswith('slant') else box
 
 
 def body_html(items):

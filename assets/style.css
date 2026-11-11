@@ -572,8 +572,33 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .band-raise{padding:24px 0}
   .band-raise .band-in{padding:20px 18px}
 }
-html.js .rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease var(--d,0s),transform .7s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
-html.js .rv.in{opacity:1;transform:none}
+/* ---- 下層ページの立体感（2026-11-12 松本さん「全体のページを立体的にして、TOPページのように」） ---- */
+.sec-pale{background:linear-gradient(180deg,var(--pale2),var(--pale) 60%)}
+.ph{box-shadow:inset 0 -10px 24px -18px rgba(23,53,75,.35)}
+.phw{filter:drop-shadow(0 4px 6px rgba(23,53,75,.10)) drop-shadow(0 22px 30px rgba(23,53,75,.18))}
+.pol li,.panel,.voice,.flow-body,.dl,.tbl-wrap,.formcard,.telbox{border-color:transparent;border-radius:14px;
+  box-shadow:0 1px 2px rgba(23,53,75,.06),0 12px 30px rgba(23,53,75,.11)}
+.pol li,.panel,.voice,.flow-body{transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
+:is(.pol li,.panel,.voice,.flow-body):hover{transform:translateY(-4px);box-shadow:0 2px 4px rgba(23,53,75,.08),0 20px 42px rgba(23,53,75,.17)}
+.telbox{background:linear-gradient(180deg,#fff,var(--pale2))}
+.formcard{box-shadow:0 2px 4px rgba(23,53,75,.06),0 20px 48px rgba(23,53,75,.14)}
+.flow-num{filter:drop-shadow(0 6px 10px rgba(14,103,115,.35))}
+.flow>li::before{background:linear-gradient(var(--teal),var(--line))}
+.feat-num{text-shadow:0 6px 14px rgba(20,127,141,.25)}
+.incl,.box{box-shadow:0 6px 16px rgba(23,53,75,.08)}
+.pills a{box-shadow:0 4px 10px rgba(23,53,75,.08);transition:transform .2s,box-shadow .2s,background-color .15s,color .15s}
+.pills a:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(23,53,75,.16)}
+.phf-map{box-shadow:inset 0 2px 12px rgba(23,53,75,.12)}
+@media (min-width:768px){
+  .ph-ttl{width:fit-content;padding:18px 32px 18px 22px;background:rgba(255,255,255,.86);border-radius:0 14px 14px 0;
+    box-shadow:0 2px 4px rgba(23,53,75,.06),0 16px 36px rgba(23,53,75,.16);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+}
+@media (max-width:767px){
+  .pol li,.panel,.voice,.flow-body,.dl,.tbl-wrap,.formcard,.telbox{border-radius:12px}
+}
+
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease var(--d,0s),transform .7s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
+.rv.in{opacity:1;transform:none}
 
 /* ---- 冒頭の演出（トップだけ・1回の訪問で1度・動きを減らす設定では出さない） ----
    白い幕の中央で輪が満ち、社名がヘッダーの社名の位置へ移ってから、写真と文字が現れる */
