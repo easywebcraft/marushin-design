@@ -139,9 +139,11 @@ SPRITE = '''<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="
 
 
 # 冒頭の演出（トップだけ）。同じ訪問で2度目以降と、動きを減らす設定の人には出さない。
-# 下の JS が動かなかったときに幕が残らないよう、6秒たっても動き出していなければ外す
+# 下の JS が動かなかったときに幕が残らないよう、6秒たっても動き出していなければ外す。
+# 先頭の js の印は、ヘッダーを写真の上に重ねてよい合図（JS が動かないと白地に戻せないため）
 EWL_HEAD = '''<script>
 (function(){var r=document.documentElement,played=false;
+r.classList.add('js');
 try{played=sessionStorage.getItem('ms-ewl')==='1';}catch(e){}
 if(played||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;
 r.classList.add('ewl-on','ewl-play');
@@ -196,7 +198,7 @@ def header(fname):
     return f'''<body>
 {EWL_BODY if fname == 'index.html' else ''}{SPRITE}
 <a class="skip" href="#main">本文へ移動</a>
-{draft}<header class="hd">
+{draft}<header class="hd{' hd-ovl' if fname == 'index.html' else ''}">
 <div class="hd-in">
 <a class="logo" href="index.html" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
 <nav class="gnav" aria-label="メインメニュー"><ul>
@@ -336,17 +338,21 @@ def page_index():
     top_faq = [(n, it) for n, it in enumerate(faq['items'], 1) if it.get('top')]
     faq_html = ''.join(qa_html(it, n) for n, it in top_faq)
     return f'''<section class="hero">
+<div class="hero-ph">
 <picture><source media="(max-width:767px)" srcset="images/hero-sp.jpg"><img class="hero-img" src="images/hero.jpg" alt="" width="1600" height="1066" fetchpriority="high"></picture>
+<p class="img-note">写真はイメージです</p>
+</div>
 <div class="hero-in">
 <p class="hero-label">春日井市・名古屋市の解体工事相談室</p>
-<h1>建物の解体は<br>丸信へ</h1>
+<h1>建物の解体は<br><em>丸信へ</em></h1>
 <p class="hero-sub">愛知県（春日井市・小牧市・尾張旭市・瀬戸市・名古屋市等）の解体のご相談は、株式会社丸信にお任せください。</p>
+<p class="hero-en" lang="en" aria-hidden="true">MARUSHIN</p>
 <div class="hero-btns">
 <a class="btn btn-teal btn-lg" href="contact.html">{ic("mail")}無料相談</a>
-<a class="btn btn-white btn-lg" href="case.html">施工事例を見る{ic("chev")}</a>
+<a class="btn btn-ghost btn-lg" href="case.html">施工事例を見る{ic("chev")}</a>
 </div>
 </div>
-<p class="img-note">写真はイメージです</p>
+<span class="hero-scroll" aria-hidden="true">scroll</span>
 </section>
 
 <section class="sec">

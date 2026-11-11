@@ -1,4 +1,4 @@
-/* 株式会社丸信 ホームページ：メニューの開け閉め・質問への直接リンク・トップの冒頭の演出・お問い合わせフォームの入力チェック */
+/* 株式会社丸信 ホームページ：メニューの開け閉め・トップのヘッダーの切り替え・質問への直接リンク・トップの冒頭の演出・お問い合わせフォームの入力チェック */
 (function () {
   'use strict';
 
@@ -28,6 +28,18 @@
     window.matchMedia('(min-width:1024px)').addEventListener('change', function (e) {
       if (e.matches) setOpen(false);
     });
+  }
+
+  // ---- トップ：写真の上に重ねたヘッダーを、少し下へ進んだら白地に戻す ----
+  var ovl = document.querySelector('.hd-ovl');
+  if (ovl) {
+    var draftBar = document.querySelector('.draft');
+    var setSolid = function () {
+      ovl.classList.toggle('is-solid', (window.scrollY || window.pageYOffset) > (draftBar ? draftBar.offsetHeight : 0) + 24);
+    };
+    window.addEventListener('scroll', setSolid, { passive: true });
+    window.addEventListener('resize', setSolid);
+    setSolid();
   }
 
   // ---- よくある質問：#q3 のようなリンクで来たら、その質問を開く ----

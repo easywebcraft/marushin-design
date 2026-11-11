@@ -9,6 +9,7 @@
   --todo:#FFF1A8; --todo-line:#D9B200;
   --w:1100px; --gut:24px;
   --font:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Meiryo","Noto Sans JP",sans-serif;
+  --serif:"Noto Serif JP","游明朝体","Yu Mincho",YuMincho,"ヒラギノ明朝 ProN W3","Hiragino Mincho ProN",serif;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:96px}
@@ -76,7 +77,7 @@ small{font-size:.85em}
 .gnav a{display:flex;align-items:center;min-height:48px;padding:0 14px;color:var(--navy);font-weight:700;font-size:15px;text-decoration:none;position:relative;white-space:nowrap}
 .gnav a::after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:2px;background:var(--teal);transform:scaleX(0);transition:transform .15s}
 .gnav a:hover::after,.gnav a[aria-current]::after{transform:scaleX(1)}
-.hd-cta{white-space:nowrap}
+.hd-cta{white-space:nowrap;border-radius:999px}
 .burger{display:none;width:48px;height:48px;margin-left:auto;padding:0;border:0;background:none;cursor:pointer;position:relative;border-radius:6px}
 .burger span{position:absolute;left:11px;right:11px;height:2px;background:var(--navy);transition:transform .2s,opacity .2s}
 .burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:23px}.burger span:nth-child(3){top:31px}
@@ -97,17 +98,32 @@ small{font-size:.85em}
 .drawer li a .ext-note{margin-right:auto}
 .menu-open .fixbar{display:none}
 
-/* トップの大きな写真 */
-.hero{position:relative;background:var(--navy);color:#fff;overflow:hidden}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%}
-.hero::before{content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(90deg,rgba(23,53,75,.94) 0%,rgba(23,53,75,.84) 30%,rgba(23,53,75,.3) 58%,rgba(23,53,75,0) 78%)}
-.hero-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:72px var(--gut) 84px}
-.hero-label{display:inline-block;padding-left:14px;border-left:4px solid var(--teal);font-weight:700;font-size:18px;line-height:1.4;letter-spacing:.06em}
-.hero h1{margin-top:18px;color:#fff;font-size:clamp(38px,5.2vw,62px);line-height:1.3;letter-spacing:.04em}
-.hero-sub{margin-top:18px;max-width:31em;font-size:16px;line-height:1.8;text-wrap:balance;word-break:auto-phrase}
-.hero-btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
-.hero-btns .btn{min-width:190px}
+/* トップの最初の画面（営業用の見本と同じ見え方）
+   広い画面：写真を画面いっぱいに広げ、明朝の見出しを左に置く。写真はゆっくり動く。
+   スマホ：写真を上、文字を下に分ける（下の「スマホ」の区切りで上書き） */
+.hero{position:relative;display:flex;flex-direction:column;justify-content:center;overflow:hidden;background:var(--navy);color:#fff;
+  min-height:max(520px,min(calc(100vh - 121px),760px));min-height:max(520px,min(calc(100svh - 121px),760px))}
+.hero-ph{position:absolute;inset:0;overflow:hidden}
+.hero-ph::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(16,40,56,.74) 0%,rgba(16,40,56,.52) 36%,rgba(16,40,56,0) 70%)}
+.hero-img{display:block;width:100%;height:100%;object-fit:cover;object-position:70% 50%;
+  animation:camDrift 26s ease-in-out 1.8s infinite alternate;will-change:transform}
+@keyframes camDrift{0%{transform:scale(1) translate3d(0,0,0)}
+  50%{transform:scale(1.08) translate3d(-1.5%,-1%,0)}100%{transform:scale(1.05) translate3d(1.5%,.8%,0)}}
+.hero-in{position:relative;z-index:1;width:100%;max-width:calc(var(--w) + var(--gut)*2);margin:0 auto;padding:64px var(--gut) 104px;
+  text-shadow:0 1px 14px rgba(0,0,0,.35)}
+.hero-label{display:flex;align-items:center;gap:12px;font-weight:700;font-size:15px;line-height:1.5;letter-spacing:.1em}
+.hero-label::before{content:"";flex:none;width:28px;height:2px;background:var(--teal)}
+.hero h1{margin-top:16px;color:#fff;font-family:var(--serif);font-weight:500;font-size:clamp(42px,4.8vw,64px);line-height:1.4;letter-spacing:.06em}
+.hero h1 em{font-style:normal}
+.hero-sub{margin-top:22px;max-width:32em;font-size:15.5px;line-height:1.9;text-wrap:balance;word-break:auto-phrase}
+.hero-en{margin-top:10px;font-size:11px;line-height:1.6;letter-spacing:.22em}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.hero-btns .btn{min-width:190px;border-radius:999px;letter-spacing:.05em;text-shadow:none}
+.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.7)}
+.btn-ghost:hover{background:#fff;color:var(--navy)}
+.hero-scroll{position:absolute;left:50%;bottom:22px;z-index:1;transform:translateX(-50%);color:#fff;font-size:10px;line-height:1.6;letter-spacing:.2em}
+.hero-scroll::after{content:"";display:block;width:1px;height:26px;margin:6px auto 0;background:#fff}
 .img-note{position:absolute;right:10px;bottom:8px;z-index:2;margin:0;padding:1px 8px;background:rgba(16,40,56,.62);color:#fff;font-size:11px;line-height:1.6;border-radius:3px}
 
 /* 区切りと見出し */
@@ -372,9 +388,25 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .ft-nav ul{grid-template-columns:repeat(3,auto)}
   .ft-cta{justify-self:start}
   .duo-col{padding:0 24px}
+  /* 縦長の画面では文字が重機に重なるので、左側の暗さを広げる（スマホは写真と文字を分けるので下で消す） */
+  .hero-ph::after{background:linear-gradient(90deg,rgba(16,40,56,.82) 0%,rgba(16,40,56,.64) 48%,rgba(16,40,56,.12) 100%)}
 }
 @media (min-width:1024px){
   .drawer{display:none!important}
+  /* トップ：ヘッダーを写真の上に重ねる（見本と同じ）。少し下へ進むと JS が白地に戻す。
+     JS が動かないときは白地のまま（html に js の印が付かない） */
+  html.js .hd-ovl{margin-bottom:-77px;background:transparent;border-bottom-color:transparent;
+    transition:background-color .35s,border-color .35s,box-shadow .35s}
+  html.js .hd-ovl:not(.is-solid){background-image:linear-gradient(rgba(16,40,56,.5),rgba(16,40,56,.2) 70%,rgba(16,40,56,0));
+    background-origin:border-box;background-repeat:no-repeat}
+  html.js .hd-ovl :is(.logo,.gnav a){transition:color .35s,text-shadow .35s}
+  html.js .hd-ovl:not(.is-solid) :is(.logo,.gnav a){color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+  html.js .hd-ovl:not(.is-solid) .gnav{border-left-color:rgba(255,255,255,.45)}
+  html.js .hd-ovl:not(.is-solid) .gnav a::after{background:#fff}
+  html.js .hd-ovl.is-solid{background:rgba(255,255,255,.96);border-bottom-color:var(--line);box-shadow:0 2px 12px rgba(23,53,75,.08);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  html.js .hero{min-height:max(600px,min(calc(100vh - 44px),900px));min-height:max(600px,min(calc(100svh - 44px),900px))}
+  html.js .hero-in{padding:125px var(--gut) 118px}
 }
 
 /* ---------- スマホ（767px 以下） ---------- */
@@ -393,14 +425,23 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .lead br{display:none}
   .btn-line{min-width:0;width:100%}
 
+  /* 最初の画面：写真を上、文字を下に（見本のスマホと同じ並び：見出し→ボタン→説明） */
+  .hero{display:block;min-height:0;background:var(--pale2);color:var(--text)}
+  .hero-ph{position:relative;inset:auto;aspect-ratio:16/10;max-height:340px}
+  .hero-ph::after{display:none}
   .hero-img{object-position:68% 50%}
-  .hero::before{background:linear-gradient(180deg,rgba(23,53,75,.9) 0%,rgba(23,53,75,.78) 55%,rgba(23,53,75,.55) 100%)}
-  .hero-in{padding:44px var(--gut) 56px}
-  .hero-label{font-size:16px}
-  .hero h1{font-size:36px;margin-top:14px}
-  .hero-sub{font-size:16px}
-  .hero-btns{flex-direction:column;gap:12px}
+  .hero-in{display:flex;flex-direction:column;padding:20px var(--gut) 36px;text-shadow:none}
+  .hero-label{gap:8px;color:var(--navy);font-size:14px;letter-spacing:.06em}
+  .hero-label::before{width:18px;background:var(--teal-d)}
+  .hero h1{margin-top:8px;color:var(--navy);font-size:min(34px,9.2vw);line-height:1.5}
+  .hero h1 em{color:var(--teal-dd)}
+  .hero-btns{order:1;flex-direction:column;gap:10px;margin-top:18px}
   .hero-btns .btn{width:100%}
+  .btn-ghost{background:#fff;color:var(--navy);border-color:var(--navy)}
+  .btn-ghost:hover{background:var(--navy);color:#fff}
+  .hero-sub{order:2;margin-top:18px;max-width:none;font-size:16px;line-height:1.8}
+  .hero-en{order:3;color:var(--mute)}
+  .hero-scroll{display:none}
 
   .cards3{grid-template-columns:1fr}
   .cards3>li{padding:22px 4px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;text-align:left}
@@ -534,16 +575,22 @@ html.ewl-on .hd .logo{opacity:0}
 @keyframes zoomOut{from{transform:scale(1.04)}to{transform:none}}
 @keyframes heroUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes navIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-html.ewl-play .hero-img{animation:zoomOut 1.8s cubic-bezier(.2,.7,.3,1) both}
+html.ewl-play .hero-ph{animation:zoomOut 1.8s cubic-bezier(.2,.7,.3,1) both}
 html.ewl-play .hero-in>*{animation:heroUp .8s cubic-bezier(.2,.7,.3,1) both}
 html.ewl-play .hero-label,html.ewl-play .hero h1{animation-delay:.15s}
 html.ewl-play .hero-sub{animation-delay:.4s}
-html.ewl-play .hero-btns{animation-delay:.55s}
+html.ewl-play .hero-en{animation-delay:.5s}
+html.ewl-play .hero-btns{animation-delay:.65s}
 html.ewl-play .gnav li{animation:navIn .6s cubic-bezier(.2,.7,.3,1) both}
 html.ewl-play .gnav li:nth-child(2){animation-delay:.06s}html.ewl-play .gnav li:nth-child(3){animation-delay:.12s}
 html.ewl-play .gnav li:nth-child(4){animation-delay:.18s}html.ewl-play .gnav li:nth-child(5){animation-delay:.24s}
 html.ewl-play .gnav li:nth-child(n+6){animation-delay:.3s}
-html.ewl-on:not(.ewl-go) .hero-img{animation-play-state:paused}
+html.ewl-on:not(.ewl-go) :is(.hero-ph,.hero-img){animation-play-state:paused}
+/* 広い画面のトップは社名の行き先が写真の上（白い字）なので、移りながら白くする */
+@media (min-width:1024px){
+  html.js .ewl.is-absorb .logo{color:#fff;-webkit-text-fill-color:#fff;
+    transition:transform 1s cubic-bezier(.65,0,.35,1),opacity .45s ease .95s,color .7s ease .3s,-webkit-text-fill-color .7s ease .3s}
+}
 html.ewl-on:not(.ewl-txt) :is(.hero-in>*,.gnav li){animation-play-state:paused}
 
 @media (prefers-reduced-motion:reduce){
