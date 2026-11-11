@@ -555,11 +555,11 @@ html.ewl-on .ewl.is-out{opacity:0}
 .ewl.is-in .ewl-p2{opacity:1}
 .ewl .logo{transform:scale(var(--ewk,1.9));transform-origin:50% 50%;
   transition:transform 1s cubic-bezier(.65,0,.35,1),opacity .45s ease .95s}
-/* 100%になった瞬間の「きらっ」：輪が光り、社名の上を光の筋が走る */
+/* 100%になった瞬間の「きらっ」：輪が金色に光り、社名の上を金色の光の筋が走る（2026-11-12 松本さん「キラは金色に」） */
 .ewl.is-full .ewl-ring .f{animation:ewlGlow .8s ease-out both}
-@keyframes ewlGlow{0%{filter:none}30%{filter:drop-shadow(0 0 5px rgba(56,168,184,.95)) brightness(1.25)}100%{filter:none}}
+@keyframes ewlGlow{0%{filter:none}30%{stroke:#F0C24A;filter:drop-shadow(0 0 6px rgba(232,178,44,.95)) brightness(1.15)}100%{stroke:#D9A62E;filter:none}}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
-  .ewl .logo{background:linear-gradient(100deg,var(--navy) 43%,#6FD6E3 50%,var(--navy) 57%) 100% 0/300% 100% no-repeat;
+  .ewl .logo{background:linear-gradient(100deg,var(--navy) 42%,#C8961E 46.5%,#FFE08A 50%,#C8961E 53.5%,var(--navy) 58%) 100% 0/300% 100% no-repeat;
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .ewl.is-full .logo{animation:ewlSheen .8s ease-in-out .1s both}
 }
