@@ -514,6 +514,23 @@ html.ewl-on .ewl.is-out{opacity:0}
 .ewl.is-in .ewl-p2{opacity:1}
 .ewl .logo{transform:scale(var(--ewk,1.9));transform-origin:50% 50%;
   transition:transform 1s cubic-bezier(.65,0,.35,1),opacity .45s ease .95s}
+/* 100%になった瞬間の「きらっ」：輪が閉じる真上で光が弾け、輪が光り、社名の上を光の筋が走る */
+.ewl-star{position:absolute;left:50%;top:0;width:46px;height:46px;margin:-23px 0 0 -23px;fill:var(--teal);
+  filter:drop-shadow(0 0 6px rgba(111,214,227,.9));
+  opacity:0;transform:scale(0);pointer-events:none}
+.ewl.is-full .ewl-star{animation:ewlStar .9s both}
+.ewl.is-full .ewl-ring .f{animation:ewlGlow .8s ease-out both}
+/* ぱっと出て（前半は速く）、少し残ってから消える（後半はゆっくり始まる） */
+@keyframes ewlStar{0%{opacity:0;transform:scale(0) rotate(0);animation-timing-function:cubic-bezier(.2,.7,.3,1)}
+  35%{opacity:1;transform:scale(1.15) rotate(45deg);animation-timing-function:ease-in}
+  100%{opacity:0;transform:scale(0) rotate(90deg)}}
+@keyframes ewlGlow{0%{filter:none}30%{filter:drop-shadow(0 0 5px rgba(56,168,184,.95)) brightness(1.25)}100%{filter:none}}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .ewl .logo{background:linear-gradient(100deg,var(--navy) 43%,#6FD6E3 50%,var(--navy) 57%) 100% 0/300% 100% no-repeat;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .ewl.is-full .logo{animation:ewlSheen .8s ease-in-out .1s both}
+}
+@keyframes ewlSheen{from{background-position:100% 0}to{background-position:0 0}}
 /* 着いてから本物と入れ替える（途中で消すと、移っていく動きが見えない） */
 .ewl.is-absorb .logo{opacity:0}
 .ewl-skip{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.1em;

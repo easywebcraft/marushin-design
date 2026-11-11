@@ -139,18 +139,18 @@ SPRITE = '''<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="
 
 
 # 冒頭の演出（トップだけ）。同じ訪問で2度目以降と、動きを減らす設定の人には出さない。
-# 下の JS が動かなかったときに幕が残らないよう、6秒で必ず外す
+# 下の JS が動かなかったときに幕が残らないよう、6秒たっても動き出していなければ外す
 EWL_HEAD = '''<script>
 (function(){var r=document.documentElement,played=false;
 try{played=sessionStorage.getItem('ms-ewl')==='1';}catch(e){}
 if(played||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;
 r.classList.add('ewl-on','ewl-play');
 if('scrollRestoration' in history)history.scrollRestoration='manual';
-setTimeout(function(){r.classList.remove('ewl-on');},6000);})();
+setTimeout(function(){if(!window.__ewl)r.classList.remove('ewl-on');},6000);})();
 </script>
 '''
 EWL_BODY = '''<div class="ewl" id="ewl" aria-hidden="true">
-<div class="ewl-p1"><svg class="ewl-ring" viewBox="0 0 120 120"><circle class="t" cx="60" cy="60" r="54"/><circle class="f" cx="60" cy="60" r="54"/></svg><span class="ewl-pct">0%</span></div>
+<div class="ewl-p1"><svg class="ewl-ring" viewBox="0 0 120 120"><circle class="t" cx="60" cy="60" r="54"/><circle class="f" cx="60" cy="60" r="54"/></svg><svg class="ewl-star" viewBox="0 0 24 24"><path d="M12 0C12.7 7.2 16.8 11.3 24 12 16.8 12.7 12.7 16.8 12 24 11.3 16.8 7.2 12.7 0 12 7.2 11.3 11.3 7.2 12 0Z"/></svg><span class="ewl-pct">0%</span></div>
 <div class="ewl-p2"><div class="logo"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></div></div>
 <span class="ewl-skip">タップでスキップ</span>
 </div>

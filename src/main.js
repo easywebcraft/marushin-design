@@ -46,6 +46,7 @@
     if (!L) return;
     if (!r.classList.contains('ewl-on')) { L.remove(); return; }
     try { sessionStorage.setItem('ms-ewl', '1'); } catch (e) {}
+    window.__ewl = 1;   // 動き出した合図（head の保険が、途中で幕を外さないように）
     window.scrollTo(0, 0);
     var real = document.querySelector('.hd .logo'), copy = L.querySelector('.logo'), ended = false;
     var end = function () {
@@ -100,8 +101,9 @@
       pct.textContent = Math.round(q * 100) + '%';
       fill.style.strokeDashoffset = C * (1 - q);
       if (p < 1) { requestAnimationFrame(tick); return; }
-      // 輪が満ちたら輪と数字だけ消し、社名はもう少し見せてからヘッダーへ
-      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 900); }, 250);
+      // 輪が満ちたら「きらっ」と光らせ、そのあと輪と数字だけ消し、社名はもう少し見せてからヘッダーへ
+      L.classList.add('is-full');
+      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 900); }, 950);
     };
     requestAnimationFrame(tick);
   })();
