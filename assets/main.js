@@ -84,7 +84,9 @@
       copy.style.setProperty('--ewk', k.toFixed(3));
       void copy.offsetWidth;
       copy.style.transition = '';
-      L.style.setProperty('--ewd', Math.round(Math.min(m, w * k * 1.25 + 56)) + 'px');
+      var d = Math.round(Math.min(m, w * k * 1.25 + 56));
+      L.style.setProperty('--ewd', d + 'px');
+      L.style.setProperty('--ews', (240 / d).toFixed(3));   // 輪の線を画面上で2pxに（輪の図は120の枠で描いている）
     }
     requestAnimationFrame(function () { L.classList.add('is-in'); });
     var fill = L.querySelector('.ewl-ring .f'), pct = L.querySelector('.ewl-pct');
