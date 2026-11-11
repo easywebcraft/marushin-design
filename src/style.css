@@ -7,7 +7,7 @@
   --pale:#E6F1F6; --pale2:#F3F8FB; --line:#D3E0E8;
   --text:#22313C; --mute:#566874; --white:#fff;
   --todo:#FFF1A8; --todo-line:#D9B200;
-  --w:1100px; --gut:24px;
+  --w:1440px; --gut:24px; --wide:1600px;   /* 2026-11-12 松本さん「サイドの余白が気になる、もっとワイドに」で 1100→1440、ヘッダー等 1240→1600 */
   --font:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Meiryo","Noto Sans JP",sans-serif;
   --serif:"Noto Serif JP","游明朝体","Yu Mincho",YuMincho,"ヒラギノ明朝 ProN W3","Hiragino Mincho ProN",serif;
 }
@@ -68,7 +68,7 @@ small{font-size:.85em}
 
 /* ヘッダー */
 .hd{position:sticky;top:0;z-index:60;background:#fff;border-bottom:1px solid var(--line)}
-.hd-in{max-width:1240px;margin:0 auto;padding:0 var(--gut);min-height:76px;display:flex;align-items:center;gap:28px}
+.hd-in{max-width:var(--wide);margin:0 auto;padding:0 var(--gut);min-height:76px;display:flex;align-items:center;gap:28px}
 .logo{display:inline-flex;align-items:baseline;gap:.3em;color:var(--navy);font-weight:700;text-decoration:none;letter-spacing:.04em;white-space:nowrap}
 .logo-s{font-size:20px}.logo-l{font-size:28px}
 .logo-w,.logo-w:hover{color:#fff}
@@ -128,8 +128,8 @@ small{font-size:.85em}
 
 /* 区切りと見出し */
 .wrap{max-width:calc(var(--w) + var(--gut)*2);margin:0 auto;padding:0 var(--gut)}
-.wrap-m{max-width:calc(920px + var(--gut)*2)}
-.wrap-s{max-width:calc(820px + var(--gut)*2)}
+.wrap-m{max-width:calc(1040px + var(--gut)*2)}
+.wrap-s{max-width:calc(960px + var(--gut)*2)}
 .sec{padding:72px 0}
 .sec-pale{background:var(--pale)}
 .sec-tight{padding:48px 0 56px}
@@ -164,7 +164,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 /* 施工事例 */
 .works{display:grid;gap:28px;margin-top:36px}
 .works-3{grid-template-columns:repeat(3,1fr)}
-.works-2{grid-template-columns:repeat(2,1fr);max-width:1000px;margin-left:auto;margin-right:auto}
+.works-2{grid-template-columns:repeat(2,1fr);max-width:1160px;margin-left:auto;margin-right:auto}
 .work{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(23,53,75,.06)}
 .work-ph{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line)}
 .work-ph figure{position:relative;background:var(--pale)}
@@ -196,7 +196,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .fm-t{font-weight:700;color:var(--navy);font-size:15px;line-height:1.5;word-break:auto-phrase}
 
 /* 対応エリア */
-.area{max-width:760px;margin:0 auto;border-top:1px solid var(--line)}
+.area{max-width:900px;margin:0 auto;border-top:1px solid var(--line)}
 .area>div{display:grid;grid-template-columns:7em 1fr;gap:16px;padding:14px 8px;border-bottom:1px solid var(--line)}
 .area dt{font-weight:700;color:var(--navy)}
 .area+.note{margin-top:12px}
@@ -240,7 +240,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 
 /* フッター */
 .ft{background:var(--navy);color:#fff}
-.ft-in{max-width:1240px;margin:0 auto;padding:44px var(--gut) 28px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:40px}
+.ft-in{max-width:var(--wide);margin:0 auto;padding:44px var(--gut) 28px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:40px}
 .ft-brand address{margin-top:10px;font-size:13px;line-height:1.8;color:#D6E3EA}
 .ft-nav{padding-left:40px;border-left:1px solid rgba(255,255,255,.28)}
 .ft-nav ul{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;gap:0 32px}
@@ -255,12 +255,12 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .ph-img{position:absolute;inset:0 0 0 38%}
 .ph-img img{display:block;width:100%;height:100%;object-fit:cover}
 .ph-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#E6F1F6 0%,rgba(230,241,246,.72) 26%,rgba(230,241,246,.12) 60%,rgba(230,241,246,0) 100%)}
-.ph-in{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:58px var(--gut)}
+.ph-in{position:relative;z-index:1;max-width:var(--wide);margin:0 auto;padding:58px var(--gut)}
 .ph-ttl{padding-left:22px;border-left:4px solid var(--teal)}
 .ph h1{font-size:clamp(28px,3.6vw,40px);letter-spacing:.06em}
 .ph-en{margin-top:2px;color:var(--teal-dd);font-weight:700;font-size:15px;letter-spacing:.14em}
 .ph-plain .ph-en{letter-spacing:.04em}
-.bc{max-width:1240px;margin:0 auto;padding:4px var(--gut) 0;font-size:13px;color:var(--mute)}
+.bc{max-width:var(--wide);margin:0 auto;padding:4px var(--gut) 0;font-size:13px;color:var(--mute)}
 .bc ol{display:flex;flex-wrap:wrap;gap:0 8px}
 .bc li+li::before{content:"／";margin-right:8px;color:#9DB0BB}
 .bc a{display:inline-flex;align-items:center;min-height:44px}
@@ -268,7 +268,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 
 /* 丸信について */
 .intro{display:grid;grid-template-columns:5fr 6fr;gap:48px;align-items:center}
-.intro-nophoto{grid-template-columns:1fr;max-width:calc(820px + var(--gut)*2)}
+.intro-nophoto{grid-template-columns:1fr;max-width:calc(960px + var(--gut)*2)}
 .intro-lead{font-size:clamp(19px,2.1vw,23px);font-weight:700;color:var(--navy);line-height:1.6;margin-bottom:16px}
 .slant-l{clip-path:polygon(0 0,100% 0,88% 100%,0 100%)}
 .slant-r{clip-path:polygon(12% 0,100% 0,100% 100%,0 100%)}
@@ -392,6 +392,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .hero-ph::after{background:linear-gradient(90deg,rgba(16,40,56,.82) 0%,rgba(16,40,56,.64) 48%,rgba(16,40,56,.12) 100%)}
 }
 @media (min-width:1024px){
+  :root{--gut:40px}
   .drawer{display:none!important}
   /* トップ：ヘッダーを写真の上に重ねる（見本と同じ）。少し下へ進むと JS が白地に戻す。
      JS が動かないときは白地のまま（html に js の印が付かない） */
