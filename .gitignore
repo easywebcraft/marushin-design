@@ -1,0 +1,9 @@
+# 今のサイトから取得した生のHTML
+/raw/
+# 画面確認用の画像
+/_shots/
+/preview-*.png
+.DS_Store
+__pycache__/
+# 本番用の書き出し。配信先へはこの中身だけを置く
+/dist/
