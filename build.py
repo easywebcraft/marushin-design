@@ -138,6 +138,25 @@ SPRITE = '''<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="
 </svg>'''
 
 
+# 冒頭の演出（トップだけ）。同じ訪問で2度目以降と、動きを減らす設定の人には出さない。
+# 下の JS が動かなかったときに幕が残らないよう、6秒で必ず外す
+EWL_HEAD = '''<script>
+(function(){var r=document.documentElement,played=false;
+try{played=sessionStorage.getItem('ms-ewl')==='1';}catch(e){}
+if(played||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;
+r.classList.add('ewl-on','ewl-play');
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+setTimeout(function(){r.classList.remove('ewl-on');},6000);})();
+</script>
+'''
+EWL_BODY = '''<div class="ewl" id="ewl" aria-hidden="true">
+<div class="ewl-p1"><svg class="ewl-ring" viewBox="0 0 120 120"><circle class="t" cx="60" cy="60" r="54"/><circle class="f" cx="60" cy="60" r="54"/></svg><span class="ewl-pct">0%</span></div>
+<div class="ewl-p2"><div class="logo"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></div></div>
+<span class="ewl-skip">タップでスキップ</span>
+</div>
+'''
+
+
 def head(fname, title, desc):
     robots = '' if RELEASE else '<meta name="robots" content="noindex,nofollow">\n'
     canonical = ''
@@ -157,7 +176,7 @@ def head(fname, title, desc):
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <link rel="stylesheet" href="assets/style.css?v={ASSET_V}">
-</head>'''
+{EWL_HEAD if fname == 'index.html' else ''}</head>'''
 
 
 def header(fname):
@@ -175,7 +194,7 @@ def header(fname):
     draft = '' if RELEASE else ('<div class="draft"><span>制作中のページです（確認用）</span>'
                                 '<a href="check.html">確認が必要なところの一覧</a></div>\n')
     return f'''<body>
-{SPRITE}
+{EWL_BODY if fname == 'index.html' else ''}{SPRITE}
 <a class="skip" href="#main">本文へ移動</a>
 {draft}<header class="hd">
 <div class="hd-in">

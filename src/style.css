@@ -490,11 +490,57 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .phf-map{aspect-ratio:4/3}
 }
 
+/* ---- 冒頭の演出（トップだけ・1回の訪問で1度・動きを減らす設定では出さない） ----
+   白い幕の中央で輪が満ち、社名がヘッダーの社名の位置へ移ってから、写真と文字が現れる */
+html{scrollbar-gutter:stable}
+.ewl{display:none}
+html.ewl-on{overflow:hidden}
+html.ewl-on .ewl{display:grid;place-items:center;position:fixed;inset:0;z-index:1000;background:#fff;
+  transition:background-color .9s ease .25s,opacity .5s ease;cursor:pointer}
+html.ewl-on .ewl.is-absorb{background-color:rgba(255,255,255,0)}
+html.ewl-on .ewl.is-out{opacity:0}
+.ewl-p1{position:absolute;left:50%;top:50%;width:var(--ewd,112px);height:var(--ewd,112px);
+  transform:translate(-50%,-50%);transition:opacity .45s,transform .45s}
+.ewl.is-p2 .ewl-p1{opacity:0;transform:translate(-50%,-50%) scale(1.04)}
+.ewl-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.ewl-ring circle{fill:none;stroke-width:2;vector-effect:non-scaling-stroke}
+.ewl-ring .t{stroke:var(--line)}
+.ewl-ring .f{stroke:var(--teal);stroke-linecap:round}
+.ewl-pct{position:absolute;top:calc(100% + 16px);left:0;right:0;text-align:center;font-size:12px;
+  font-weight:700;letter-spacing:.14em;color:var(--teal-d)}
+.ewl-p2{position:absolute;inset:0;display:grid;place-content:center;opacity:0;pointer-events:none;transition:opacity .6s ease .1s}
+.ewl.is-in .ewl-p2{opacity:1}
+.ewl .logo{transform:scale(var(--ewk,1.9));transform-origin:50% 50%;
+  transition:transform 1s cubic-bezier(.65,0,.35,1),opacity .45s ease .95s}
+/* 着いてから本物と入れ替える（途中で消すと、移っていく動きが見えない） */
+.ewl.is-absorb .logo{opacity:0}
+.ewl-skip{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.1em;
+  color:#5F6F7B;transition:opacity .3s}
+.ewl.is-absorb .ewl-skip{opacity:0}
+@media (hover:hover){.ewl-skip{display:none}}
+html.ewl-on .hd .logo{opacity:0}
+/* 幕の下では止めておき、写真は幕が透け始めたら（ewl-go）、文字は幕がほぼ消えてから（ewl-txt）動かす */
+@keyframes zoomOut{from{transform:scale(1.04)}to{transform:none}}
+@keyframes heroUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes navIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+html.ewl-play .hero-img{animation:zoomOut 1.8s cubic-bezier(.2,.7,.3,1) both}
+html.ewl-play .hero-in>*{animation:heroUp .8s cubic-bezier(.2,.7,.3,1) both}
+html.ewl-play .hero-label,html.ewl-play .hero h1{animation-delay:.15s}
+html.ewl-play .hero-sub{animation-delay:.4s}
+html.ewl-play .hero-btns{animation-delay:.55s}
+html.ewl-play .gnav li{animation:navIn .6s cubic-bezier(.2,.7,.3,1) both}
+html.ewl-play .gnav li:nth-child(2){animation-delay:.06s}html.ewl-play .gnav li:nth-child(3){animation-delay:.12s}
+html.ewl-play .gnav li:nth-child(4){animation-delay:.18s}html.ewl-play .gnav li:nth-child(5){animation-delay:.24s}
+html.ewl-play .gnav li:nth-child(n+6){animation-delay:.3s}
+html.ewl-on:not(.ewl-go) .hero-img{animation-play-state:paused}
+html.ewl-on:not(.ewl-txt) :is(.hero-in>*,.gnav li){animation-play-state:paused}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  .ewl{display:none!important}
   *,*::before,*::after{transition:none!important;animation:none!important}
 }
 @media print{
-  .hd,.fixbar,.draft,.cta{display:none}
+  .hd,.fixbar,.draft,.cta,.ewl{display:none!important}
   body{padding:0}
 }

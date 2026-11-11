@@ -1,4 +1,4 @@
-/* 株式会社丸信 ホームページ：メニューの開け閉め・お問い合わせフォームの入力チェック・質問への直接リンク */
+/* 株式会社丸信 ホームページ：メニューの開け閉め・質問への直接リンク・トップの冒頭の演出・お問い合わせフォームの入力チェック */
 (function () {
   'use strict';
 
@@ -39,6 +39,70 @@
   };
   window.addEventListener('hashchange', openFromHash);
   openFromHash();
+
+  // ---- 冒頭の演出（トップだけ）：輪が満ちたら、中央の社名がヘッダーの社名の位置へ移る ----
+  (function () {
+    var r = document.documentElement, L = document.getElementById('ewl');
+    if (!L) return;
+    if (!r.classList.contains('ewl-on')) { L.remove(); return; }
+    try { sessionStorage.setItem('ms-ewl', '1'); } catch (e) {}
+    window.scrollTo(0, 0);
+    var real = document.querySelector('.hd .logo'), copy = L.querySelector('.logo'), ended = false;
+    var end = function () {
+      if (ended) return;
+      ended = true;
+      if (real) real.style.opacity = '1';
+      r.classList.add('ewl-go', 'ewl-txt');
+      L.classList.add('is-out');
+      setTimeout(function () { r.classList.remove('ewl-on', 'ewl-go', 'ewl-txt'); L.remove(); }, 500);
+    };
+    // タップ・クリック・Esc で飛ばせる
+    L.addEventListener('click', end);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') end(); });
+    var absorb = function () {
+      if (ended) return;
+      if (real && copy) {
+        // 中央に拡大して置いた社名を、ヘッダーの社名にぴったり重なる位置・大きさ（1倍）へ動かす
+        var a = copy.getBoundingClientRect(), u = real.getBoundingClientRect();
+        var dx = u.left - (a.left + a.width / 2 - copy.offsetWidth / 2);
+        var dy = u.top - (a.top + a.height / 2 - copy.offsetHeight / 2);
+        copy.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1)';
+      }
+      r.classList.add('ewl-go');          // 幕の下で止めていた写真の動きを、ここから流す
+      L.classList.add('is-absorb');
+      setTimeout(function () { if (real) real.style.opacity = '1'; }, 950);
+      setTimeout(function () { r.classList.add('ewl-txt'); }, 850);   // 幕がほぼ透けたところで文字を出し始める
+      setTimeout(end, 1200);
+    };
+    // 輪は社名が収まる大きさにし、画面の短い辺の8割に収める
+    var m = Math.min(innerWidth, innerHeight) * 0.82, k = 1.9;
+    if (copy) {
+      var w = copy.offsetWidth || 1;
+      k = Math.max(0.8, Math.min(2.2, (m - 56) / (w * 1.25)));
+      // 大きさを決める瞬間は動かさない
+      copy.style.transition = 'none';
+      copy.style.setProperty('--ewk', k.toFixed(3));
+      void copy.offsetWidth;
+      copy.style.transition = '';
+      L.style.setProperty('--ewd', Math.round(Math.min(m, w * k * 1.25 + 56)) + 'px');
+    }
+    requestAnimationFrame(function () { L.classList.add('is-in'); });
+    var fill = L.querySelector('.ewl-ring .f'), pct = L.querySelector('.ewl-pct');
+    var C = 2 * Math.PI * 54, D = 1600, t0 = null;
+    fill.style.strokeDasharray = C;
+    fill.style.strokeDashoffset = C;
+    var tick = function (ts) {
+      if (ended) return;
+      if (t0 === null) t0 = ts;
+      var p = Math.min((ts - t0) / D, 1), q = 1 - Math.pow(1 - p, 3);
+      pct.textContent = Math.round(q * 100) + '%';
+      fill.style.strokeDashoffset = C * (1 - q);
+      if (p < 1) { requestAnimationFrame(tick); return; }
+      // 輪が満ちたら輪と数字だけ消し、社名はもう少し見せてからヘッダーへ
+      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 900); }, 250);
+    };
+    requestAnimationFrame(tick);
+  })();
 
   // ---- お問い合わせフォーム ----
   var form = document.getElementById('contact-form');
