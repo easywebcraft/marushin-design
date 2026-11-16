@@ -929,38 +929,21 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   box-shadow:0 2px 4px rgba(23,53,75,.12),0 8px 18px rgba(23,53,75,.22)}
 
 /* ========== 求人の案内（トップだけ・2026-11-17 松本さん「スクロールしたらすぐ出る求人リンク」） ==========
-   少し下へ動かすと右下（スマホは画面の下、電話の帯の上）に出る。× で閉じると、その訪問のあいだは出さない。
-   見た目は松本さんのバナー案：紺の地に RECRUIT と明朝のコピー、右に社員の集合写真を紺へ溶かす、下に薄い青緑の「採用情報を見る」 */
-.rq{position:fixed;right:24px;bottom:24px;z-index:58;width:440px;max-width:calc(100vw - 32px);
+   少し下へ動かすと右下に出る。× で閉じると、その訪問のあいだは出さない。
+   中身は松本さんが用意したバナー画像（images/top/recruit-banner.jpg・縦長 1122×1402）をそのまま使う */
+.rq{position:fixed;right:24px;bottom:24px;z-index:58;width:260px;
   opacity:0;transform:translate3d(0,24px,0);transition:opacity .45s cubic-bezier(.33,1,.68,1),transform .55s cubic-bezier(.22,1,.36,1);pointer-events:none}
 .rq.is-on{opacity:1;transform:none;pointer-events:auto}
-.rq-in{position:relative;display:block;overflow:hidden;border-top:4px solid #19A9B4;border-radius:6px;background:#0f2a43;color:#fff;text-decoration:none;
-  box-shadow:0 4px 10px rgba(18,31,52,.22),0 18px 44px rgba(18,31,52,.34)}
-.rq-in:hover{color:#fff}
-.rq-ph{position:absolute;top:0;right:0;bottom:0;width:62%;background:url(../images/top/staff.jpg) 62% 50%/cover no-repeat}
-.rq-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0f2a43 0%,rgba(15,42,67,.82) 22%,rgba(15,42,67,.15) 62%,rgba(15,42,67,0) 100%)}
-.rq-body{position:relative;display:block;padding:22px 24px 18px}
-.rq-en{display:block;color:#19A9B4;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:.32em}
-.rq-ttl{display:block;margin-top:8px;font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.4;letter-spacing:.06em;
-  text-shadow:0 2px 10px rgba(0,0,0,.45)}
-.rq-co{display:block;margin-top:10px;font-family:var(--serif);font-weight:600;font-size:14px;letter-spacing:.12em;text-shadow:0 1px 6px rgba(0,0,0,.45)}
-.rq-btn{position:relative;display:flex;align-items:center;gap:8px;padding:11px 24px;background:#C9EEF0;color:#0f4d55;font-weight:800;font-size:16px;letter-spacing:.12em}
-.rq-btn svg{width:18px;height:18px}
-.rq-btn small{margin-left:auto;font-weight:400;font-size:11px;letter-spacing:0;color:#2d5f66}
-.rq-in:hover .rq-btn{background:#b3e6e9}
-.rq-x{position:absolute;top:8px;right:8px;z-index:2;display:grid;place-items:center;width:34px;height:34px;padding:0;border:0;border-radius:50%;
-  background:rgba(15,42,67,.55);color:#fff;cursor:pointer}
-.rq-x:hover{background:rgba(15,42,67,.85)}
-.rq-x svg{width:20px;height:20px}
+.rq-in{display:block;overflow:hidden;border-radius:6px;box-shadow:0 4px 10px rgba(18,31,52,.22),0 18px 44px rgba(18,31,52,.34);transition:transform .2s,box-shadow .2s}
+.rq-in img{display:block;width:100%;height:auto}
+.rq-in:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(18,31,52,.26),0 24px 52px rgba(18,31,52,.38)}
+.rq-x{position:absolute;top:-12px;right:-12px;z-index:2;display:grid;place-items:center;width:34px;height:34px;padding:0;border:2px solid #fff;border-radius:50%;
+  background:#0f2a43;color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.rq-x:hover{background:#19A9B4}
+.rq-x svg{width:18px;height:18px}
 @media (max-width:767px){
-  .rq{right:12px;left:12px;bottom:calc(76px + env(safe-area-inset-bottom));width:auto;max-width:none}
-  .rq-body{padding:14px 16px 10px}
-  .rq-en{font-size:11px}
-  .rq-ttl{margin-top:4px;font-size:19px}
-  .rq-co{margin-top:4px;font-size:12px}
-  .rq-ph{width:58%}
-  .rq-btn{padding:8px 16px;font-size:14px}
-  .rq-x{top:6px;right:6px;width:30px;height:30px}
+  .rq{right:12px;bottom:calc(76px + env(safe-area-inset-bottom));width:150px}
+  .rq-x{top:-10px;right:-8px;width:30px;height:30px}
 }
-@media (prefers-reduced-motion:reduce){.rq{transition:none}}
+@media (prefers-reduced-motion:reduce){.rq{transition:none}.rq-in:hover{transform:none}}
 @media print{.rq{display:none!important}}
