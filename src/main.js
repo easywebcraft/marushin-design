@@ -211,7 +211,7 @@
   });
 })();
 
-// ---- トップの動き（2026-11-17 松本さん「動きがない、信頼感のあるしっかりとした会社」：案1〜4） ----
+// ---- トップの動き（2026-11-17 松本さん「動きがない、信頼感のあるしっかりとした会社」：案2〜4。案1の施工前後の見比べは外した） ----
 (function () {
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var once = function (els, cls, fn) {
@@ -234,33 +234,6 @@
   once(all('.fl'), 'fl-wait');
   // 3. 線が引かれる
   once(all('.cm-en,.cm,.wk,.ab-in,.pr-in,.ct-in'), 'ln-wait');
-
-  // 1. 施工前・施工後の見比べ：ドラッグ・タップ・キーボード（←→）で動かす。最初に画面に入ったとき一度だけ左右に動かして見せる
-  all('.wk-cmp').forEach(function (box) {
-    var rng = box.querySelector('.wk-rng'), down = false, touched = false;
-    var set = function (v) { v = Math.max(0, Math.min(100, v)); box.style.setProperty('--pos', v + '%'); rng.value = Math.round(v); };
-    var fromX = function (x) { var r = box.getBoundingClientRect(); set((x - r.left) / r.width * 100); };
-    box.addEventListener('pointerdown', function (e) { down = touched = true; fromX(e.clientX); });
-    window.addEventListener('pointermove', function (e) { if (down) fromX(e.clientX); });
-    window.addEventListener('pointerup', function () { down = false; });
-    window.addEventListener('pointercancel', function () { down = false; });
-    rng.addEventListener('input', function () { touched = true; set(+rng.value); });
-    rng.style.pointerEvents = 'none';
-    rng.tabIndex = 0;
-    box.hint = function () {
-      if (touched || reduce) return;
-      var t0 = null, D = 1800;
-      var step = function (ts) {
-        if (touched) return;
-        if (t0 === null) t0 = ts;
-        var p = Math.min((ts - t0) / D, 1);
-        set(50 - 22 * Math.sin(p * Math.PI * 2) * (1 - p * 0.15));
-        if (p < 1) requestAnimationFrame(step); else set(50);
-      };
-      requestAnimationFrame(step);
-    };
-  });
-  once(all('.wk-cmp'), 'cmp-wait', function (box) { setTimeout(function () { if (box.hint) box.hint(); }, 500); });
 
   // 4. ただいま受付中：日本時間で、平日（土日・祝日を除く）の 9:00〜17:00 を受付中とする
   var now = document.getElementById('ct-now');

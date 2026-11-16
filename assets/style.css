@@ -178,19 +178,14 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .wk{display:grid;grid-template-columns:repeat(3,1fr);column-gap:40px;margin-top:40px}
 .wk>li{position:relative;padding-bottom:24px;border-bottom:1.5px solid var(--line)}
 .wk>li+li::before{content:"";position:absolute;left:-21px;top:0;bottom:0;border-left:1.5px solid var(--line)}
-/* 施工前・施工後の見比べ（2026-11-17）：施工後の上に施工前を重ね、--pos より右を切る。縦の線とつまみをドラッグ・キーボードで動かす */
-.wk-cmp{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--pale);box-shadow:0 2px 10px rgba(23,53,75,.12);
-  touch-action:pan-y;cursor:ew-resize;-webkit-user-select:none;user-select:none}
-.wk-cmp img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
-.wk-b{clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
-.wk-lb{position:absolute;left:0;top:0;z-index:1;padding:3px 16px;background:var(--navy);color:#fff;font-size:14px;font-weight:700;letter-spacing:.08em;line-height:1.8}
-.wk-lb-a{left:auto;right:0;background:var(--teal-d)}
-.wk-bar{position:absolute;top:0;bottom:0;left:var(--pos);z-index:2;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.35)}
-.wk-knob{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;
-  background:#fff;color:var(--teal-d);box-shadow:0 2px 10px rgba(23,53,75,.3)}
-.wk-knob svg{width:22px;height:22px}
-.wk-rng{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;pointer-events:none}
-.wk-cmp:focus-within{outline:3px solid #E59A00;outline-offset:3px}
+.wk-ph{position:relative;display:grid;gap:18px}
+.wk-ph figure{position:relative;overflow:hidden;background:var(--pale);box-shadow:0 2px 10px rgba(23,53,75,.12)}
+.wk-ph img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.wk-ph figcaption{position:absolute;left:0;top:0;padding:3px 16px;background:var(--navy);color:#fff;font-size:14px;font-weight:700;letter-spacing:.08em;line-height:1.8}
+.wk-ph figcaption.after{background:var(--teal-d)}
+.wk-arw{position:absolute;left:50%;top:50%;z-index:1;display:grid;place-items:center;width:40px;height:40px;margin:-20px 0 0 -20px;
+  border-radius:50%;background:#fff;color:var(--teal-d);box-shadow:0 2px 8px rgba(23,53,75,.18)}
+.wk-arw svg{width:20px;height:20px}
 .wk-kind{display:inline-block;margin-top:20px;padding:2px 22px;background:#D5ECEE;color:var(--teal-dd);font-size:15px;font-weight:700;letter-spacing:.06em;line-height:1.8}
 .wk-place{margin-top:10px;color:var(--mute);font-size:15px;letter-spacing:.06em}
 .wk-ttl{margin-top:2px;font-family:var(--serif);font-size:clamp(20px,2vw,26px);line-height:1.45;font-weight:700;letter-spacing:.04em}
@@ -516,6 +511,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .wk{grid-template-columns:1fr;margin-top:28px}
   .wk>li{padding-bottom:28px}
   .wk>li+li{padding-top:28px}
+  .wk-ph{gap:14px}
   .wk>li+li::before{display:none}
   .wk-lead{font-size:15px}
   .fl>li{display:grid;grid-template-columns:auto 1fr;column-gap:20px;padding:24px 0}
@@ -838,7 +834,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .ct-tel{font-size:32px}
 }
 
-/* ========== トップの動き（2026-11-17 松本さん「動きがない」：案1〜4） ==========
+/* ========== トップの動き（2026-11-17 松本さん「動きがない」：案2〜4。案1の施工前後の見比べは外した） ==========
    どれも JS が印（*-wait）を付けたときだけ隠す。JS なし・動きを減らす設定では最初から全部見える */
 /* 2. 施工の流れ：STEP 01 → 矢印 → STEP 02 … の順に現れる */
 .fl.fl-wait>li{opacity:0;transform:translateY(18px)}
