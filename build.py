@@ -334,7 +334,10 @@ def page_index():
     ]
     cards_html = ''.join(f'<li><span class="circ">{ic(i, "ic-l")}</span><h3>{t}</h3><p>{p}</p></li>' for i, t, p in cards)
     works_html = ''.join(work_card(w) for w in works[:3])
-    steps = ''.join(f'<li><span class="circ">{ic(s["icon"], "ic-l")}</span><span class="fm-n">{i:02d}</span><span class="fm-t">{esc(s["short"])}</span></li>'
+    # 施工の流れ：暗い地に細い線と数字（2026-11-16 松本さん。イラストの丸をやめた）
+    #   説明は data の題（短い題と同じ文のときは出さない）
+    steps = ''.join(f'<li><span class="fd-n">{i:02d}</span><h3 class="fd-t">{esc(s["short"])}</h3>'
+                    + (f'<p class="fd-p">{esc(s["title"])}</p>' if s['title'] != s['short'] else '') + '</li>'
                     for i, s in enumerate(flow, 1))
     voices = ''.join(f'<li><span class="vq">{esc(v["title"])}</span><span class="vw">{esc(v["who"])}</span></li>' for v in voice)
     top_faq = [(n, it) for n, it in enumerate(faq['items'], 1) if it.get('top')]
@@ -392,11 +395,11 @@ def page_index():
 </div></div>
 </section>
 
-<section class="sec">
+<section class="sec sec-fd" aria-labelledby="h-flow">
 <div class="wrap">
-{h2c('施工の流れ', 'ご相談から工事完了後のご挨拶までの、主な流れです。')}
-<ol class="flowmini">{steps}</ol>
-<p class="center mt-l">{more('flow.html', '施工の流れを見る')}</p>
+<div class="fd-head"><p class="fd-en" lang="en" aria-hidden="true">FLOW</p><h2 class="fd-ttl" id="h-flow">施工の流れ</h2></div>
+<ol class="fd">{steps}</ol>
+<p class="center mt-xl">{more('flow.html', '施工の流れを見る', 'btn-line btn-dk')}</p>
 </div>
 </section>
 
