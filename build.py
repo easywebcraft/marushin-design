@@ -202,7 +202,7 @@ def header(fname):
 <a class="skip" href="#main">本文へ移動</a>
 {draft}<header class="hd{' hd-ovl' if fname == 'index.html' else ''}">
 <div class="hd-in">
-<a class="logo" href="index.html" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
+<a class="logo" href="./" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
 <nav class="gnav" aria-label="メインメニュー"><ul>
 {''.join(items)}
 </ul></nav>
@@ -244,7 +244,7 @@ def footer(fname):
 <footer class="ft">
 <div class="ft-in">
 <div class="ft-brand">
-<a class="logo logo-w" href="index.html" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
+<a class="logo logo-w" href="./" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
 <address>〒{POSTAL} {ADDRESS}<br>TEL {TEL}　FAX {FAX}</address>
 </div>
 <nav class="ft-nav" aria-label="フッターメニュー"><ul>
@@ -273,7 +273,7 @@ def page_head(fname):
 <div class="ph-in"><div class="ph-ttl"><h1>{name}</h1><p class="ph-en" lang="en">{en}</p></div></div>
 <p class="img-note">写真はイメージです</p>
 </div>
-<nav class="bc" aria-label="現在位置"><ol><li><a href="index.html">ホーム</a></li><li aria-current="page">{name}</li></ol></nav>'''
+<nav class="bc" aria-label="現在位置"><ol><li><a href="./">ホーム</a></li><li aria-current="page">{name}</li></ol></nav>'''
 
 
 def layout(fname, body, with_cta=True):
