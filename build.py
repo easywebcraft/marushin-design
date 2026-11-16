@@ -375,7 +375,7 @@ def page_index():
 <p class="img-note">写真はイメージです</p>
 </div>
 <div class="hero-in">
-<p class="hero-label">春日井市・名古屋市の解体工事相談室</p>
+<p class="hero-label">春日井・名古屋で解体から次の一歩へ</p>
 <h1>建物の解体は<br><em>丸信へ</em></h1>
 <p class="hero-sub">愛知県（春日井市・小牧市・尾張旭市・瀬戸市・名古屋市等）の解体のご相談は、株式会社丸信にお任せください。</p>
 <p class="hero-en" lang="en" aria-hidden="true">MARUSHIN</p>
