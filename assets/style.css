@@ -919,3 +919,11 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (max-width:767px){.pr-band.has-wm::before{transform:translate3d(0,var(--wmy,0px),0)}}
 /* スマホは取り組みの列が縦に並ぶので、列のあいだの縦線（線が引かれる動き）は出さない（2026-11-17） */
 @media (max-width:767px){.cm>li+li::before{display:none}}
+
+/* ========== トップの施工事例の写真に少し立体感（2026-11-17 松本さん「少し立体感だせる？」） ==========
+   触れて浮く動きは入れない（前回「戻して」）。白いふちと重ねた影で、写真を台紙に貼ったように少し浮かせる */
+.wk-ph figure{border:5px solid #fff;border-radius:3px;
+  box-shadow:0 1px 2px rgba(23,53,75,.10),0 6px 12px rgba(23,53,75,.10),0 18px 36px rgba(23,53,75,.14)}
+.wk-ph figcaption{top:-1px;left:-1px}
+.wk-arw{z-index:2;width:44px;height:44px;margin:-22px 0 0 -22px;
+  box-shadow:0 2px 4px rgba(23,53,75,.12),0 8px 18px rgba(23,53,75,.22)}
