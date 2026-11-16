@@ -7,7 +7,7 @@
   --pale:#E6F1F6; --pale2:#F3F8FB; --line:#D3E0E8;
   --text:#22313C; --mute:#566874; --white:#fff;
   --todo:#FFF1A8; --todo-line:#D9B200;
-  --w:1440px; --gut:24px; --wide:1600px;   /* 2026-11-12 松本さん「サイドの余白が気になる、もっとワイドに」で 1100→1440、ヘッダー等 1240→1600 */
+  --w:1240px; --gut:24px; --wide:1400px;   /* 2026-11-12「もっとワイドに」で 1100→1440・ヘッダー等 1240→1600。2026-11-17「左右に広がっている、もう少しだけ中央に」で 1440→1240・1600→1400 */
   --font:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Meiryo","Noto Sans JP",sans-serif;
   --serif:"Noto Serif JP","游明朝体","Yu Mincho",YuMincho,"ヒラギノ明朝 ProN W3","Hiragino Mincho ProN",serif;
 }
@@ -454,7 +454,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .hero-ph::after{background:linear-gradient(90deg,rgba(16,40,56,.82) 0%,rgba(16,40,56,.64) 48%,rgba(16,40,56,.12) 100%)}
 }
 @media (min-width:1024px){
-  :root{--gut:40px}
+  :root{--gut:48px}
   .drawer{display:none!important}
   /* トップ：ヘッダーを写真の上に重ねる（見本と同じ）。少し下へ進むと JS が白地に戻す。
      JS が動かないときは白地のまま（html に js の印が付かない） */
