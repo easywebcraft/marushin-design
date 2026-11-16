@@ -310,9 +310,12 @@
   try { closed = sessionStorage.getItem('ms-rq') === '1'; } catch (e) {}
   if (closed) return;
   rq.hidden = false;
+  var ft = document.querySelector('.ft');
   var check = function () {
     if (closed) return;
-    rq.classList.toggle('is-on', (window.scrollY || pageYOffset) > 240);
+    // フッターの上端が画面の下端から 120px 手前まで来たら消す（フッターの文字に重ねない）
+    var nearFt = ft && ft.getBoundingClientRect().top < window.innerHeight + 120;
+    rq.classList.toggle('is-on', (window.scrollY || pageYOffset) > 240 && !nearFt);
   };
   rq.querySelector('.rq-x').addEventListener('click', function () {
     closed = true;
@@ -321,5 +324,6 @@
     setTimeout(function () { rq.hidden = true; }, 500);
   });
   window.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check);
   check();
 })();
