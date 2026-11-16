@@ -198,11 +198,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .fl-n{display:flex;flex-direction:column;color:var(--teal-d);line-height:1}
 .fl-n span{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:800;font-size:15px;letter-spacing:.14em}
 .fl-n b{margin-top:8px;font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-weight:700;font-size:64px;font-variant-numeric:lining-nums;letter-spacing:.01em}
-/* 数字の右から次の段の手前まで、矢印の線 */
-.fl>li:not(:last-child)::after{content:"";position:absolute;left:96px;right:4px;top:60px;height:12px;
-  background:linear-gradient(var(--teal-d),var(--teal-d)) 0 50%/calc(100% - 2px) 1.5px no-repeat}
-.fl>li:not(:last-child)::before{content:"";position:absolute;right:5px;top:61px;width:9px;height:9px;border-top:1.5px solid var(--teal-d);border-right:1.5px solid var(--teal-d);transform:rotate(45deg)}
-.fl-ic{display:block;width:64px;height:64px;margin-top:22px;color:var(--navy)}
 .fl h3{margin-top:18px;font-size:clamp(20px,2vw,26px);line-height:1.45;font-weight:800;letter-spacing:.04em;font-feature-settings:"palt"}
 .fl-p{margin-top:12px;font-size:16px;line-height:1.9;letter-spacing:.04em}
 
@@ -438,7 +433,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .fl{grid-template-columns:repeat(2,1fr);gap:48px 40px}
   .wk-head{grid-template-columns:1fr}
   .wk-lead br{display:none}
-  .fl>li:nth-child(2)::after,.fl>li:nth-child(2)::before{display:none}
   .cm>li{padding:0 24px}
   .works-3{grid-template-columns:repeat(2,1fr)}
   .band-in{grid-template-columns:auto 1fr;gap:20px 24px}
@@ -516,10 +510,8 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .wk-lead{font-size:15px}
   .fl>li{display:grid;grid-template-columns:auto 1fr;column-gap:20px;padding:24px 0}
   .fl>li+li{border-top:1px solid var(--line)}
-  .fl>li::after,.fl>li::before{display:none}
   .fl-n{grid-row:1/4}
   .fl-n b{font-size:46px}
-  .fl-ic{width:48px;height:48px;margin-top:0}
   .fl h3{margin-top:10px}
   .fl-p{margin-top:6px;font-size:15px}
   .cm>li,.cm>li:first-child,.cm>li:last-child{padding:28px 0}
@@ -762,9 +754,6 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .fl-n{flex-direction:row;align-items:baseline;gap:8px}
 .fl-n span{font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-weight:700;font-size:18px;letter-spacing:.08em}
 .fl-n b{margin-top:0;font-size:36px}
-.fl-ic{width:60px;height:60px;margin:18px auto 0}
-.fl>li:not(:last-child)::before{display:none}
-.fl>li:not(:last-child)::after{content:"→";left:auto;right:-32px;top:76px;width:24px;height:auto;background:none;color:var(--navy);font-size:22px;line-height:1;text-align:center}
 .fl h3{margin-top:14px;font-size:clamp(18px,1.8vw,22px)}
 .fl-p{font-size:15px}
 
@@ -824,7 +813,6 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (max-width:767px){
   .cm-n{font-size:48px}
   .fl>li{display:block}
-  .fl-ic{width:48px;height:48px;margin:12px 0 0}
   .cm-btn,.t-btn,.ct-btn{width:100%;min-width:0}
   .pr-band{padding:32px 0}
   .ar>div{grid-template-columns:84px 1fr;gap:14px}
@@ -838,9 +826,9 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
    どれも JS が印（*-wait）を付けたときだけ隠す。JS なし・動きを減らす設定では最初から全部見える */
 /* 2. 施工の流れ：STEP 01 → 矢印 → STEP 02 … の順に現れる（2026-11-17「ゆっくり、もっと早く」で 0.5秒ずつ→0.22秒ずつ。「速さはそのまま滑らかに」で、間隔は変えず1段の動きを長めにして重ね、動く幅を小さく、終わりをなめらかに減速） */
 .fl.fl-wait>li{opacity:0;transform:translate3d(0,12px,0)}
-.fl.fl-wait>li::after{opacity:0;transform:translate3d(-8px,0,0)}
+.fl.fl-wait .fl-arw{opacity:0;transform:translate3d(-8px,0,0)}
 .fl>li{transition:opacity .7s cubic-bezier(.33,1,.68,1) calc(var(--i,0)*.22s),transform .8s cubic-bezier(.22,1,.36,1) calc(var(--i,0)*.22s);will-change:opacity,transform}
-.fl>li::after{transition:opacity .6s cubic-bezier(.33,1,.68,1) calc(var(--i,0)*.22s + .15s),transform .7s cubic-bezier(.22,1,.36,1) calc(var(--i,0)*.22s + .15s)}
+.fl-arw{transition:opacity .6s cubic-bezier(.33,1,.68,1) calc(var(--i,0)*.22s + .15s),transform .7s cubic-bezier(.22,1,.36,1) calc(var(--i,0)*.22s + .15s)}
 /* 3. 線が引かれる：英字の小見出しの横の線、縦の区切り線（2026-11-17 約半分の時間に） */
 .cm-en{display:flex;align-items:center;gap:14px}
 .cm-en::after{content:"";width:40px;height:1.5px;background:currentColor;opacity:.6;transform-origin:left;transition:transform .45s cubic-bezier(.6,0,.2,1) .05s}
@@ -876,10 +864,6 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .pr-in{background:#fff;border-radius:12px;padding-top:28px;padding-bottom:28px;box-shadow:var(--sh2)}
 @media (min-width:768px){.pr-in{width:calc(100% - var(--gut)*2);max-width:var(--w);padding-left:40px;padding-right:40px}}
 @media (max-width:767px){.pr-in{margin:0 var(--gut);padding:24px 20px}}
-/* 施工の流れ：絵を白い丸の台に乗せる */
-.fl-ic{box-sizing:content-box;padding:14px;border-radius:50%;background:linear-gradient(180deg,#fff,var(--pale));
-  box-shadow:0 6px 14px rgba(23,53,75,.14),inset 0 -3px 0 rgba(56,168,184,.22)}
-@media (max-width:767px){.fl-ic{padding:10px}}
 /* お客様の声：白い札にして浮かせる（触れても動かない。2026-11-17 松本さん） */
 .vc>li{padding:24px 24px 22px;border-top:3px solid var(--teal-d);border-radius:0 0 10px 10px;background:#fff;box-shadow:var(--sh1)}
 .vc-sec{background:linear-gradient(180deg,#fff,var(--pale2))}
@@ -896,3 +880,13 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
   .cm-btn:hover,.t-btn:hover,.ct-btn:hover{transform:none}
 }
+
+/* ========== トップの施工の流れに写真（2026-11-17 松本さん「FLOWに画像を差し込んで」） ==========
+   線の絵の代わりに写真。段のあいだの「→」は写真の高さの真ん中。写真はイメージ */
+.fl-phw{position:relative;margin-top:16px}
+.fl-ph{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:4px;box-shadow:0 2px 4px rgba(23,53,75,.08),0 10px 24px rgba(23,53,75,.14)}
+.fl-arw{position:absolute;top:50%;right:-31px;width:22px;margin-top:-12px;color:var(--navy);font-size:22px;line-height:1;text-align:center}
+.fl h3{margin-top:18px}
+.fl-note{margin-top:14px;color:var(--mute);font-size:12px;text-align:right}
+@media (max-width:1023px){.fl>li:nth-child(2) .fl-arw{display:none}}
+@media (max-width:767px){.fl-arw{display:none}.fl-phw{margin-top:12px}}

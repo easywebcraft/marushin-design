@@ -352,23 +352,17 @@ def page_index():
                 f'</div>{kind}<p class="wk-place">{esc(w["place"])}</p><h3 class="wk-ttl">{esc(w["name"])} 解体工事</h3>{note}</li>')
     works_html = ''.join(wk(n, w) for n, w in enumerate(works[:3], 1))
     # 施工の流れ（2026-11-17 松本さんのデザイン案）：10段階を4つのまとまりで。中身は施工の流れのページ（data/flow.json）のとおり
-    fl_icons = {
-        'chat': '<path d="M24 8c10.5 0 19 6.4 19 14.3S34.5 36.6 24 36.6c-2.1 0-4.1-.3-6-.8L9.5 40.5l1.9-7.3C7.4 30.6 5 26.7 5 22.3 5 14.4 13.5 8 24 8z"/>'
-                '<circle cx="16" cy="22.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="24" cy="22.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="32" cy="22.5" r="1.5" fill="currentColor" stroke="none"/>',
-        'doc': '<path d="M29 43H8V5h20l8 8v9"/><path d="M28 5v8h8"/><path d="M13 16h12M13 22h16M13 28h11M13 34h7"/><path d="M25 42l1.6-6.4L39 23.2l4.8 4.8L31.4 40.4z"/><path d="M36.4 25.8l4.8 4.8"/>',
-        'excavator': '<rect x="2" y="35" width="30" height="9" rx="4.5"/><circle cx="8" cy="39.5" r="1.5"/><circle cx="17" cy="39.5" r="1.5"/><circle cx="26" cy="39.5" r="1.5"/>'
-                     '<path d="M4 35v-8h24v8"/><path d="M9 27v-9h9l4 9"/><path d="M12 25v-4h5l2 4z"/><path d="M28 29L36 8l5 1 5 21"/><path d="M46 30l-1 7h-7l3-7z"/>',
-        'ground': '<path d="M3 42l9-15h20l11 15z"/><path d="M15 34v3M22 31v3M29 36v3M34 32v2"/><circle cx="37" cy="13" r="8"/><path d="M33.3 13.2l2.6 2.6 4.6-5"/>',
-    }
     fl = [
         ('chat', 'ご相談・お見積もり', 'ご相談・お見積もり依頼から、お見積もりのご提出まで。'),
         ('doc', 'ご契約・着工準備', 'ご契約、アスベスト事前調査、届出、近隣へのご挨拶。'),
         ('excavator', '解体工事', '着工から、廃材の分別・搬出まで。'),
         ('ground', '整地・工事完了', '整地・完了後、近隣へ改めてご挨拶。'),
     ]
+    # 各段の写真はイメージ（2026-11-17 松本さんが用意。images/top/flow-1〜4.jpg）。段のあいだの「→」は写真の高さの真ん中に
     steps = ''.join(f'<li style="--i:{n - 1}"><p class="fl-n"><span lang="en">STEP</span><b>{n:02d}</b></p>'
-                    f'<svg class="fl-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{fl_icons[i]}</svg>'
-                    f'<h3>{t}</h3><p class="fl-p">{d}</p></li>' for n, (i, t, d) in enumerate(fl, 1))
+                    f'<div class="fl-phw"><img class="fl-ph" src="images/top/flow-{n}.jpg" alt="" width="1448" height="1086" loading="lazy" decoding="async">'
+                    + ('<span class="fl-arw" aria-hidden="true">→</span>' if n < len(fl) else '') + '</div>'
+                    f'<h3>{t}</h3><p class="fl-p">{d}</p></li>' for n, (_i, t, d) in enumerate(fl, 1))
     voices = ''.join(f'<li><span class="vc-q" aria-hidden="true">“</span><p class="vc-t">{esc(v["title"])}</p><p class="vc-w">{esc(v["who"])}</p></li>' for v in voice)
     area_rows = ''.join(f'<div><dt>{esc(a["pref"])}</dt><dd>{esc(a["cities"])}</dd></div>' for a in company['area'])
     top_faq = [(n, it) for n, it in enumerate(faq['items'], 1) if it.get('top')]
@@ -435,6 +429,7 @@ def page_index():
 <div class="fl-head"><p class="cm-en" lang="en">FLOW</p>
 <h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで</h2></div>
 <ol class="fl">{steps}</ol>
+<p class="fl-note">写真はイメージです</p>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="flow.html">施工の流れを詳しく見る{ic("chev")}</a></p>
 </div>
 </section>
