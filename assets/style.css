@@ -193,7 +193,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 
 /* トップの施工の流れ（2026-11-17 松本さんのデザイン案）：左寄せの見出し、4段の上に STEP と大きな数字・数字のあいだに矢印の線、線の絵・題・説明 */
 .fl-sec{background:var(--pale2)}
-.fl-lead{margin-top:10px;font-size:17px;letter-spacing:.06em}
 .fl{display:grid;grid-template-columns:repeat(4,1fr);gap:0 40px;margin-top:48px}
 .fl>li{position:relative}
 .fl-n{display:flex;flex-direction:column;color:var(--teal-d);line-height:1}
@@ -212,7 +211,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .cm-head{display:grid;grid-template-columns:1fr auto;gap:20px 56px;align-items:end}
 .cm-en{color:var(--teal-d);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:800;font-size:15px;letter-spacing:.14em}
 .cm-ttl{margin-top:10px;font-size:clamp(26px,3.5vw,44px);line-height:1.4;letter-spacing:.04em;font-weight:800}
-.cm-lead{padding-bottom:10px;font-size:17px;line-height:2;letter-spacing:.06em}
 .cm{display:grid;grid-template-columns:repeat(3,1fr);margin-top:56px}
 .cm>li{padding:0 40px}
 .cm>li:first-child{padding-left:0}.cm>li:last-child{padding-right:0}
@@ -524,14 +522,12 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .fl-ic{width:48px;height:48px;margin-top:0}
   .fl h3{margin-top:10px}
   .fl-p{margin-top:6px;font-size:15px}
-  .fl-lead{font-size:15px}
   .cm>li,.cm>li:first-child,.cm>li:last-child{padding:28px 0}
   .cm>li+li{border-left:0;border-top:1px solid var(--line)}
   .cm>li:last-child{padding-bottom:0}
   .cm-n{font-size:54px}
   .cm h3{margin-top:14px}
   .cm p{margin-top:12px}
-  .cm-lead{padding-bottom:0;font-size:16px}
   .cm-more{margin-top:40px}
   .cm-btn{width:100%;min-height:58px;font-size:16px;gap:18px}
 
@@ -739,3 +735,101 @@ html.ewl-on:not(.ewl-txt) :is(.hero-in>*,.gnav li){animation-play-state:paused}
 @keyframes heroSl{0%{opacity:0;transform:scale(1.08)}5.56%{opacity:1}38.89%{opacity:1}44.44%{opacity:0;transform:none}100%{opacity:0}}
 html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.hero-sl{display:none}}
+
+/* ========== トップの FV より下：松本さんの全体デザイン案（2026-11-17） ==========
+   見出しは明朝、英字の小見出しは欧文の明朝。ボタンは紺に「＞」。帯の色は 白→白→白→薄い青（料金）→薄い青（流れ）→白（声）→薄い青（エリア）→白（質問）→紺（相談） */
+.cm-en{font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-weight:700;font-size:15px;letter-spacing:.16em}
+.cm-ttl,.t-ttl,.wk-ttl-h{font-family:var(--serif);font-weight:700;letter-spacing:.04em;font-feature-settings:"palt"}
+.cm-ttl,.t-ttl,.wk-ttl-h{margin-top:4px;font-size:clamp(26px,3.1vw,40px);line-height:1.4}
+.wk-ttl-h::after{display:none}
+.cm h3,.fl h3,.wk-ttl,.vc-t{font-family:var(--serif);font-weight:700}
+.cm-sec{background:#fff}
+.cm{margin-top:40px}
+.cm-n{font-style:normal;font-weight:400;font-size:60px}
+.cm-more,.t-more{margin-top:36px}
+.cm-btn,.t-btn{min-width:300px;min-height:54px;padding:10px 32px;gap:14px;font-size:16px}
+.t-btn{min-width:0;white-space:nowrap}
+
+/* 料金案内の帯 */
+.pr-band{background:var(--pale);padding:36px 0}
+.pr-in{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px 48px}
+.pr-h{padding-right:48px;border-right:1.5px solid #9DB0BB}
+.pr-tx{font-size:16px;line-height:2;letter-spacing:.04em}
+
+/* 施工の流れ：STEP と数字を1行に、絵は真ん中、段のあいだに「→」 */
+.fl-sec{background:var(--pale2)}
+.fl{margin-top:36px}
+.fl-n{flex-direction:row;align-items:baseline;gap:8px}
+.fl-n span{font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-weight:700;font-size:18px;letter-spacing:.08em}
+.fl-n b{margin-top:0;font-size:36px}
+.fl-ic{width:60px;height:60px;margin:18px auto 0}
+.fl>li:not(:last-child)::before{display:none}
+.fl>li:not(:last-child)::after{content:"→";left:auto;right:-32px;top:76px;width:24px;height:auto;background:none;color:var(--navy);font-size:22px;line-height:1;text-align:center}
+.fl h3{margin-top:14px;font-size:clamp(18px,1.8vw,22px)}
+.fl-p{font-size:15px}
+
+/* お客様の声：上に線、引用の印・題・お名前 */
+.vc{display:grid;grid-template-columns:repeat(3,1fr);gap:24px 40px;margin-top:28px}
+.vc>li{display:grid;grid-template-columns:auto 1fr;align-content:start;column-gap:14px;padding-top:22px;border-top:1.5px solid #9DB0BB}
+.vc-q{grid-row:1/3;font-family:Georgia,"Times New Roman",serif;font-size:56px;line-height:.75;color:var(--teal-d)}
+.vc-t{font-size:20px;line-height:1.5;color:var(--navy);letter-spacing:.04em}
+.vc-w{margin-top:6px;font-size:14px;color:var(--mute)}
+.t-link{color:var(--navy);gap:.5em}
+.t-arw{width:20px;height:20px}
+
+/* 対応エリア・よくある質問：左に題、右に中身 */
+.t-two{display:grid;grid-template-columns:minmax(240px,1fr) 2fr;gap:24px 56px;align-items:start}
+.t-sub{margin-top:12px;font-size:16px;letter-spacing:.04em}
+.ar-sec{background:var(--pale2)}
+.ar{border-top:1px solid var(--line)}
+.ar>div{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.ar dt{padding:3px 0;background:#D5ECEE;color:var(--teal-dd);font-weight:700;font-size:15px;text-align:center;letter-spacing:.08em}
+.ar dd{margin:0;font-size:15px;line-height:1.8}
+.ar-note{margin-top:14px;font-size:14px;color:var(--mute);line-height:1.9}
+.fq-sec{background:#fff}
+.qas.fq{margin-top:0;border-top:1px solid var(--line)}
+.fq .qa{background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none}
+.fq .qa+.qa{margin-top:0}
+.fq .qa:hover{transform:none;box-shadow:none}
+.fq .qa summary{min-height:56px;padding:10px 6px}
+.fq .qa summary:hover{background:var(--pale2)}
+.fq .qa-q{width:auto;height:auto;background:none;color:var(--teal-d);font-family:Baskerville,"Times New Roman",serif;font-size:20px}
+.fq .qa-t{font-weight:600}
+.fq .qa-a{border-top:0;padding:0 6px 18px}
+
+/* ご相談の帯（トップだけ） */
+.ct-band{background:var(--navy);color:#fff;padding:56px 0}
+.ct-in{display:grid;grid-template-columns:1fr auto;align-items:center;gap:32px 64px}
+.ct-l{padding-right:64px;border-right:1px solid rgba(255,255,255,.3)}
+.ct-band .cm-en{color:#7CCAD3}
+.ct-ttl{margin-top:4px;color:#fff;font-family:var(--serif);font-weight:700;font-size:clamp(24px,2.8vw,34px);letter-spacing:.06em}
+.ct-tel{display:inline-flex;align-items:center;gap:12px;margin-top:12px;color:#fff;text-decoration:none;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700;font-size:clamp(34px,4.4vw,52px);line-height:1.15;letter-spacing:.04em;white-space:nowrap}
+.ct-tel .ic{width:.75em;height:.75em}
+.ct-tel:hover{color:#fff;opacity:.85}
+.ct-hours{margin-top:6px;color:rgba(255,255,255,.85);font-size:14px}
+.ct-btn{min-width:300px;min-height:60px;gap:16px;font-size:17px}
+
+@media (max-width:1023px){
+  .pr-in{grid-template-columns:1fr;gap:16px}
+  .pr-h{padding:0 0 14px;border-right:0;border-bottom:1.5px solid #9DB0BB}
+  .pr-tx br{display:none}
+  .t-btn{justify-self:start}
+  .t-two{grid-template-columns:1fr}
+  .vc{grid-template-columns:1fr}
+  .ct-in{grid-template-columns:1fr}
+  .ct-l{padding:0;border-right:0}
+  .ct-btn{justify-self:start}
+}
+@media (max-width:767px){
+  .cm-n{font-size:48px}
+  .fl>li{display:block}
+  .fl-ic{width:48px;height:48px;margin:12px 0 0}
+  .cm-btn,.t-btn,.ct-btn{width:100%;min-width:0}
+  .pr-band{padding:32px 0}
+  .ar>div{grid-template-columns:84px 1fr;gap:14px}
+  .ar dt{font-size:14px}
+  .ar dd{font-size:14px}
+  .ct-band{padding:44px 0}
+  .ct-tel{font-size:32px}
+}

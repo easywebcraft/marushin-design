@@ -369,7 +369,8 @@ def page_index():
     steps = ''.join(f'<li><p class="fl-n"><span lang="en">STEP</span><b>{n:02d}</b></p>'
                     f'<svg class="fl-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{fl_icons[i]}</svg>'
                     f'<h3>{t}</h3><p class="fl-p">{d}</p></li>' for n, (i, t, d) in enumerate(fl, 1))
-    voices = ''.join(f'<li><span class="vq">{esc(v["title"])}</span><span class="vw">{esc(v["who"])}</span></li>' for v in voice)
+    voices = ''.join(f'<li><span class="vc-q" aria-hidden="true">“</span><p class="vc-t">{esc(v["title"])}</p><p class="vc-w">{esc(v["who"])}</p></li>' for v in voice)
+    area_rows = ''.join(f'<div><dt>{esc(a["pref"])}</dt><dd>{esc(a["cities"])}</dd></div>' for a in company['area'])
     top_faq = [(n, it) for n, it in enumerate(faq['items'], 1) if it.get('top')]
     faq_html = ''.join(qa_html(it, n) for n, it in top_faq)
     return f'''<section class="hero">
@@ -404,10 +405,9 @@ def page_index():
 <div class="cm-head">
 <div><p class="cm-en" lang="en">OUR COMMITMENT</p>
 <h2 class="cm-ttl" id="h-torikumi">解体の前も、後も。<br>安心につながる、丸信の取り組み。</h2></div>
-<p class="cm-lead">ご相談から工事完了後まで、<br>一つひとつ、誠実に対応します。</p>
 </div>
 <ol class="cm">{cards_html}</ol>
-<p class="center cm-more"><a class="btn btn-navy cm-btn" href="outline.html">丸信の会社案内を見る<svg class="cm-arw" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h29M23 1.5 30 8l-7 6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+<p class="center cm-more"><a class="btn btn-navy cm-btn" href="outline.html">丸信の会社案内を見る{ic("chev")}</a></p>
 </div>
 </section>
 
@@ -422,45 +422,53 @@ def page_index():
 </div>
 </section>
 
-<section class="band band-raise" aria-labelledby="h-price">
-<div class="wrap"><div class="band-in">
-<h2 class="band-ttl" id="h-price">料金案内</h2>
-<p class="band-tx">木造・鉄骨造・鉄筋コンクリート造の解体工事と、庭木伐採・ブロック塀などその他の料金表を掲載しています。</p>
-{more('price.html', '料金案内を見る')}
-</div></div>
+<section class="pr-band" aria-labelledby="h-price">
+<div class="wrap pr-in">
+<div class="pr-h"><p class="cm-en" lang="en">PRICE</p><h2 class="t-ttl" id="h-price">料金案内</h2></div>
+<p class="pr-tx">木造・鉄骨造・鉄筋コンクリート造の解体工事と、<br>庭木伐採・ブロック塀などその他の料金表を掲載しています。</p>
+<a class="btn btn-navy t-btn" href="price.html">料金案内を見る{ic("chev")}</a>
+</div>
 </section>
 
 <section class="sec fl-sec" aria-labelledby="h-flow">
 <div class="wrap">
 <div class="fl-head"><p class="cm-en" lang="en">FLOW</p>
-<h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで。</h2>
-<p class="fl-lead">ご相談から工事完了後のご挨拶まで、一つひとつ丁寧に進めます。</p></div>
+<h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで。</h2></div>
 <ol class="fl">{steps}</ol>
-<p class="center cm-more"><a class="btn btn-navy cm-btn" href="flow.html">施工の流れを詳しく見る<svg class="cm-arw" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h29M23 1.5 30 8l-7 6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+<p class="center cm-more"><a class="btn btn-navy cm-btn" href="flow.html">施工の流れを詳しく見る{ic("chev")}</a></p>
 </div>
 </section>
 
-<section class="band band-raise" aria-labelledby="h-voice">
-<div class="wrap"><div class="band-in">
-<h2 class="band-ttl" id="h-voice">お客様の声</h2>
-<ul class="band-voices">{voices}</ul>
-{more('voice.html', 'お客様の声を見る')}
-</div></div>
-</section>
-
-<section class="sec sec-area">
+<section class="sec vc-sec" aria-labelledby="h-voice">
 <div class="wrap">
-{h2c('対応エリア')}
-{area_html(company)}
-<p class="lead">上記の対応エリア以外にも柔軟に対応させていただきます。まずはお気軽にお問い合わせください。</p>
+<p class="cm-en" lang="en">VOICE</p><h2 class="t-ttl" id="h-voice">お客様の声</h2>
+<ul class="vc">{voices}</ul>
+<p class="center t-more"><a class="tlink t-link" href="voice.html">お客様の声を見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
 </div>
 </section>
 
-<section class="sec sec-pale">
-<div class="wrap wrap-s">
-{h2c('よくある質問')}
-<div class="qas">{faq_html}</div>
-<p class="center mt-m"><a class="tlink" href="faq.html">よくある質問をすべて見る{ic("chev")}</a></p>
+<section class="sec ar-sec" aria-labelledby="h-area">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に、近隣エリアへ。</p></div>
+<div><dl class="ar">{area_rows}</dl>
+<p class="ar-note">{esc(company["area_note"])}。上記の対応エリア以外にも柔軟に対応させていただきます。まずはお気軽にお問い合わせください。</p></div>
+</div>
+</section>
+
+<section class="sec fq-sec" aria-labelledby="h-faq">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">FAQ</p><h2 class="t-ttl" id="h-faq">よくある質問</h2></div>
+<div><div class="qas fq">{faq_html}</div>
+<p class="center t-more"><a class="tlink t-link" href="faq.html">よくある質問をすべて見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
+</div>
+</section>
+
+<section class="ct-band" aria-labelledby="h-contact">
+<div class="wrap ct-in">
+<div class="ct-l"><p class="cm-en" lang="en">CONTACT</p><h2 class="ct-ttl" id="h-contact">解体工事のご相談はこちら</h2>
+<a class="ct-tel" href="{TEL_HREF}">{ic("phone")}<span>{TEL}</span></a>
+<p class="ct-hours">{HOURS}</p></div>
+<a class="btn btn-white ct-btn" href="contact.html">お問い合わせ<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 </div>
 </section>'''
 
@@ -909,7 +917,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname != 'contact.html')))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
