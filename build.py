@@ -332,12 +332,14 @@ def qa_html(item, n):
 
 def page_index():
     company, works, flow, voice, faq = load('company.json'), load('works.json'), load('flow.json'), load('voice.json'), load('faq.json')
+    # 丸信の取り組み（2026-11-17 松本さんのデザイン案のとおり。文は今のサイトの3項目を言い換えたもの）
     cards = [
-        ('chat', '解体専門の会社へ直接ご相談', '地域に根付いた解体専門の業者です。下請業者に発注するわけではありませんので、中間マージンが発生しません。'),
-        ('users', '近隣への配慮', '工事前には必ず、近隣へ誠意を持って丁寧なご挨拶を行ったうえで解体工事を行います。万が一トラブルが発生した際も、速やかに対処いたします。'),
-        ('greet', '工事前後のご挨拶', '解体工事の完了後にも、再度ご近所様へご挨拶をおこないます。「本当にご迷惑はなかったか？」を確認するためです。'),
+        ('解体専門の会社に、<br>直接相談。', '地域に根付いた解体専門の会社です。下請業者への発注による中間マージンが発生しません。'),
+        ('着工前から、<br>近隣に配慮。', '工事前には、近隣の皆様へ丁寧にご挨拶。万が一のトラブルにも、速やかに対応いたします。'),
+        ('工事が終わっても、<br>丁寧に。', '工事完了後も、改めてご近所へご挨拶。ご迷惑がなかったかを確認することまで、大切にしています。'),
     ]
-    cards_html = ''.join(f'<li><span class="circ">{ic(i, "ic-l")}</span><h3>{t}</h3><p>{p}</p></li>' for i, t, p in cards)
+    cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p}</p></li>'
+                         for n, (t, p) in enumerate(cards, 1))
     works_html = ''.join(work_card(w) for w in works[:3])
     steps = ''.join(f'<li><span class="circ">{ic(s["icon"], "ic-l")}</span><span class="fm-n">{i:02d}</span><span class="fm-t">{esc(s["short"])}</span></li>'
                     for i, s in enumerate(flow, 1))
@@ -373,11 +375,15 @@ def page_index():
 </div>
 </section>
 
-<section class="sec sec-pale sec-tight" aria-labelledby="h-torikumi">
+<section class="sec cm-sec" aria-labelledby="h-torikumi">
 <div class="wrap">
-<h2 class="vh" id="h-torikumi">丸信の取り組み</h2>
-<ul class="cards3">{cards_html}</ul>
-<p class="center mt-l">{more('about.html', '丸信について詳しく見る')}</p>
+<div class="cm-head">
+<div><p class="cm-en" lang="en">OUR COMMITMENT</p>
+<h2 class="cm-ttl" id="h-torikumi">解体の前も、後も。<br>安心につながる、丸信の取り組み。</h2></div>
+<p class="cm-lead">ご相談から工事完了後まで、<br>一つひとつ、誠実に対応します。</p>
+</div>
+<ol class="cm">{cards_html}</ol>
+<p class="center cm-more"><a class="btn btn-navy cm-btn" href="outline.html">丸信の会社案内を見る<svg class="cm-arw" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h29M23 1.5 30 8l-7 6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
 </div>
 </section>
 

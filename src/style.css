@@ -154,12 +154,24 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .circ-s .ic{width:24px;height:24px}
 
 /* トップ：取り組みの3枚 */
-.cards3{display:grid;grid-template-columns:repeat(3,1fr)}
-.cards3>li{padding:8px 32px;text-align:center}
-.cards3>li+li{border-left:1px solid #C3D6E0}
-.cards3 .circ{margin:0 auto 14px}
-.cards3 h3{font-size:20px;margin-bottom:10px}
-.cards3 p{text-align:left;font-size:15px}
+/* トップの丸信の取り組み（2026-11-17 松本さんのデザイン案）：左に大きな見出し・右に添え書き、3列に斜体の大きな数字と縦の区切り線 */
+.cm-sec{background:var(--pale2)}
+.cm-head{display:grid;grid-template-columns:1fr auto;gap:20px 56px;align-items:end}
+.cm-en{color:var(--teal-d);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:800;font-size:15px;letter-spacing:.14em}
+.cm-ttl{margin-top:10px;font-size:clamp(26px,3.5vw,44px);line-height:1.4;letter-spacing:.04em;font-weight:800}
+.cm-lead{padding-bottom:10px;font-size:17px;line-height:2;letter-spacing:.06em}
+.cm{display:grid;grid-template-columns:repeat(3,1fr);margin-top:56px}
+.cm>li{padding:0 40px}
+.cm>li:first-child{padding-left:0}.cm>li:last-child{padding-right:0}
+.cm>li+li{border-left:1px solid var(--line)}
+.cm-n{display:block;font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-style:italic;font-size:68px;line-height:1;color:var(--teal);letter-spacing:.02em;font-variant-numeric:lining-nums}
+.cm-ttl,.cm h3{font-feature-settings:"palt"}
+.cm h3{margin-top:22px;font-size:clamp(21px,2.2vw,28px);line-height:1.45;font-weight:800;letter-spacing:.04em}
+.cm p{margin-top:18px;font-size:16px;line-height:2;letter-spacing:.04em}
+.cm-more{margin-top:56px}
+.cm-btn{min-width:min(100%,400px);min-height:64px;padding:14px 36px;gap:28px;font-size:18px;letter-spacing:.06em}
+.cm-arw{width:32px;height:16px}
+.cm-btn:hover .cm-arw{transform:translateX(4px);transition:transform .2s}
 
 /* 施工事例 */
 .works{display:grid;gap:28px;margin-top:36px}
@@ -377,7 +389,8 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .hd-cta{margin-left:auto}
   .hd-cta+.burger{margin-left:0}
   .hd-in{gap:12px}
-  .cards3>li{padding:8px 20px}
+  .cm-head{grid-template-columns:1fr}
+  .cm>li{padding:0 24px}
   .works-3{grid-template-columns:repeat(2,1fr)}
   .band-in{grid-template-columns:auto 1fr;gap:20px 24px}
   .band-in>.btn{grid-column:1/-1;justify-self:end}
@@ -444,13 +457,16 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .hero-en{order:3;color:var(--mute)}
   .hero-scroll{display:none}
 
-  .cards3{grid-template-columns:1fr}
-  .cards3>li{padding:22px 4px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;text-align:left}
-  .cards3>li+li{border-left:0;border-top:1px solid #C3D6E0}
-  .cards3 .circ{grid-row:1/3;margin:0;width:60px;height:60px}
-  .cards3 .ic-l{width:30px;height:30px}
-  .cards3 h3{font-size:19px;margin:0;align-self:end}
-  .cards3 p{font-size:16px;grid-column:2}
+  .cm{grid-template-columns:1fr;margin-top:36px}
+  .cm>li,.cm>li:first-child,.cm>li:last-child{padding:28px 0}
+  .cm>li+li{border-left:0;border-top:1px solid var(--line)}
+  .cm>li:last-child{padding-bottom:0}
+  .cm-n{font-size:54px}
+  .cm h3{margin-top:14px}
+  .cm p{margin-top:12px}
+  .cm-lead{padding-bottom:0;font-size:16px}
+  .cm-more{margin-top:40px}
+  .cm-btn{width:100%;min-height:58px;font-size:16px;gap:18px}
 
   .works,.works-3,.works-2{grid-template-columns:1fr;gap:20px;margin-top:28px}
   .band{padding:28px 0}
@@ -534,7 +550,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 
 /* ---- トップの立体感（2026-11-12 松本さん希望）：重なり・影・触れると浮く・現れる動き ----
    色・文言・写真は変えない。現れる動きは JS が .rv を付けたときだけ（JS なし・動きを減らす設定では最初から全部見える） */
-.work,.qa,.cta-box,.band-raise .band-in,.cards3>li,.flowmini .circ{transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
+.work,.qa,.cta-box,.band-raise .band-in,.flowmini .circ{transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
 .work{border-color:transparent;border-radius:12px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 10px 28px rgba(23,53,75,.12)}
 .work-ph figure{overflow:hidden}
 .work-ph img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
@@ -551,12 +567,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .band-raise{padding:44px 0;background:linear-gradient(var(--pale2),var(--pale))}
 .band-raise .band-in{padding:28px 36px;background:#fff;border-radius:14px;box-shadow:0 2px 4px rgba(23,53,75,.06),0 14px 36px rgba(23,53,75,.13)}
 .band-raise .band-tx,.band-raise .band-voices{border-left-color:var(--line)}
-.sec-pale:has(.cards3){background:linear-gradient(180deg,var(--pale2),var(--pale) 55%)}
-.cards3{gap:28px}
-.cards3>li{padding:34px 28px 30px;background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 12px 30px rgba(23,53,75,.11)}
-.cards3>li+li{border-left:0}
-.cards3>li:hover{transform:translateY(-6px);box-shadow:0 2px 4px rgba(23,53,75,.08),0 20px 42px rgba(23,53,75,.18)}
-.cards3 .circ{background:linear-gradient(180deg,#fff,var(--pale));box-shadow:0 6px 14px rgba(23,53,75,.14),inset 0 -3px 0 rgba(56,168,184,.2)}
 @media (min-width:768px){
   .hero-scroll{bottom:100px}
   .hero .img-note{bottom:92px}
@@ -566,9 +576,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .lift .lead{margin-bottom:0}
 }
 @media (max-width:767px){
-  .cards3{gap:14px}
-  .cards3>li{padding:18px 16px;grid-template-columns:auto 1fr}
-  .cards3>li+li{border-top:0}
   .band-raise{padding:24px 0}
   .band-raise .band-in{padding:20px 18px}
 }
