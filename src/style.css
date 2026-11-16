@@ -154,6 +154,22 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .circ-s .ic{width:24px;height:24px}
 
 /* トップ：取り組みの3枚 */
+/* トップの施工の流れ（2026-11-17 松本さんのデザイン案）：左寄せの見出し、4段の上に STEP と大きな数字・数字のあいだに矢印の線、線の絵・題・説明 */
+.fl-sec{background:var(--pale2)}
+.fl-lead{margin-top:10px;font-size:17px;letter-spacing:.06em}
+.fl{display:grid;grid-template-columns:repeat(4,1fr);gap:0 40px;margin-top:48px}
+.fl>li{position:relative}
+.fl-n{display:flex;flex-direction:column;color:var(--teal-d);line-height:1}
+.fl-n span{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:800;font-size:15px;letter-spacing:.14em}
+.fl-n b{margin-top:8px;font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-weight:700;font-size:64px;font-variant-numeric:lining-nums;letter-spacing:.01em}
+/* 数字の右から次の段の手前まで、矢印の線 */
+.fl>li:not(:last-child)::after{content:"";position:absolute;left:96px;right:4px;top:60px;height:12px;
+  background:linear-gradient(var(--teal-d),var(--teal-d)) 0 50%/calc(100% - 2px) 1.5px no-repeat}
+.fl>li:not(:last-child)::before{content:"";position:absolute;right:5px;top:61px;width:9px;height:9px;border-top:1.5px solid var(--teal-d);border-right:1.5px solid var(--teal-d);transform:rotate(45deg)}
+.fl-ic{display:block;width:64px;height:64px;margin-top:22px;color:var(--navy)}
+.fl h3{margin-top:18px;font-size:clamp(20px,2vw,26px);line-height:1.45;font-weight:800;letter-spacing:.04em;font-feature-settings:"palt"}
+.fl-p{margin-top:12px;font-size:16px;line-height:1.9;letter-spacing:.04em}
+
 /* トップの丸信の取り組み（2026-11-17 松本さんのデザイン案）：左に大きな見出し・右に添え書き、3列に斜体の大きな数字と縦の区切り線 */
 .cm-sec{background:var(--pale2)}
 .cm-head{display:grid;grid-template-columns:1fr auto;gap:20px 56px;align-items:end}
@@ -200,12 +216,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .vw{color:var(--mute);font-size:14px}
 
 /* トップ：施工の流れ（番号つきの一覧） */
-.flowmini{display:grid;grid-template-columns:repeat(5,1fr);gap:28px 12px;margin-top:36px;counter-reset:f}
-.flowmini li{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
-.flowmini .circ{background:var(--pale)}
-.flowmini li:not(:nth-child(5n))::after{content:"";position:absolute;right:-12px;top:28px;width:10px;height:10px;border-top:2px solid var(--teal);border-right:2px solid var(--teal);transform:rotate(45deg)}
-.fm-n{margin-top:6px;color:var(--teal-d);font-weight:700;font-style:italic;font-size:15px;line-height:1.2;white-space:nowrap;overflow-wrap:normal}
-.fm-t{font-weight:700;color:var(--navy);font-size:15px;line-height:1.5;word-break:auto-phrase}
 
 /* 対応エリア */
 .area{max-width:900px;margin:0 auto;border-top:1px solid var(--line)}
@@ -390,6 +400,8 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .hd-cta+.burger{margin-left:0}
   .hd-in{gap:12px}
   .cm-head{grid-template-columns:1fr}
+  .fl{grid-template-columns:repeat(2,1fr);gap:48px 40px}
+  .fl>li:nth-child(2)::after,.fl>li:nth-child(2)::before{display:none}
   .cm>li{padding:0 24px}
   .works-3{grid-template-columns:repeat(2,1fr)}
   .band-in{grid-template-columns:auto 1fr;gap:20px 24px}
@@ -458,6 +470,16 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .hero-scroll{display:none}
 
   .cm{grid-template-columns:1fr;margin-top:36px}
+  .fl{grid-template-columns:1fr;gap:0;margin-top:32px}
+  .fl>li{display:grid;grid-template-columns:auto 1fr;column-gap:20px;padding:24px 0}
+  .fl>li+li{border-top:1px solid var(--line)}
+  .fl>li::after,.fl>li::before{display:none}
+  .fl-n{grid-row:1/4}
+  .fl-n b{font-size:46px}
+  .fl-ic{width:48px;height:48px;margin-top:0}
+  .fl h3{margin-top:10px}
+  .fl-p{margin-top:6px;font-size:15px}
+  .fl-lead{font-size:15px}
   .cm>li,.cm>li:first-child,.cm>li:last-child{padding:28px 0}
   .cm>li+li{border-left:0;border-top:1px solid var(--line)}
   .cm>li:last-child{padding-bottom:0}
@@ -476,13 +498,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .band-voices li{display:block}
   .band-voices li+li{margin-top:10px}
   .vw{display:block}
-  .flowmini{grid-template-columns:repeat(2,1fr);gap:10px;margin-top:28px}
-  .flowmini li{flex-direction:row;align-items:center;text-align:left;gap:10px;padding:10px;background:var(--pale2);border-radius:6px}
-  .flowmini li::after{display:none}
-  .flowmini .circ{width:40px;height:40px;background:#fff}
-  .flowmini .ic-l{width:22px;height:22px}
-  .fm-n{margin:0;font-size:14px}
-  .fm-t{font-size:14px;line-height:1.4}
   .area>div{grid-template-columns:1fr;gap:2px;padding:12px 4px}
   .sec-area{padding-bottom:84px;background-size:271px 46px}
 
@@ -550,7 +565,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 
 /* ---- トップの立体感（2026-11-12 松本さん希望）：重なり・影・触れると浮く・現れる動き ----
    色・文言・写真は変えない。現れる動きは JS が .rv を付けたときだけ（JS なし・動きを減らす設定では最初から全部見える） */
-.work,.qa,.cta-box,.band-raise .band-in,.flowmini .circ{transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
+.work,.qa,.cta-box,.band-raise .band-in{transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
 .work{border-color:transparent;border-radius:12px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 10px 28px rgba(23,53,75,.12)}
 .work-ph figure{overflow:hidden}
 .work-ph img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
@@ -562,8 +577,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .cta-box{border-color:transparent;border-radius:14px;box-shadow:0 2px 4px rgba(23,53,75,.08),0 18px 44px rgba(23,53,75,.18)}
 .hero-btns .btn-teal{box-shadow:0 8px 22px rgba(8,50,58,.45)}
 .hero-btns .btn:hover{transform:translateY(-2px)}
-.flowmini .circ{background:linear-gradient(180deg,#fff,var(--pale));box-shadow:0 6px 14px rgba(23,53,75,.14),inset 0 -3px 0 rgba(56,168,184,.2)}
-.flowmini li:hover .circ{transform:translateY(-4px);box-shadow:0 12px 22px rgba(23,53,75,.2),inset 0 -3px 0 rgba(56,168,184,.3)}
 .band-raise{padding:44px 0;background:linear-gradient(var(--pale2),var(--pale))}
 .band-raise .band-in{padding:28px 36px;background:#fff;border-radius:14px;box-shadow:0 2px 4px rgba(23,53,75,.06),0 14px 36px rgba(23,53,75,.13)}
 .band-raise .band-tx,.band-raise .band-voices{border-left-color:var(--line)}
