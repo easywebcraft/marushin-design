@@ -161,6 +161,11 @@ EWL_BODY = '''<div class="ewl" id="ewl" aria-hidden="true">
 '''
 
 
+def href(f):
+    """ページへのリンク先。トップは ./ にする（index.html だとトップに2つのアドレスができる）"""
+    return './' if f == 'index.html' else f
+
+
 def head(fname, title, desc):
     robots = '' if RELEASE else '<meta name="robots" content="noindex,nofollow">\n'
     canonical = ''
@@ -193,7 +198,7 @@ def header(fname):
     drawer = []
     for f, name, _en, _h, _d in PAGES:
         cur = ' aria-current="page"' if f == fname else ''
-        drawer.append(f'<li><a href="{f}"{cur}>{name}{ic("chev")}</a></li>')
+        drawer.append(f'<li><a href="{href(f)}"{cur}>{name}{ic("chev")}</a></li>')
     drawer.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報<span class="ext-note">（外部サイト）</span>{ic("ext")}</a></li>')
     draft = '' if RELEASE else ('<div class="draft"><span>制作中のページです（確認用）</span>'
                                 '<a href="check.html">確認が必要なところの一覧</a></div>\n')
@@ -815,12 +820,12 @@ def page_check():
     for f, name, _en, _h, _d in PAGES:
         if f not in by:
             continue
-        lis = ''.join(f'<li><a href="{f}{"#todo-%d" % n if n else ""}">{esc(label)}</a></li>' for n, label in by[f])
+        lis = ''.join(f'<li><a href="{href(f)}{"#todo-%d" % n if n else ""}">{esc(label)}</a></li>' for n, label in by[f])
         secs.append(f'<h2 class="h2l">{name}</h2><ul class="dots">{lis}</ul>')
     fr = {}
     for f, label in FRAMES:
         fr.setdefault(f, []).append(label)
-    fr_html = ''.join(f'<li><a href="{f}">{PAGE[f][1]}</a>：{esc("、".join(v))}</li>' for f, v in fr.items())
+    fr_html = ''.join(f'<li><a href="{href(f)}">{PAGE[f][1]}</a>：{esc("、".join(v))}</li>' for f, v in fr.items())
     gen = ''.join(f'<li>{esc(g)}</li>' for g in GENERAL)
     body = f'''<div class="ph ph-plain"><div class="ph-in"><div class="ph-ttl"><h1>確認が必要なところの一覧</h1><p class="ph-en">制作中の確認用ページ（公開しません）</p></div></div></div>
 <section class="sec"><div class="wrap wrap-m">
