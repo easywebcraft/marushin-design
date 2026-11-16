@@ -864,28 +864,14 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.ct-now.is-open::before{animation:none}}
 
 /* ========== トップの立体感（2026-11-17 松本さん「立体感を追加してほしい」） ==========
-   並び・色・文は変えず、影と重なりで奥行きを出す。触れると少し浮く（動きを減らす設定では浮かない） */
+   並び・色・文は変えず、影と重なりで奥行きを出す。触れると少し浮くのはボタンだけ（動きを減らす設定では浮かない） */
 :root{--sh1:0 1px 2px rgba(23,53,75,.06),0 8px 22px rgba(23,53,75,.10);--sh2:0 2px 4px rgba(23,53,75,.08),0 18px 40px rgba(23,53,75,.16)}
 /* 「丸信の解体工事について」の帯：FV の上に影を落として、一段手前にあるように */
 .ab-band{position:relative;z-index:1;box-shadow:0 -12px 28px rgba(18,31,52,.18)}
 /* ボタン：影を付けて、触れると少し浮く */
 .cm-btn,.t-btn,.ct-btn{box-shadow:0 4px 10px rgba(23,53,75,.18),0 12px 26px rgba(23,53,75,.14);transition:transform .2s,box-shadow .2s,background-color .15s,color .15s}
 .cm-btn:hover,.t-btn:hover,.ct-btn:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(23,53,75,.22),0 18px 36px rgba(23,53,75,.18)}
-/* 取り組み：数字に薄い影、列は触れると白い札が浮き上がる */
-.cm-n{text-shadow:0 6px 18px rgba(20,127,141,.22)}
-.cm>li{transition:transform .25s,box-shadow .25s,background-color .25s;border-radius:10px}
-@media (min-width:768px){
-  .cm>li{padding-top:18px;padding-bottom:22px}
-  .cm>li:first-child{padding-left:20px}.cm>li:last-child{padding-right:20px}
-  .cm>li:hover{background:#fff;box-shadow:var(--sh2);transform:translateY(-4px)}
-}
-/* 施工事例：写真に重ねた影、触れると列ごと浮く */
-.wk-ph figure{box-shadow:0 2px 4px rgba(23,53,75,.08),0 12px 28px rgba(23,53,75,.16)}
-.wk-arw{box-shadow:0 4px 12px rgba(23,53,75,.25)}
-.wk>li{transition:transform .25s}
-.wk-ph img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
-.wk>li:hover{transform:translateY(-4px)}
-.wk>li:hover .wk-ph img{transform:scale(1.04)}
+/* 取り組みと施工事例の立体感は外した（2026-11-17 松本さん「戻して」） */
 /* 料金案内：中身を白い札にして帯の上に浮かせる */
 .pr-in{background:#fff;border-radius:12px;padding-top:28px;padding-bottom:28px;box-shadow:var(--sh2)}
 @media (min-width:768px){.pr-in{width:calc(100% - var(--gut)*2);max-width:var(--w);padding-left:40px;padding-right:40px}}
@@ -894,9 +880,8 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .fl-ic{box-sizing:content-box;padding:14px;border-radius:50%;background:linear-gradient(180deg,#fff,var(--pale));
   box-shadow:0 6px 14px rgba(23,53,75,.14),inset 0 -3px 0 rgba(56,168,184,.22)}
 @media (max-width:767px){.fl-ic{padding:10px}}
-/* お客様の声：白い札にして浮かせる */
-.vc>li{padding:24px 24px 22px;border-top:3px solid var(--teal-d);border-radius:0 0 10px 10px;background:#fff;box-shadow:var(--sh1);transition:transform .25s,box-shadow .25s}
-.vc>li:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+/* お客様の声：白い札にして浮かせる（触れても動かない。2026-11-17 松本さん） */
+.vc>li{padding:24px 24px 22px;border-top:3px solid var(--teal-d);border-radius:0 0 10px 10px;background:#fff;box-shadow:var(--sh1)}
 .vc-sec{background:linear-gradient(180deg,#fff,var(--pale2))}
 /* 対応エリア・よくある質問：右の中身を白い札に */
 .ar,.qas.fq{background:#fff;border-radius:12px;box-shadow:var(--sh1);padding:6px 24px}
@@ -909,6 +894,5 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ct-tel{text-shadow:0 4px 18px rgba(0,0,0,.35)}
 .ct-btn{box-shadow:0 6px 16px rgba(0,0,0,.28),0 16px 34px rgba(0,0,0,.22)}
 @media (prefers-reduced-motion:reduce){
-  .cm>li:hover,.wk>li:hover,.vc>li:hover,.cm-btn:hover,.t-btn:hover,.ct-btn:hover{transform:none}
-  .wk>li:hover .wk-ph img{transform:none}
+  .cm-btn:hover,.t-btn:hover,.ct-btn:hover{transform:none}
 }
