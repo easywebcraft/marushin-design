@@ -33,7 +33,7 @@ FAX = '0568-29-7789'
 HOURS = '営業時間 9:00〜17:00（定休日：土日曜・祝日）'  # 今のサイトの会社概要「営業時間 9:00～17:00」「定休日 土日曜・祝日」
 POSTAL = '486-0932'  # 今のサイトには 480-0306 の表記もある。丸信さんに確認する（todo に出している）
 ADDRESS = '愛知県春日井市松河戸町4133番2'
-RECRUIT_URL = 'https://arwrk.net/recruit/yr19dq6rh1okksq'  # 今のサイトの「リクルート」のリンク先（AirWORK）
+RECRUIT_URL = 'https://arwrk.net/recruit/yr19dq6rh1okksq'  # 今のサイトの「リクルート」のリンク先（AirWORK）。2026-11-17 当面は AirWORK を続ける（松本さん）
 # お問い合わせフォームの送り先。決まるまでは空（＝未接続。画面に「未接続」と出し、「送信しました」とは出さない）
 FORM_ENDPOINT = ''
 
@@ -478,7 +478,7 @@ def page_index():
 <span class="rq-ph"><img src="images/top/flow-3.jpg" alt="" width="1448" height="1086" loading="lazy" decoding="async"><small>写真はイメージです</small></span>
 <span class="rq-btn">採用情報を見る<small>（外部サイト）</small>{ic("ext")}</span>
 </a>
-</aside>{todo('求人の案内：採用は今の AirWORK のページへつないでいます。AirWORK を続けるか、載せたい言葉（未経験者歓迎など）と社員の写真を丸信さんに確認')}'''
+</aside>{todo('求人の案内：載せたい言葉（未経験者歓迎など）があれば。写真は今はイメージで、社員・現場の写真が届いたら差し替える')}'''
 
 
 def page_about():
