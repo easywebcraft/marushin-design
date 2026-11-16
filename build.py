@@ -342,6 +342,8 @@ def page_index():
     return f'''<section class="hero">
 <div class="hero-ph">
 <picture><source media="(max-width:767px)" srcset="images/hero-sp.jpg"><img class="hero-img" src="images/hero.jpg" alt="" width="1600" height="1066" fetchpriority="high"></picture>
+<i class="hero-sl" style="background-image:url(images/top/ai-doboku-1.jpg);animation-delay:5s"></i>
+<i class="hero-sl" style="background-image:url(images/top/ai-c-estimate.jpg);animation-delay:11s"></i>
 <p class="img-note">写真はイメージです</p>
 </div>
 <div class="hero-in">
