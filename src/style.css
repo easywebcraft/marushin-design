@@ -836,11 +836,11 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 
 /* ========== トップの動き（2026-11-17 松本さん「動きがない」：案2〜4。案1の施工前後の見比べは外した） ==========
    どれも JS が印（*-wait）を付けたときだけ隠す。JS なし・動きを減らす設定では最初から全部見える */
-/* 2. 施工の流れ：STEP 01 → 矢印 → STEP 02 … の順に現れる（2026-11-17「ゆっくり、もっと早く」で 0.5秒ずつ→0.22秒ずつ） */
-.fl.fl-wait>li{opacity:0;transform:translateY(18px)}
-.fl.fl-wait>li::after{opacity:0;transform:translateX(-10px)}
-.fl>li{transition:opacity .4s ease calc(var(--i,0)*.22s),transform .4s cubic-bezier(.2,.7,.3,1) calc(var(--i,0)*.22s)}
-.fl>li::after{transition:opacity .25s ease calc(var(--i,0)*.22s + .15s),transform .25s cubic-bezier(.2,.7,.3,1) calc(var(--i,0)*.22s + .15s)}
+/* 2. 施工の流れ：STEP 01 → 矢印 → STEP 02 … の順に現れる（2026-11-17「ゆっくり、もっと早く」で 0.5秒ずつ→0.22秒ずつ。「速さはそのまま滑らかに」で、間隔は変えず1段の動きを長めにして重ね、動く幅を小さく、終わりをなめらかに減速） */
+.fl.fl-wait>li{opacity:0;transform:translate3d(0,12px,0)}
+.fl.fl-wait>li::after{opacity:0;transform:translate3d(-8px,0,0)}
+.fl>li{transition:opacity .7s cubic-bezier(.33,1,.68,1) calc(var(--i,0)*.22s),transform .8s cubic-bezier(.22,1,.36,1) calc(var(--i,0)*.22s);will-change:opacity,transform}
+.fl>li::after{transition:opacity .6s cubic-bezier(.33,1,.68,1) calc(var(--i,0)*.22s + .15s),transform .7s cubic-bezier(.22,1,.36,1) calc(var(--i,0)*.22s + .15s)}
 /* 3. 線が引かれる：英字の小見出しの横の線、縦の区切り線（2026-11-17 約半分の時間に） */
 .cm-en{display:flex;align-items:center;gap:14px}
 .cm-en::after{content:"";width:40px;height:1.5px;background:currentColor;opacity:.6;transform-origin:left;transition:transform .45s cubic-bezier(.6,0,.2,1) .05s}
