@@ -37,7 +37,7 @@ RECRUIT_URL = 'https://arwrk.net/recruit/yr19dq6rh1okksq'  # 今のサイトの�
 # お問い合わせフォームの送り先。決まるまでは空（＝未接続。画面に「未接続」と出し、「送信しました」とは出さない）
 FORM_ENDPOINT = ''
 
-# ページの一覧：(ファイル名, 名前, 英字, ヘッダーに出すか, 説明文)
+# ページの一覧：(ファイル名, 名前, 英字, ヘッダーに出すか（2026-11-16 から使っていない。HEAD_NAV を見る）, 説明文)
 PAGES = [
     ('index.html', 'ホーム', '', False,
      '解体のご相談なら、愛知県（春日井市・小牧市・尾張旭市・瀬戸市・名古屋市等）の株式会社丸信へ。施工事例・料金案内・施工の流れを掲載しています。'),
@@ -61,6 +61,8 @@ PAGES = [
      '株式会社丸信のプライバシーポリシー（個人情報の取り扱い）です。'),
 ]
 PAGE = {p[0]: p for p in PAGES}
+# ヘッダーのメニュー。営業用の見本と同じ並び・数（2026-11-16）。会社案内とプライバシーポリシーはフッターとスマホのメニューから
+HEAD_NAV = ['about.html', 'case.html', 'flow.html', 'price.html', 'voice.html', 'faq.html', 'contact.html']
 # 下層ページの上の写真の見せる位置（同じ写真でも、ページごとに少し変える）
 PH_POS = {'about.html': '70% 40%', 'price.html': '40% 55%', 'case.html': '60% 62%', 'flow.html': '80% 45%',
           'outline.html': '30% 50%', 'voice.html': '55% 35%', 'faq.html': '75% 58%', 'contact.html': '45% 42%',
@@ -145,7 +147,8 @@ SPRITE = '''<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="
 # 先頭の js の印は、ヘッダーを写真の上に重ねてよい合図（JS が動かないと白地に戻せないため）
 EWL_HEAD = '''<script>
 (function(){var r=document.documentElement,played=false;
-r.classList.add('js');
+r.classList.add('js','anim');
+setTimeout(function(){if(!window.__mhAnim)r.classList.remove('anim');},4000);
 try{played=sessionStorage.getItem('ms-ewl')==='1';}catch(e){}
 if(played||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))return;
 r.classList.add('ewl-on','ewl-play');
@@ -155,10 +158,13 @@ setTimeout(function(){if(!window.__ewl)r.classList.remove('ewl-on');},6000);})()
 '''
 EWL_BODY = '''<div class="ewl" id="ewl" aria-hidden="true">
 <div class="ewl-p1"><svg class="ewl-ring" viewBox="0 0 120 120"><circle class="t" cx="60" cy="60" r="54"/><circle class="f" cx="60" cy="60" r="54"/></svg><span class="ewl-pct">0%</span></div>
-<div class="ewl-p2"><div class="logo"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></div></div>
+<div class="ewl-p2"><div class="logo"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span><small class="logo-en" lang="en">MARUSHIN</small></div></div>
 <span class="ewl-skip">タップでスキップ</span>
 </div>
 '''
+
+
+TOP_CSS = ''  # main() で決める（トップだけ読む見本の CSS）
 
 
 def head(fname, title, desc):
@@ -180,16 +186,14 @@ def head(fname, title, desc):
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <link rel="stylesheet" href="assets/style.css?v={ASSET_V}">
-{EWL_HEAD if fname == 'index.html' else ''}</head>'''
+{TOP_CSS if fname == 'index.html' else ''}{EWL_HEAD if fname == 'index.html' else ''}</head>'''
 
 
 def header(fname):
     items = []
-    for f, name, _en, in_head, _d in PAGES:
-        if not in_head:
-            continue
+    for f in HEAD_NAV:
         cur = ' aria-current="page"' if f == fname else ''
-        items.append(f'<li><a href="{f}"{cur}>{name}</a></li>')
+        items.append(f'<li><a href="{f}"{cur}>{PAGE[f][1]}</a></li>')
     drawer = []
     for f, name, _en, _h, _d in PAGES:
         cur = ' aria-current="page"' if f == fname else ''
@@ -202,11 +206,11 @@ def header(fname):
 <a class="skip" href="#main">本文へ移動</a>
 {draft}<header class="hd{' hd-ovl' if fname == 'index.html' else ''}">
 <div class="hd-in">
-<a class="logo" href="index.html" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
+<a class="logo" href="index.html" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span><small class="logo-en" lang="en">MARUSHIN</small></a>
 <nav class="gnav" aria-label="メインメニュー"><ul>
 {''.join(items)}
 </ul></nav>
-<a class="btn btn-teal hd-cta" href="contact.html">{ic("mail")}お問い合わせ</a>
+<a class="btn btn-teal hd-cta" href="{TEL_HREF}">{ic("phone")}お電話<span class="hd-tel">&nbsp;{TEL}</span></a>
 <button class="burger" type="button" aria-expanded="false" aria-controls="drawer" aria-label="メニューを開く"><span></span><span></span><span></span></button>
 </div>
 <nav class="drawer" id="drawer" aria-label="すべてのページ" hidden>
@@ -244,7 +248,7 @@ def footer(fname):
 <footer class="ft">
 <div class="ft-in">
 <div class="ft-brand">
-<a class="logo logo-w" href="index.html" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
+<a class="logo logo-w" href="index.html" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span><small class="logo-en" lang="en">MARUSHIN</small></a>
 <address>〒{POSTAL} {ADDRESS}<br>TEL {TEL}　FAX {FAX}</address>
 </div>
 <nav class="ft-nav" aria-label="フッターメニュー"><ul>
@@ -325,23 +329,71 @@ def qa_html(item, n):
 
 # ---------- 各ページ ----------
 
+# 見本と同じ線の絵（トップの帯・できること・流れ）
+MI = {
+    'check': '<circle cx="12" cy="12" r="8.5"/><path d="m8.3 12.2 2.6 2.6 4.9-5"/>',
+    'chat': '<path d="M4.5 5.5h15v10h-8l-4 3.5v-3.5h-3z"/><path d="M8.5 9.5h7M8.5 12h4.5"/>',
+    'doc': '<path d="M7 3.5h7l4 4V20.5H7z"/><path d="M14 3.5v4h4M9.5 12h6M9.5 15.5h6"/>',
+    'phone': '<path d="M6.5 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.2 6.2l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2z"/>',
+    'home': '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 9.8V20h13V9.8"/><path d="M10 20v-5.5h4V20"/>',
+    'tool': '<path d="M14.5 6.5a4 4 0 0 0 5 5L11 20a2.1 2.1 0 0 1-3-3l8.5-8.5"/><path d="M14.5 6.5 17 4l3 3-2.5 2.5"/>',
+    'voice': '<path d="M4.5 5.5h15v10h-8l-4 3.5v-3.5h-3z"/><path d="M8.5 9.5h7M8.5 12h4.5"/>',
+}
+
+
+def mi(name):
+    return (f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" '
+            f'stroke-linejoin="round" aria-hidden="true">{MI[name]}</svg>')
+
+
 def page_index():
-    company, works, flow, voice, faq = load('company.json'), load('works.json'), load('flow.json'), load('voice.json'), load('faq.json')
-    cards = [
-        ('chat', '解体専門の会社へ直接ご相談', '地域に根付いた解体専門の業者です。下請業者に発注するわけではありませんので、中間マージンが発生しません。'),
-        ('users', '近隣への配慮', '工事前には必ず、近隣へ誠意を持って丁寧なご挨拶を行ったうえで解体工事を行います。万が一トラブルが発生した際も、速やかに対処いたします。'),
-        ('greet', '工事前後のご挨拶', '解体工事の完了後にも、再度ご近所様へご挨拶をおこないます。「本当にご迷惑はなかったか？」を確認するためです。'),
+    """トップ。並びと見た目は営業用の見本（ewc-proposals/marushin-kaitai/）と同じ（2026-11-16 松本さん）。
+    最初の画面とヘッダー・冒頭の演出は作り直しのもの。中身（.mh の中）は見本の CSS（src/top.css）で見せる。
+    写真はどれもイメージ（当社で用意したもの）。丸信さんの写真が届いたら差し替える。"""
+    company, flow = load('company.json'), load('flow.json')
+    prof = {r['k']: r for r in company['profile']}
+    permit = company['permits'][0]
+    # できること：見本と同じ6枚（写真・写真・絵・写真・絵・写真）。各ページへつなぐ
+    svc = [
+        ('about.html', '建物の解体', '木造・鉄骨造・鉄筋コンクリート造まで。', 'images/hero.jpg', None),
+        ('price.html', '料金案内', '構造ごとの費用の目安。', 'images/top/ai-c-estimate.jpg', None),
+        ('flow.html', '施工の流れ', 'ご相談から工事後のご挨拶まで。', None, 'doc'),
+        ('case.html', '施工事例', '丸信が施工した解体工事。', 'images/case/01-after.jpg', None),
+        ('voice.html', 'お客様の声', '工事を終えた方のお言葉。', None, 'voice'),
+        ('faq.html', 'よくある質問', '見積り・近隣・手続きのこと。', 'images/top/ai-c-handover.jpg', None),
     ]
-    cards_html = ''.join(f'<li><span class="circ">{ic(i, "ic-l")}</span><h3>{t}</h3><p>{p}</p></li>' for i, t, p in cards)
-    works_html = ''.join(work_card(w) for w in works[:3])
-    steps = ''.join(f'<li><span class="circ">{ic(s["icon"], "ic-l")}</span><span class="fm-n">{i:02d}</span><span class="fm-t">{esc(s["short"])}</span></li>'
-                    for i, s in enumerate(flow, 1))
-    voices = ''.join(f'<li><span class="vq">{esc(v["title"])}</span><span class="vw">{esc(v["who"])}</span></li>' for v in voice)
-    top_faq = [(n, it) for n, it in enumerate(faq['items'], 1) if it.get('top')]
-    faq_html = ''.join(qa_html(it, n) for n, it in top_faq)
+    cards = ''.join(
+        f'<a class="m-card m-pc" href="{href}">'
+        + (f'<div class="m-cph m-ph" style="background-image:url({img})"></div>' if img else f'<div class="m-cph m-ci">{mi(icon)}</div>')
+        + f'<div class="m-cb"><h3>{t}</h3><p>{d}</p></div></a>'
+        for href, t, d, img, icon in svc)
+    # 流れ：見本と同じ4段。施工の流れ（10段階）から主なものを選んで、題は data のまま
+    pick = [(0, 'phone'), (1, 'doc'), (5, 'home'), (6, 'tool')]
+    steps = ''.join(
+        f'<div class="m-step"><span class="m-si">{mi(icon)}</span><span class="m-sn">{n:02d}</span>'
+        f'<h3>{esc(flow[i]["short"])}</h3><p>{esc(flow[i]["title"])}</p></div>'
+        for n, (i, icon) in enumerate(pick, 1))
+    addr = prof['住所']
+    rows = [
+        ('商号', esc(prof['商号']['v'][0])),
+        ('所在地', esc(' '.join(addr['v']))),   # 郵便番号と許可番号の「要確認」は会社案内のページに出している（二重にしない）
+        ('電話', f'<a href="{TEL_HREF}">{TEL}</a>'),
+        ('事業内容', '建物の解体工事（木造・鉄骨造・鉄筋コンクリート造・店舗・事務所など）'),
+        ('許可・登録', '<br>'.join(esc(x) for x in permit['v'])),
+    ]
+    table = ''.join(f'<tr><th>{k}</th><td>{v}</td></tr>' for k, v in rows)
+    # 地図の枠は会社案内のページの仮枠と同じもの（一覧には会社案内の分だけ載せる）。公開用には出さない
+    mapbox = '' if RELEASE else '<div class="m-mapbox"><b>地図が入ります</b>住所の確認が済んでから入れます</div>'
+    tex = ('<svg class="m-tex m-ctex" aria-hidden="true"><defs><pattern id="tx2" width="64" height="64" patternUnits="userSpaceOnUse">'
+           '<g stroke="rgba(255,255,255,.18)" stroke-width="1.6"><line x1="10" y1="0" x2="10" y2="64"/><line x1="42" y1="0" x2="42" y2="64"/>'
+           '<line x1="0" y1="20" x2="64" y2="20"/><line x1="0" y1="52" x2="64" y2="52"/></g>'
+           '<g stroke="rgba(255,255,255,.09)" stroke-width="1.2"><line x1="10" y1="20" x2="42" y2="52"/><line x1="42" y1="20" x2="10" y2="52"/></g>'
+           '</pattern></defs><rect width="100%" height="100%" fill="url(#tx2)"/></svg>')
     return f'''<section class="hero">
 <div class="hero-ph">
 <picture><source media="(max-width:767px)" srcset="images/hero-sp.jpg"><img class="hero-img" src="images/hero.jpg" alt="" width="1600" height="1066" fetchpriority="high"></picture>
+<i class="hero-sl" style="background-image:url(images/top/ai-doboku-1.jpg);animation-delay:5s"></i>
+<i class="hero-sl" style="background-image:url(images/top/ai-c-estimate.jpg);animation-delay:11s"></i>
 <p class="img-note">写真はイメージです</p>
 </div>
 <div class="hero-in">
@@ -351,76 +403,62 @@ def page_index():
 <p class="hero-en" lang="en" aria-hidden="true">MARUSHIN</p>
 <div class="hero-btns">
 <a class="btn btn-teal btn-lg" href="contact.html">{ic("mail")}無料相談</a>
-<a class="btn btn-ghost btn-lg" href="case.html">施工事例を見る{ic("chev")}</a>
+<a class="btn btn-ghost btn-lg" href="#works">できることを見る{ic("chev")}</a>
 </div>
 </div>
 <span class="hero-scroll" aria-hidden="true">scroll</span>
 </section>
 
-<section class="sec sec-lift">
-<div class="wrap">
-<div class="lift">
-{h2c('丸信の解体工事について')}
-<p class="lead">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、建築様式を問わず解体工事が可能です。</p>
-</div>
-</div>
-</section>
-
-<section class="sec sec-pale sec-tight" aria-labelledby="h-torikumi">
-<div class="wrap">
-<h2 class="vh" id="h-torikumi">丸信の取り組み</h2>
-<ul class="cards3">{cards_html}</ul>
-<p class="center mt-l">{more('about.html', '丸信について詳しく見る')}</p>
-</div>
-</section>
-
-<section class="sec">
-<div class="wrap">
-{h2c('施工事例', '株式会社丸信にて施工を行いました事例をご紹介します。')}
-<div class="works works-3">{works_html}</div>
-<p class="center mt-l">{more('case.html', '施工事例を見る')}</p>
-</div>
-</section>
-
-<section class="band band-raise" aria-labelledby="h-price">
-<div class="wrap"><div class="band-in">
-<h2 class="band-ttl" id="h-price">料金案内</h2>
-<p class="band-tx">木造・鉄骨造・鉄筋コンクリート造の解体工事と、庭木伐採・ブロック塀などその他の料金表を掲載しています。</p>
-{more('price.html', '料金案内を見る')}
+<div class="mh">
+<div class="m-wrap m-lift"><div class="m-stats m-pts">
+<div><span class="m-pi">{mi('check')}</span><span class="m-pt"><b>春日井<i>小牧</i></b><small>尾張旭・瀬戸・名古屋も</small></span></div>
+<div><span class="m-pi">{mi('check')}</span><span class="m-pt"><b>料金<i>表</i></b><small>を載せています</small></span></div>
+<div><span class="m-pi">{mi('chat')}</span><span class="m-pt"><b>解体<i>工事</i></b><small>相談室</small></span></div>
 </div></div>
-</section>
 
-<section class="sec">
-<div class="wrap">
-{h2c('施工の流れ', 'ご相談から工事完了後のご挨拶までの、主な流れです。')}
-<ol class="flowmini">{steps}</ol>
-<p class="center mt-l">{more('flow.html', '施工の流れを見る')}</p>
+<section id="works">
+<div class="m-wrap">
+<div class="m-sechead"><span class="m-en" lang="en">SERVICE</span>
+<h2>できること</h2><p><span class="m-cp">解体のことを</span><span class="m-cp">わかりやすく</span></p></div>
+<div class="m-cards">{cards}</div>
 </div>
 </section>
 
-<section class="band band-raise" aria-labelledby="h-voice">
-<div class="wrap"><div class="band-in">
-<h2 class="band-ttl" id="h-voice">お客様の声</h2>
-<ul class="band-voices">{voices}</ul>
-{more('voice.html', 'お客様の声を見る')}
-</div></div>
-</section>
-
-<section class="sec sec-area">
-<div class="wrap">
-{h2c('対応エリア')}
-{area_html(company)}
-<p class="lead">上記の対応エリア以外にも柔軟に対応させていただきます。まずはお気軽にお問い合わせください。</p>
+<section class="m-alt m-about" id="about">
+<div class="m-wrap m-abrow"><div class="m-abph m-ph" style="background-image:url(images/top/ai-o-yard.jpg)"><span class="m-cap">イメージ写真</span></div>
+<div class="m-abtx"><span class="m-en" lang="en">ABOUT US</span><h2><span class="m-cp">春日井市の</span><span class="m-cp">丸信</span></h2>
+<p>当社は愛知県春日井市を中心に解体工事を承っています。</p>
+<p>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、建築様式を問わず解体工事が可能です。</p>
+<a class="m-btn m-p" href="about.html">丸信について</a></div>
 </div>
 </section>
 
-<section class="sec sec-pale">
-<div class="wrap wrap-s">
-{h2c('よくある質問')}
-<div class="qas">{faq_html}</div>
-<p class="center mt-m"><a class="tlink" href="faq.html">よくある質問をすべて見る{ic("chev")}</a></p>
+<section id="flow">
+<div class="m-wrap">
+<div class="m-sechead"><span class="m-en" lang="en">FLOW</span>
+<h2>ご相談から完了まで</h2></div>
+<div class="m-flow">{steps}</div>
 </div>
-</section>'''
+</section>
+
+<section class="m-alt" id="company">
+<div class="m-wrap">
+<div class="m-sechead"><span class="m-en" lang="en">COMPANY</span><h2>会社概要</h2></div>
+<div class="m-cgrid{' m-nomap' if RELEASE else ''}"><table class="m-info">{table}</table>
+{mapbox}</div>
+</div>
+</section>
+
+<div class="m-contact m-tx" id="contact">
+{tex}
+<h2><span class="m-cp">まずはお電話ください</span></h2>
+<p>小さなご相談でも構いません。</p>
+<a class="m-big" href="{TEL_HREF}">{TEL}</a><small>{HOURS}</small><div><a class="m-btn m-w" href="{TEL_HREF}">電話をかける</a></div>
+<p class="m-note"><a href="contact.html">お問い合わせフォームはこちら</a></p>
+</div>
+
+<a class="m-badge" href="contact.html" aria-label="お問い合わせ"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="bc" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#bc">CONTACT · CONTACT · CONTACT · </textPath></text></svg><span>ご相談<br>ください</span></a>
+</div>'''
 
 
 def page_about():
@@ -847,7 +885,7 @@ def write(rel, text):
 
 
 def main():
-    global RELEASE, SITE, SITE_URL, ASSET_V, CUR
+    global RELEASE, SITE, SITE_URL, ASSET_V, CUR, TOP_CSS
     ap = argparse.ArgumentParser()
     ap.add_argument('--release', action='store_true', help='公開用を dist/ に書き出す')
     ap.add_argument('--site-url', default='', help='公開URL（canonical に使う。末尾の / なし）')
@@ -861,13 +899,16 @@ def main():
 
     css = (SRC / 'style.css').read_text(encoding='utf-8')
     js = (SRC / 'main.js').read_text(encoding='utf-8')
-    ASSET_V = hashlib.md5((css + js).encode('utf-8')).hexdigest()[:8]
+    top = (SRC / 'top.css').read_text(encoding='utf-8')
+    ASSET_V = hashlib.md5((css + js + top).encode('utf-8')).hexdigest()[:8]
+    TOP_CSS = f'<link rel="stylesheet" href="assets/top.css?v={ASSET_V}">\n'
     write('assets/style.css', css)
+    write('assets/top.css', top)
     write('assets/main.js', js)
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname != 'contact.html')))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():

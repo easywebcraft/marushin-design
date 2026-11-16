@@ -72,6 +72,34 @@
   window.addEventListener('hashchange', openFromHash);
   openFromHash();
 
+  // ---- トップの中身（.mh）がスクロールで現れる動き。営業用の見本と同じ（2026-11-16） ----
+  //   画面の下1割より上に入ったら出す。同じ並びで同時に入ったものは 0.1秒ずつずらす。冒頭の演出の幕が透けるまでは見張らない
+  (function () {
+    var r = document.documentElement, mh = document.querySelector('.mh');
+    window.__mhAnim = 1;   // head の保険（4秒で隠すのをやめる）に、動いたと伝える
+    if (!mh) { r.classList.remove('anim'); return; }
+    var units = [].slice.call(mh.querySelectorAll('.m-stats > *,.m-sechead,.m-cards > *,.m-flow > *,.m-info,.m-mapbox,.m-abph,.m-abtx'));
+    var show = function (el) { el.classList.add('m-on'); };
+    if (!('IntersectionObserver' in window)) { units.forEach(show); return; }
+    var io = new IntersectionObserver(function (es) {
+      var hit = es.filter(function (x) { return x.isIntersecting; }).map(function (x) { return x.target; });
+      hit.sort(function (a, b) { var p = a.getBoundingClientRect(), q = b.getBoundingClientRect(); return (p.top - q.top) || (p.left - q.left); });
+      var rows = [], n = [];
+      hit.forEach(function (el) {
+        var k = rows.indexOf(el.parentNode);
+        if (k < 0) { k = rows.push(el.parentNode) - 1; n[k] = 0; }
+        el.style.animationDelay = (Math.min(n[k]++, 5) * 0.1) + 's';
+        show(el); io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
+    var start = function () { units.forEach(function (el) { io.observe(el); }); };
+    var veiled = function () { return r.classList.contains('ewl-on') && !r.classList.contains('ewl-go'); };
+    if (veiled()) {
+      var mo = new MutationObserver(function () { if (!veiled()) { mo.disconnect(); start(); } });
+      mo.observe(r, { attributes: true, attributeFilter: ['class'] });
+    } else start();
+  })();
+
   // ---- 冒頭の演出（トップだけ）：輪が満ちたら、中央の社名がヘッダーの社名の位置へ移る ----
   (function () {
     var r = document.documentElement, L = document.getElementById('ewl');
