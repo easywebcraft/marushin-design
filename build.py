@@ -334,9 +334,9 @@ def page_index():
     company, works, flow, voice, faq = load('company.json'), load('works.json'), load('flow.json'), load('voice.json'), load('faq.json')
     # 丸信の取り組み（2026-11-17 松本さんのデザイン案のとおり。文は今のサイトの3項目を言い換えたもの）
     cards = [
-        ('解体専門の会社に、<br>直接相談。', '地域に根付いた解体専門の会社です。下請業者への発注による中間マージンが発生しません。'),
-        ('着工前から、<br>近隣に配慮。', '工事前には、近隣の皆様へ丁寧にご挨拶。万が一のトラブルにも、速やかに対応いたします。'),
-        ('工事が終わっても、<br>丁寧に。', '工事完了後も、改めてご近所へご挨拶。ご迷惑がなかったかを確認することまで、大切にしています。'),
+        ('解体専門の会社に<br>直接相談', '地域に根付いた解体専門の会社です。下請業者への発注による中間マージンが発生しません。'),
+        ('着工前から<br>近隣に配慮', '工事前には、近隣の皆様へ丁寧にご挨拶。万が一のトラブルにも、速やかに対応いたします。'),
+        ('工事が終わっても<br>丁寧に', '工事完了後も、改めてご近所へご挨拶。ご迷惑がなかったかを確認することまで、大切にしています。'),
     ]
     cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
@@ -404,7 +404,7 @@ def page_index():
 <div class="wrap">
 <div class="cm-head">
 <div><p class="cm-en" lang="en">OUR COMMITMENT</p>
-<h2 class="cm-ttl" id="h-torikumi">解体の前も、後も。<br>安心につながる、丸信の取り組み。</h2></div>
+<h2 class="cm-ttl" id="h-torikumi">解体の前も後も<br>安心につながる丸信の取り組み</h2></div>
 </div>
 <ol class="cm">{cards_html}</ol>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="outline.html">丸信の会社案内を見る{ic("chev")}</a></p>
@@ -433,7 +433,7 @@ def page_index():
 <section class="sec fl-sec" aria-labelledby="h-flow">
 <div class="wrap">
 <div class="fl-head"><p class="cm-en" lang="en">FLOW</p>
-<h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで。</h2></div>
+<h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで</h2></div>
 <ol class="fl">{steps}</ol>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="flow.html">施工の流れを詳しく見る{ic("chev")}</a></p>
 </div>
@@ -449,7 +449,7 @@ def page_index():
 
 <section class="sec ar-sec" aria-labelledby="h-area">
 <div class="wrap t-two">
-<div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に、近隣エリアへ。</p></div>
+<div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に近隣エリアへ</p></div>
 <div><dl class="ar">{area_rows}</dl>
 <p class="ar-note">{esc(company["area_note"])}。上記の対応エリア以外にも柔軟に対応させていただきます。まずはお気軽にお問い合わせください。</p></div>
 </div>
@@ -514,7 +514,7 @@ def page_about():
 {intro_fr}
 <div class="intro-tx">
 <h2 class="h2l">解体工事への想い</h2>
-<p class="intro-lead">一番大切なことは、<br>ご近所様への気配りだと考えています。</p>
+<p class="intro-lead">一番大切なことは<br>ご近所様への気配りだと考えています</p>
 <p>今後も住み続ける、お客様の事を考えた時、一番大切なことはご近所様への気配りだと思います。</p>
 <p>ご近所様へのご挨拶に始まり、解体工事専門としての熟練された技術と、職人一人ひとりがご近所にご迷惑をかけているという気持ちを持って作業をおこないます。</p>
 <p>気配りには絶対の自信があります。どうぞ安心してご相談ください。</p>
