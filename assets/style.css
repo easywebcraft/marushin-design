@@ -905,3 +905,16 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .pr-band.has-wm::before{top:50%;left:auto;right:max(var(--gut),calc(50% - var(--w)/2));transform:translateY(-50%);font-size:clamp(56px,8vw,110px)}
 .ct-band.has-wm::before{color:#fff;opacity:.06}
 @media (max-width:767px){.has-wm::before{top:22px;font-size:56px}.pr-band.has-wm::before{font-size:48px;top:22px;transform:none}}
+
+/* ========== トップの奥行き（2026-11-17 松本さん「もう少し奥行き感だせる？」） ==========
+   1. 各部分を重なった紙のように：上の部分の下端に影を落とし、下の部分がその下にもぐって見える
+   2. 薄い青の部分は、上が明るく下が少し濃いグラデーションで、くぼんだ面に
+   3. 大きな薄い英字は、下へ進むと本文よりゆっくり動く（JS。動きを減らす設定では動かない） */
+.ab-band,.cm-sec,.wk-sec,.pr-band,.fl-sec,.vc-sec,.ar-sec,.fq-sec{position:relative}
+.cm-sec,.wk-sec,.pr-band,.fl-sec,.vc-sec,.ar-sec,.fq-sec,.ct-band{box-shadow:inset 0 14px 18px -12px rgba(18,31,52,.16)}
+.cm-sec,.pr-band,.vc-sec,.fq-sec{background:linear-gradient(180deg,#eef5f9 0%,var(--pale) 55%,#dde9f0 100%)}
+.wk-sec,.fl-sec,.ar-sec{background:linear-gradient(180deg,#fff 0%,#fff 70%,#f7fafc 100%)}
+.has-wm::before{transform:translate3d(0,var(--wmy,0px),0);will-change:transform;
+  text-shadow:0 1px 0 rgba(255,255,255,.6)}
+.pr-band.has-wm::before{transform:translate3d(0,calc(-50% + var(--wmy,0px)),0)}
+@media (max-width:767px){.pr-band.has-wm::before{transform:translate3d(0,var(--wmy,0px),0)}}

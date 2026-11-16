@@ -279,3 +279,25 @@
   update();
   setInterval(update, 60000);
 })();
+
+// ---- トップの奥行き：大きな薄い英字を、下へ進むと本文よりゆっくり動かす（2026-11-17） ----
+(function () {
+  var secs = [].slice.call(document.querySelectorAll('.has-wm'));
+  if (!secs.length || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+  var ticking = false;
+  var update = function () {
+    ticking = false;
+    var vh = window.innerHeight;
+    secs.forEach(function (s) {
+      var r = s.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      // 部分の上端が画面の下端にあるとき +40px、画面の上端に来たとき 0 → さらに進むと上へ
+      var y = Math.max(-60, Math.min(60, r.top / vh * 40));
+      s.style.setProperty('--wmy', y.toFixed(1) + 'px');
+    });
+  };
+  var req = function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', req, { passive: true });
+  window.addEventListener('resize', req);
+  update();
+})();
