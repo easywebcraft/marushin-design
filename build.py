@@ -340,7 +340,16 @@ def page_index():
     ]
     cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
-    works_html = ''.join(work_card(w) for w in works[:3])
+    # 施工事例（2026-11-17 松本さんのデザイン案）：番号・施工前後の写真・構造の札・場所・題。トップだけの見せ方（施工事例のページは work_card のまま）
+    def wk(n, w):
+        title = f'{esc(w["place"])} {esc(w["name"])}'
+        kind = f'<span class="wk-kind">{esc(w["type"])}</span>' if w['type'] else ''
+        note = f'<p class="wk-note">{esc(w["note"])}</p>' if w['note'] else ''
+        return (f'<li><p class="wk-n">{n:02d}</p><div class="wk-ph">'
+                f'<figure><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="208" height="156" loading="lazy" decoding="async"><figcaption>施工前</figcaption></figure>'
+                f'<figure><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="268" height="201" loading="lazy" decoding="async"><figcaption class="after">施工後</figcaption></figure>'
+                f'</div>{kind}<p class="wk-place">{esc(w["place"])}</p><h3 class="wk-ttl">{esc(w["name"])} 解体工事</h3>{note}</li>')
+    works_html = ''.join(wk(n, w) for n, w in enumerate(works[:3], 1))
     # 施工の流れ（2026-11-17 松本さんのデザイン案）：10段階を4つのまとまりで。中身は施工の流れのページ（data/flow.json）のとおり
     fl_icons = {
         'chat': '<path d="M24 8c10.5 0 19 6.4 19 14.3S34.5 36.6 24 36.6c-2.1 0-4.1-.3-6-.8L9.5 40.5l1.9-7.3C7.4 30.6 5 26.7 5 22.3 5 14.4 13.5 8 24 8z"/>'
@@ -403,11 +412,14 @@ def page_index():
 </div>
 </section>
 
-<section class="sec">
+<section class="sec wk-sec" aria-labelledby="h-works">
 <div class="wrap">
-{h2c('施工事例', '株式会社丸信にて施工を行いました事例をご紹介します。')}
-<div class="works works-3">{works_html}</div>
-<p class="center mt-l">{more('case.html', '施工事例を見る')}</p>
+<div class="cm-head wk-head">
+<div><p class="cm-en" lang="en">WORKS</p><h2 class="wk-ttl-h" id="h-works">施工事例</h2></div>
+<p class="cm-lead">丸信が手がけた解体工事を、<br>施工前・施工後の写真でご紹介します。</p>
+</div>
+<ol class="wk">{works_html}</ol>
+<p class="center cm-more"><a class="btn btn-navy cm-btn" href="case.html">施工事例をもっと見る<svg class="cm-arw" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h29M23 1.5 30 8l-7 6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
 </div>
 </section>
 
