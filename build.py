@@ -345,8 +345,9 @@ def page_index():
         title = f'{esc(w["place"])} {esc(w["name"])}'
         kind = f'<span class="wk-kind">{esc(w["type"])}</span>' if w['type'] else ''
         note = f'<p class="wk-note">{esc(w["note"])}</p>' if w['note'] else ''
-        return (f'<li><p class="wk-n">{n:02d}</p><div class="wk-ph">'
+        return (f'<li><div class="wk-ph">'
                 f'<figure><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="208" height="156" loading="lazy" decoding="async"><figcaption>施工前</figcaption></figure>'
+                f'<span class="wk-arw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13M6.5 12.5 12 18l5.5-5.5"/></svg></span>'
                 f'<figure><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="268" height="201" loading="lazy" decoding="async"><figcaption class="after">施工後</figcaption></figure>'
                 f'</div>{kind}<p class="wk-place">{esc(w["place"])}</p><h3 class="wk-ttl">{esc(w["name"])} 解体工事</h3>{note}</li>')
     works_html = ''.join(wk(n, w) for n, w in enumerate(works[:3], 1))
@@ -412,12 +413,12 @@ def page_index():
 
 <section class="sec wk-sec" aria-labelledby="h-works">
 <div class="wrap">
-<div class="cm-head wk-head">
+<div class="wk-head">
 <div><p class="cm-en" lang="en">WORKS</p><h2 class="wk-ttl-h" id="h-works">施工事例</h2></div>
-<p class="cm-lead">丸信が手がけた解体工事を、<br>施工前・施工後の写真でご紹介します。</p>
+<p class="wk-lead">これまでに手がけた解体工事の一例をご紹介します。<br>木造・鉄骨造・鉄筋コンクリート造など、さまざまな建物に対応しています。</p>
 </div>
 <ol class="wk">{works_html}</ol>
-<p class="center cm-more"><a class="btn btn-navy cm-btn" href="case.html">施工事例をもっと見る<svg class="cm-arw" viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h29M23 1.5 30 8l-7 6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+<p class="center cm-more"><a class="btn btn-navy cm-btn" href="case.html">施工事例をもっと見る{ic("chev")}</a></p>
 </div>
 </section>
 
