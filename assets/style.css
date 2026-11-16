@@ -890,3 +890,18 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .fl-note{margin-top:14px;color:var(--mute);font-size:12px;text-align:right}
 @media (max-width:1023px){.fl>li:nth-child(2) .fl-arw{display:none}}
 @media (max-width:767px){.fl-arw{display:none}.fl-phw{margin-top:12px}}
+
+/* ========== トップの部分の切り替えをわかりやすく（2026-11-17 松本さん「各セクションの切り替えが分かりづらい」：案1と2） ==========
+   1. 背景を白と薄い青で交互に（白が続くところをなくす）：帯 白 → 取り組み 青 → 事例 白 → 料金 青 → 流れ 白 → 声 青 → エリア 白 → 質問 青 → 相談 紺
+   2. 各部分の見出しの後ろに、大きな薄い英字を敷く */
+.cm-sec,.pr-band,.vc-sec,.fq-sec{background:var(--pale)}
+.wk-sec,.fl-sec,.ar-sec{background:#fff}
+.has-wm{position:relative;overflow:hidden}
+.has-wm>*{position:relative;z-index:1}
+.has-wm::before{content:attr(data-wm);position:absolute;z-index:0;top:30px;left:max(var(--gut),calc(50% - var(--w)/2 - 6px));
+  font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-weight:700;font-size:clamp(64px,10vw,140px);line-height:1;
+  letter-spacing:.04em;color:var(--navy);opacity:.05;white-space:nowrap;pointer-events:none}
+/* 料金案内は帯が低いので、右寄りに縦の真ん中で */
+.pr-band.has-wm::before{top:50%;left:auto;right:max(var(--gut),calc(50% - var(--w)/2));transform:translateY(-50%);font-size:clamp(56px,8vw,110px)}
+.ct-band.has-wm::before{color:#fff;opacity:.06}
+@media (max-width:767px){.has-wm::before{top:22px;font-size:56px}.pr-band.has-wm::before{font-size:48px;top:22px;transform:none}}

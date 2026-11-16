@@ -394,7 +394,7 @@ def page_index():
 </div>
 </section>
 
-<section class="sec cm-sec" aria-labelledby="h-torikumi">
+<section class="sec cm-sec has-wm" data-wm="COMMITMENT" aria-labelledby="h-torikumi">
 <div class="wrap">
 <div class="cm-head">
 <div><p class="cm-en" lang="en">OUR COMMITMENT</p>
@@ -405,7 +405,7 @@ def page_index():
 </div>
 </section>
 
-<section class="sec wk-sec" aria-labelledby="h-works">
+<section class="sec wk-sec has-wm" data-wm="WORKS" aria-labelledby="h-works">
 <div class="wrap">
 <div class="wk-head">
 <div><p class="cm-en" lang="en">WORKS</p><h2 class="wk-ttl-h" id="h-works">施工事例</h2></div>
@@ -416,7 +416,7 @@ def page_index():
 </div>
 </section>
 
-<section class="pr-band" aria-labelledby="h-price">
+<section class="pr-band has-wm" data-wm="PRICE" aria-labelledby="h-price">
 <div class="wrap pr-in">
 <div class="pr-h"><p class="cm-en" lang="en">PRICE</p><h2 class="t-ttl" id="h-price">料金案内</h2></div>
 <p class="pr-tx">木造・鉄骨造・鉄筋コンクリート造の解体工事と、<br>庭木伐採・ブロック塀などその他の料金表を掲載しています。</p>
@@ -424,7 +424,7 @@ def page_index():
 </div>
 </section>
 
-<section class="sec fl-sec" aria-labelledby="h-flow">
+<section class="sec fl-sec has-wm" data-wm="FLOW" aria-labelledby="h-flow">
 <div class="wrap">
 <div class="fl-head"><p class="cm-en" lang="en">FLOW</p>
 <h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで</h2></div>
@@ -434,7 +434,7 @@ def page_index():
 </div>
 </section>
 
-<section class="sec vc-sec" aria-labelledby="h-voice">
+<section class="sec vc-sec has-wm" data-wm="VOICE" aria-labelledby="h-voice">
 <div class="wrap">
 <p class="cm-en" lang="en">VOICE</p><h2 class="t-ttl" id="h-voice">お客様の声</h2>
 <ul class="vc">{voices}</ul>
@@ -442,7 +442,7 @@ def page_index():
 </div>
 </section>
 
-<section class="sec ar-sec" aria-labelledby="h-area">
+<section class="sec ar-sec has-wm" data-wm="AREA" aria-labelledby="h-area">
 <div class="wrap t-two">
 <div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に近隣エリアへ</p></div>
 <div><dl class="ar">{area_rows}</dl>
@@ -450,7 +450,7 @@ def page_index():
 </div>
 </section>
 
-<section class="sec fq-sec" aria-labelledby="h-faq">
+<section class="sec fq-sec has-wm" data-wm="FAQ" aria-labelledby="h-faq">
 <div class="wrap t-two">
 <div><p class="cm-en" lang="en">FAQ</p><h2 class="t-ttl" id="h-faq">よくある質問</h2></div>
 <div><div class="qas fq">{faq_html}</div>
@@ -458,7 +458,7 @@ def page_index():
 </div>
 </section>
 
-<section class="ct-band" aria-labelledby="h-contact">
+<section class="ct-band has-wm" data-wm="CONTACT" aria-labelledby="h-contact">
 <div class="wrap ct-in">
 <div class="ct-l"><p class="cm-en" lang="en">CONTACT</p><h2 class="ct-ttl" id="h-contact">解体工事のご相談はこちら</h2>
 <a class="ct-tel" href="{TEL_HREF}">{ic("phone")}<span>{TEL}</span></a>
