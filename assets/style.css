@@ -927,3 +927,39 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .wk-ph figcaption{top:-1px;left:-1px}
 .wk-arw{z-index:2;width:44px;height:44px;margin:-22px 0 0 -22px;
   box-shadow:0 2px 4px rgba(23,53,75,.12),0 8px 18px rgba(23,53,75,.22)}
+
+/* ========== 求人の案内（トップだけ・2026-11-17 松本さん「スクロールしたらすぐ出る求人リンク」） ==========
+   少し下へ動かすと右下（スマホは画面の下、電話の帯の上）に出る。× で閉じると、その訪問のあいだは出さない */
+.rq{position:fixed;right:24px;bottom:24px;z-index:58;width:300px;max-width:calc(100vw - 32px);
+  opacity:0;transform:translate3d(0,24px,0);transition:opacity .45s cubic-bezier(.33,1,.68,1),transform .55s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.rq.is-on{opacity:1;transform:none;pointer-events:auto}
+.rq-in{display:block;overflow:hidden;border-radius:12px;background:var(--navy);color:#fff;text-decoration:none;text-align:center;
+  box-shadow:0 4px 10px rgba(18,31,52,.22),0 18px 44px rgba(18,31,52,.32)}
+.rq-in:hover{color:#fff}
+.rq-tag{display:inline-block;margin:16px 0 0;padding:3px 26px 3px 18px;background:var(--teal-d);font-weight:700;font-size:14px;letter-spacing:.1em;
+  clip-path:polygon(0 0,100% 0,calc(100% - 10px) 50%,100% 100%,0 100%);float:left}
+.rq-co{clear:both;padding-top:14px;font-family:var(--serif);font-size:15px;letter-spacing:.1em;opacity:.9}
+.rq-ttl{margin-top:2px;font-family:var(--serif);font-weight:700;font-size:30px;line-height:1.3;letter-spacing:.12em}
+.rq-sub{margin:6px 22px 0;padding:4px 0;border-top:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);font-size:13px;letter-spacing:.1em}
+.rq-ph{position:relative;display:block;margin-top:14px}
+.rq-ph img{display:block;width:100%;height:130px;object-fit:cover}
+.rq-ph small{position:absolute;right:6px;bottom:4px;padding:0 6px;background:rgba(18,31,52,.6);font-size:10px;border-radius:2px}
+.rq-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:#fff;color:var(--navy);font-weight:700;font-size:15px}
+.rq-btn small{font-weight:400;font-size:11px}
+.rq-btn .ic{width:14px;height:14px}
+.rq-x{position:absolute;top:-14px;right:-14px;z-index:1;display:grid;place-items:center;width:36px;height:36px;padding:0;border:2px solid #fff;border-radius:50%;
+  background:var(--navy);color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.rq-x svg{width:18px;height:18px}
+@media (max-width:767px){
+  .rq{right:12px;left:12px;bottom:calc(76px + env(safe-area-inset-bottom));width:auto;max-width:none}
+  .rq-in{display:grid;grid-template-columns:110px 1fr;text-align:left}
+  .rq-tag,.rq-co,.rq-sub{display:none}
+  .rq-ph{grid-row:1/3;margin:0}
+  .rq-ph img{height:100%;min-height:96px}
+  .rq-ph small{display:none}
+  .rq-ttl{padding:12px 14px 0;font-size:20px}
+  .rq-btn{justify-content:flex-start;padding:4px 14px 12px;background:none;color:#fff;font-size:13px}
+  .rq-x{top:-12px;right:-6px;width:32px;height:32px}
+}
+@media (prefers-reduced-motion:reduce){.rq{transition:none}}
+@media print{.rq{display:none!important}}

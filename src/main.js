@@ -301,3 +301,25 @@
   window.addEventListener('resize', req);
   update();
 })();
+
+// ---- 求人の案内：少し下へ動かしたら出す。× で閉じたら、その訪問のあいだは出さない（2026-11-17） ----
+(function () {
+  var rq = document.getElementById('rq');
+  if (!rq) return;
+  var closed = false;
+  try { closed = sessionStorage.getItem('ms-rq') === '1'; } catch (e) {}
+  if (closed) return;
+  rq.hidden = false;
+  var check = function () {
+    if (closed) return;
+    rq.classList.toggle('is-on', (window.scrollY || pageYOffset) > 240);
+  };
+  rq.querySelector('.rq-x').addEventListener('click', function () {
+    closed = true;
+    rq.classList.remove('is-on');
+    try { sessionStorage.setItem('ms-rq', '1'); } catch (e) {}
+    setTimeout(function () { rq.hidden = true; }, 500);
+  });
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();
