@@ -391,12 +391,10 @@ def page_index():
 <span class="hero-scroll" aria-hidden="true">scroll</span>
 </section>
 
-<section class="sec sec-lift">
-<div class="wrap">
-<div class="lift">
-{h2c('丸信の解体工事について')}
-<p class="lead">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、建築様式を問わず解体工事が可能です。</p>
-</div>
+<section class="ab-band" aria-labelledby="h-about">
+<div class="wrap ab-in">
+<h2 class="ab-ttl" id="h-about">丸信の解体工事について</h2>
+<p class="ab-tx">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、<br>建築様式を問わず解体工事が可能です。</p>
 </div>
 </section>
 
