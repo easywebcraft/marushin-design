@@ -178,14 +178,19 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .wk{display:grid;grid-template-columns:repeat(3,1fr);column-gap:40px;margin-top:40px}
 .wk>li{position:relative;padding-bottom:24px;border-bottom:1.5px solid var(--line)}
 .wk>li+li::before{content:"";position:absolute;left:-21px;top:0;bottom:0;border-left:1.5px solid var(--line)}
-.wk-ph{position:relative;display:grid;gap:18px}
-.wk-ph figure{position:relative;overflow:hidden;background:var(--pale);box-shadow:0 2px 10px rgba(23,53,75,.12)}
-.wk-ph img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
-.wk-ph figcaption{position:absolute;left:0;top:0;padding:3px 16px;background:var(--navy);color:#fff;font-size:14px;font-weight:700;letter-spacing:.08em;line-height:1.8}
-.wk-ph figcaption.after{background:var(--teal-d)}
-.wk-arw{position:absolute;left:50%;top:50%;z-index:1;display:grid;place-items:center;width:40px;height:40px;margin:-20px 0 0 -20px;
-  border-radius:50%;background:#fff;color:var(--teal-d);box-shadow:0 2px 8px rgba(23,53,75,.18)}
-.wk-arw svg{width:20px;height:20px}
+/* 施工前・施工後の見比べ（2026-11-17）：施工後の上に施工前を重ね、--pos より右を切る。縦の線とつまみをドラッグ・キーボードで動かす */
+.wk-cmp{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--pale);box-shadow:0 2px 10px rgba(23,53,75,.12);
+  touch-action:pan-y;cursor:ew-resize;-webkit-user-select:none;user-select:none}
+.wk-cmp img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.wk-b{clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+.wk-lb{position:absolute;left:0;top:0;z-index:1;padding:3px 16px;background:var(--navy);color:#fff;font-size:14px;font-weight:700;letter-spacing:.08em;line-height:1.8}
+.wk-lb-a{left:auto;right:0;background:var(--teal-d)}
+.wk-bar{position:absolute;top:0;bottom:0;left:var(--pos);z-index:2;width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.35)}
+.wk-knob{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;
+  background:#fff;color:var(--teal-d);box-shadow:0 2px 10px rgba(23,53,75,.3)}
+.wk-knob svg{width:22px;height:22px}
+.wk-rng{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;pointer-events:none}
+.wk-cmp:focus-within{outline:3px solid #E59A00;outline-offset:3px}
 .wk-kind{display:inline-block;margin-top:20px;padding:2px 22px;background:#D5ECEE;color:var(--teal-dd);font-size:15px;font-weight:700;letter-spacing:.06em;line-height:1.8}
 .wk-place{margin-top:10px;color:var(--mute);font-size:15px;letter-spacing:.06em}
 .wk-ttl{margin-top:2px;font-family:var(--serif);font-size:clamp(20px,2vw,26px);line-height:1.45;font-weight:700;letter-spacing:.04em}
@@ -512,7 +517,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .wk>li{padding-bottom:28px}
   .wk>li+li{padding-top:28px}
   .wk>li+li::before{display:none}
-  .wk-ph{gap:14px}
   .wk-lead{font-size:15px}
   .fl>li{display:grid;grid-template-columns:auto 1fr;column-gap:20px;padding:24px 0}
   .fl>li+li{border-top:1px solid var(--line)}
@@ -833,3 +837,32 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .ct-band{padding:44px 0}
   .ct-tel{font-size:32px}
 }
+
+/* ========== トップの動き（2026-11-17 松本さん「動きがない」：案1〜4） ==========
+   どれも JS が印（*-wait）を付けたときだけ隠す。JS なし・動きを減らす設定では最初から全部見える */
+/* 2. 施工の流れ：STEP 01 → 矢印 → STEP 02 … の順に現れる */
+.fl.fl-wait>li{opacity:0;transform:translateY(18px)}
+.fl.fl-wait>li::after{opacity:0;transform:translateX(-10px)}
+.fl>li{transition:opacity .6s ease calc(var(--i,0)*.5s),transform .6s cubic-bezier(.2,.7,.3,1) calc(var(--i,0)*.5s)}
+.fl>li::after{transition:opacity .4s ease calc(var(--i,0)*.5s + .35s),transform .4s cubic-bezier(.2,.7,.3,1) calc(var(--i,0)*.5s + .35s)}
+/* 3. 線が引かれる：英字の小見出しの横の線、縦の区切り線 */
+.cm-en{display:flex;align-items:center;gap:14px}
+.cm-en::after{content:"";width:40px;height:1.5px;background:currentColor;opacity:.6;transform-origin:left;transition:transform .9s cubic-bezier(.6,0,.2,1) .2s}
+.ln-wait .cm-en::after,.cm-en.ln-wait::after{transform:scaleX(0)}
+.cm>li+li,.wk>li+li::before{transition:none}
+.cm>li+li{border-left-color:transparent;position:relative}
+.cm>li+li::before{content:"";position:absolute;left:-1px;top:0;bottom:0;border-left:1px solid var(--line)}
+.cm>li+li::before,.wk>li+li::before{transform-origin:top;transition:transform 1.1s cubic-bezier(.6,0,.2,1) .3s}
+.cm.ln-wait>li+li::before,.wk.ln-wait>li+li::before{transform:scaleY(0)}
+@media (min-width:1024px){
+  .ab-ttl,.pr-h,.ct-l{position:relative;border-right-color:transparent}
+  .ab-ttl::after,.pr-h::after,.ct-l::after{content:"";position:absolute;right:-1px;top:0;bottom:0;border-right:1.5px solid #9DB0BB;transform-origin:top;transition:transform 1s cubic-bezier(.6,0,.2,1) .3s}
+  .ct-l::after{border-right:1px solid rgba(255,255,255,.3)}
+  .ln-wait .ab-ttl::after,.pr-in.ln-wait .pr-h::after,.ct-in.ln-wait .ct-l::after{transform:scaleY(0)}
+}
+/* 4. ただいま受付中 */
+.ct-now{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:6px 16px;border:1px solid rgba(255,255,255,.35);border-radius:999px;font-size:14px;font-weight:700;letter-spacing:.04em}
+.ct-now::before{content:"";width:9px;height:9px;border-radius:50%;background:#9aa7b4;flex:none}
+.ct-now.is-open::before{background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:ctPulse 2s ease-out infinite}
+@keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}80%,100%{box-shadow:0 0 0 9px rgba(74,222,128,0)}}
+@media (prefers-reduced-motion:reduce){.ct-now.is-open::before{animation:none}}

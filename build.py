@@ -345,10 +345,13 @@ def page_index():
         title = f'{esc(w["place"])} {esc(w["name"])}'
         kind = f'<span class="wk-kind">{esc(w["type"])}</span>' if w['type'] else ''
         note = f'<p class="wk-note">{esc(w["note"])}</p>' if w['note'] else ''
-        return (f'<li><div class="wk-ph">'
-                f'<figure><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="208" height="156" loading="lazy" decoding="async"><figcaption>施工前</figcaption></figure>'
-                f'<span class="wk-arw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13M6.5 12.5 12 18l5.5-5.5"/></svg></span>'
-                f'<figure><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="268" height="201" loading="lazy" decoding="async"><figcaption class="after">施工後</figcaption></figure>'
+        # 施工前・施工後を重ね、縦の線を左右に動かして見比べる（2026-11-17）。JS が無いときは半分ずつ見える
+        return (f'<li><div class="wk-cmp" style="--pos:50%">'
+                f'<img class="wk-a" src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="268" height="201" loading="lazy" decoding="async">'
+                f'<img class="wk-b" src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="208" height="156" loading="lazy" decoding="async">'
+                f'<span class="wk-lb" aria-hidden="true">施工前</span><span class="wk-lb wk-lb-a" aria-hidden="true">施工後</span>'
+                f'<span class="wk-bar" aria-hidden="true"><span class="wk-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span></span>'
+                f'<input class="wk-rng" type="range" min="0" max="100" value="50" aria-label="施工前と施工後を見比べる（{esc(w["name"])}）">'
                 f'</div>{kind}<p class="wk-place">{esc(w["place"])}</p><h3 class="wk-ttl">{esc(w["name"])} 解体工事</h3>{note}</li>')
     works_html = ''.join(wk(n, w) for n, w in enumerate(works[:3], 1))
     # 施工の流れ（2026-11-17 松本さんのデザイン案）：10段階を4つのまとまりで。中身は施工の流れのページ（data/flow.json）のとおり
@@ -366,7 +369,7 @@ def page_index():
         ('excavator', '解体工事', '着工から、廃材の分別・搬出まで。'),
         ('ground', '整地・工事完了', '整地・完了後、近隣へ改めてご挨拶。'),
     ]
-    steps = ''.join(f'<li><p class="fl-n"><span lang="en">STEP</span><b>{n:02d}</b></p>'
+    steps = ''.join(f'<li style="--i:{n - 1}"><p class="fl-n"><span lang="en">STEP</span><b>{n:02d}</b></p>'
                     f'<svg class="fl-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{fl_icons[i]}</svg>'
                     f'<h3>{t}</h3><p class="fl-p">{d}</p></li>' for n, (i, t, d) in enumerate(fl, 1))
     voices = ''.join(f'<li><span class="vc-q" aria-hidden="true">“</span><p class="vc-t">{esc(v["title"])}</p><p class="vc-w">{esc(v["who"])}</p></li>' for v in voice)
@@ -467,7 +470,8 @@ def page_index():
 <div class="wrap ct-in">
 <div class="ct-l"><p class="cm-en" lang="en">CONTACT</p><h2 class="ct-ttl" id="h-contact">解体工事のご相談はこちら</h2>
 <a class="ct-tel" href="{TEL_HREF}">{ic("phone")}<span>{TEL}</span></a>
-<p class="ct-hours">{HOURS}</p></div>
+<p class="ct-hours">{HOURS}</p>
+<p class="ct-now" id="ct-now" hidden></p>{todo('年末年始・お盆などの休み（「ただいま電話受付中」の表示は、土日・祝日だけを休みとして判定しています）')}</div>
 <a class="btn btn-white ct-btn" href="contact.html">お問い合わせ<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 </div>
 </section>'''

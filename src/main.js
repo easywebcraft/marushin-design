@@ -53,7 +53,7 @@
         setTimeout(function () { el.classList.remove('rv', 'in', 'rv-w'); el.style.removeProperty('--d'); }, 1300);
       });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.ab-in,.sec .h2c,.cm-head,.cm>li,.wk>li,.works .work,.band-raise .band-in,.fl-head,.fl>li,.pr-in,.vc>li,.t-two>*,.ct-in,.area,.qas .qa,.cta-box,' +
+    document.querySelectorAll('.ab-in,.sec .h2c,.cm-head,.cm>li,.wk>li,.works .work,.band-raise .band-in,.fl-head,.pr-in,.vc>li,.t-two>*,.ct-in,.area,.qas .qa,.cta-box,' +
       '.feat,.intro,.pol>li,.two>.panel,.tbl-wrap,.flow>li,.voice,.dl,.telbox,.formcard').forEach(function (el, i, all) {
       var sib = el.parentNode.children, n = Array.prototype.indexOf.call(sib, el);
       if (el.parentNode.matches('.cm,.wk,.vc,.works,.fl,.pol,.two')) el.style.setProperty('--d', ((n % 5) * 0.09).toFixed(2) + 's');
@@ -209,4 +209,100 @@
     }
     // 送り先が決まったら、ここに送信の処理を入れる（成功を確かめてから完了の文を出す）
   });
+})();
+
+// ---- トップの動き（2026-11-17 松本さん「動きがない、信頼感のあるしっかりとした会社」：案1〜4） ----
+(function () {
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var once = function (els, cls, fn) {
+    if (!els.length) return;
+    if (reduce || !('IntersectionObserver' in window)) { if (fn) els.forEach(fn); return; }
+    els.forEach(function (el) { el.classList.add(cls); });
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        e.target.classList.remove(cls);
+        if (fn) fn(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  };
+  var all = function (sel) { return [].slice.call(document.querySelectorAll(sel)); };
+
+  // 2. 施工の流れ：画面に入ったら、段を順番に出す
+  once(all('.fl'), 'fl-wait');
+  // 3. 線が引かれる
+  once(all('.cm-en,.cm,.wk,.ab-in,.pr-in,.ct-in'), 'ln-wait');
+
+  // 1. 施工前・施工後の見比べ：ドラッグ・タップ・キーボード（←→）で動かす。最初に画面に入ったとき一度だけ左右に動かして見せる
+  all('.wk-cmp').forEach(function (box) {
+    var rng = box.querySelector('.wk-rng'), down = false, touched = false;
+    var set = function (v) { v = Math.max(0, Math.min(100, v)); box.style.setProperty('--pos', v + '%'); rng.value = Math.round(v); };
+    var fromX = function (x) { var r = box.getBoundingClientRect(); set((x - r.left) / r.width * 100); };
+    box.addEventListener('pointerdown', function (e) { down = touched = true; fromX(e.clientX); });
+    window.addEventListener('pointermove', function (e) { if (down) fromX(e.clientX); });
+    window.addEventListener('pointerup', function () { down = false; });
+    window.addEventListener('pointercancel', function () { down = false; });
+    rng.addEventListener('input', function () { touched = true; set(+rng.value); });
+    rng.style.pointerEvents = 'none';
+    rng.tabIndex = 0;
+    box.hint = function () {
+      if (touched || reduce) return;
+      var t0 = null, D = 1800;
+      var step = function (ts) {
+        if (touched) return;
+        if (t0 === null) t0 = ts;
+        var p = Math.min((ts - t0) / D, 1);
+        set(50 - 22 * Math.sin(p * Math.PI * 2) * (1 - p * 0.15));
+        if (p < 1) requestAnimationFrame(step); else set(50);
+      };
+      requestAnimationFrame(step);
+    };
+  });
+  once(all('.wk-cmp'), 'cmp-wait', function (box) { setTimeout(function () { if (box.hint) box.hint(); }, 500); });
+
+  // 4. ただいま受付中：日本時間で、平日（土日・祝日を除く）の 9:00〜17:00 を受付中とする
+  var now = document.getElementById('ct-now');
+  if (!now) return;
+  var hol = {};
+  var holidays = function (y) {   // EWC-CRM の jp_holidays.py と同じ決まり（2020年以降）
+    if (hol[y]) return hol[y];
+    var d = function (m, day) { return Date.UTC(y, m - 1, day); };
+    var nthMon = function (m, n) { var t = new Date(d(m, 1)); return d(m, 1 + ((8 - t.getUTCDay()) % 7) + (n - 1) * 7); };
+    var eq = function (base) { return Math.floor(base + 0.242194 * (y - 1980) - Math.floor((y - 1980) / 4)); };
+    var h = [d(1, 1), nthMon(1, 2), d(2, 11), d(2, 23), d(3, eq(20.8431)), d(4, 29), d(5, 3), d(5, 4), d(5, 5),
+      nthMon(7, 3), d(8, 11), nthMon(9, 3), d(9, eq(23.2488)), nthMon(10, 2), d(11, 3), d(11, 23)];
+    var set = {}, DAY = 864e5;
+    h.forEach(function (t) { set[t] = 1; });
+    h.slice().sort().forEach(function (t) {   // 国民の休日：祝日にはさまれた日
+      if (!set[t + DAY] && set[t + 2 * DAY] && new Date(t + DAY).getUTCDay() !== 0) set[t + DAY] = 1;
+    });
+    Object.keys(set).map(Number).sort().forEach(function (t) {   // 振替休日
+      if (new Date(t).getUTCDay() !== 0) return;
+      var s = t + DAY; while (set[s]) s += DAY; set[s] = 1;
+    });
+    return (hol[y] = set);
+  };
+  var biz = function (t) { var w = new Date(t).getUTCDay(); return w > 0 && w < 6 && !holidays(new Date(t).getUTCFullYear())[t]; };
+  var WD = '日月火水木金土';
+  var label = function (t) { var x = new Date(t); return (x.getUTCMonth() + 1) + '月' + x.getUTCDate() + '日（' + WD[x.getUTCDay()] + '）'; };
+  var update = function () {
+    var p = {};
+    new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+      .formatToParts(new Date()).forEach(function (x) { p[x.type] = +x.value; });
+    var today = Date.UTC(p.year, p.month - 1, p.day), min = p.hour * 60 + p.minute, open = biz(today);
+    var txt, on = false;
+    if (open && min >= 540 && min < 1020) { txt = 'ただいま電話受付中（本日17:00まで）'; on = true; }
+    else if (open && min < 540) txt = '本日は9:00から受付します';
+    else {
+      var n = today + 864e5; while (!biz(n)) n += 864e5;
+      txt = (open ? '本日の受付は終了しました。' : '本日はお休みです。') + '次の受付は' + label(n) + ' 9:00からです';
+    }
+    now.textContent = txt;
+    now.classList.toggle('is-open', on);
+    now.hidden = false;
+  };
+  update();
+  setInterval(update, 60000);
 })();
