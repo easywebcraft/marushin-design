@@ -929,7 +929,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   box-shadow:0 2px 4px rgba(23,53,75,.12),0 8px 18px rgba(23,53,75,.22)}
 
 /* ========== 求人の案内（トップだけ・2026-11-17 松本さん「スクロールしたらすぐ出る求人リンク」） ==========
-   少し下へ動かすと左下に出て、フッターに近づくとふわっと消える（2026-11-17）。× で閉じると、その訪問のあいだは出さない。
+   少し下へ動かすと左下に出て、フッターに近づくとふわっと消える（2026-11-17）。× で閉じると、そのページを見ているあいだは出さない（読み込み直すとまた出る）。
    中身は松本さんが用意したバナー画像（images/top/recruit-banner.jpg・縦長 1122×1402）をそのまま使う */
 .rq{position:fixed;left:24px;bottom:24px;z-index:58;width:260px;
   opacity:0;transform:translate3d(0,24px,0);transition:opacity .45s cubic-bezier(.33,1,.68,1),transform .55s cubic-bezier(.22,1,.36,1);pointer-events:none}

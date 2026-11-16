@@ -302,13 +302,11 @@
   update();
 })();
 
-// ---- 求人の案内：少し下へ動かしたら出す。× で閉じたら、その訪問のあいだは出さない（2026-11-17） ----
+// ---- 求人の案内：少し下へ動かしたら出す。× で閉じたら、そのページを見ているあいだは出さない（読み込み直すとまた出る。2026-11-17 松本さん） ----
 (function () {
   var rq = document.getElementById('rq');
   if (!rq) return;
   var closed = false;
-  try { closed = sessionStorage.getItem('ms-rq') === '1'; } catch (e) {}
-  if (closed) return;
   rq.hidden = false;
   var ft = document.querySelector('.ft');
   var check = function () {
@@ -320,7 +318,6 @@
   rq.querySelector('.rq-x').addEventListener('click', function () {
     closed = true;
     rq.classList.remove('is-on');
-    try { sessionStorage.setItem('ms-rq', '1'); } catch (e) {}
     setTimeout(function () { rq.hidden = true; }, 500);
   });
   window.addEventListener('scroll', check, { passive: true });
