@@ -471,12 +471,11 @@ def page_index():
 <aside class="rq" id="rq" aria-label="従業員募集のお知らせ" hidden>
 <button class="rq-x" type="button" aria-label="閉じる"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 <a class="rq-in" href="{RECRUIT_URL}" target="_blank" rel="noopener">
-<p class="rq-tag">採用情報</p>
-<p class="rq-co">株式会社 丸信</p>
-<p class="rq-ttl">従業員募集中</p>
-<p class="rq-sub">ご応募お待ちしております</p>
-<span class="rq-ph"><img src="images/top/staff.jpg" alt="丸信の社員の集合写真" width="1934" height="992" loading="lazy" decoding="async"></span>
-<span class="rq-btn">採用情報を見る<small>（外部サイト）</small>{ic("ext")}</span>
+<span class="rq-ph" aria-hidden="true"></span>
+<span class="rq-body"><span class="rq-en" lang="en">RECRUIT</span>
+<span class="rq-ttl">街の次の一歩を<br>ともにつくる</span>
+<span class="rq-co">株式会社 丸信</span></span>
+<span class="rq-btn">採用情報を見る<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><small>（外部サイト）</small></span>
 </a>
 </aside>{todo('求人の案内：載せたい言葉（未経験者歓迎など）があれば')}'''
 
