@@ -475,10 +475,10 @@ def page_index():
 <p class="rq-co">株式会社 丸信</p>
 <p class="rq-ttl">従業員募集中</p>
 <p class="rq-sub">ご応募お待ちしております</p>
-<span class="rq-ph"><img src="images/top/flow-3.jpg" alt="" width="1448" height="1086" loading="lazy" decoding="async"><small>写真はイメージです</small></span>
+<span class="rq-ph"><img src="images/top/staff.jpg" alt="丸信の社員の集合写真" width="1934" height="992" loading="lazy" decoding="async"></span>
 <span class="rq-btn">採用情報を見る<small>（外部サイト）</small>{ic("ext")}</span>
 </a>
-</aside>{todo('求人の案内：載せたい言葉（未経験者歓迎など）があれば。写真は今はイメージで、社員・現場の写真が届いたら差し替える')}'''
+</aside>{todo('求人の案内：載せたい言葉（未経験者歓迎など）があれば')}'''
 
 
 def page_about():
