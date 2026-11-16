@@ -286,7 +286,7 @@ def page_head(fname):
 def layout(fname, body, with_cta=True):
     _f, name, _en, _h, desc = PAGE[fname]
     if fname == 'index.html':
-        title = f'{COMPANY}｜春日井市・名古屋市の解体工事相談室'
+        title = f'春日井市・名古屋市の解体工事｜{COMPANY}'   # 2026-11-17「解体工事相談室」はあまり押し出さない（丸信さん）
     else:
         title = f'{name}｜{COMPANY}（春日井市・名古屋市の解体工事）'
     return '\n'.join([head(fname, title, desc), header(fname), body, cta() if with_cta else '', footer(fname)])
