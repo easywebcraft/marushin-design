@@ -956,3 +956,6 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .rq-x:hover{background:var(--pale);color:var(--navy)}
 .rq-x svg{width:14px;height:14px}
 @media (max-width:767px){.rq-in{border-width:3px}.rq-x{top:-9px;right:-9px;width:26px;height:26px}}
+/* ヘッダーのメニューの「採用情報」（外部サイト）の小さな印 */
+.gnav-ext{width:12px;height:12px;margin-left:4px;opacity:.7}
+@media (min-width:1024px) and (max-width:1180px){.gnav{padding-left:16px}.gnav a{padding:0 9px;font-size:14px}.gnav a::after{left:9px;right:9px}.hd-in{gap:18px}}

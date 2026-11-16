@@ -195,6 +195,8 @@ def header(fname):
             continue
         cur = ' aria-current="page"' if f == fname else ''
         items.append(f'<li><a href="{f}"{cur}>{name}</a></li>')
+    # 採用情報は今の AirWORK へ（2026-11-17 松本さん。新しいタブで開く）
+    items.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報{ic("ext", "ic gnav-ext")}<span class="vh">（外部サイト）</span></a></li>')
     drawer = []
     for f, name, _en, _h, _d in PAGES:
         cur = ' aria-current="page"' if f == fname else ''
