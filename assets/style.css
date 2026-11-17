@@ -959,3 +959,86 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 /* ヘッダーのメニューの「採用情報」（外部サイト）の小さな印 */
 .gnav-ext{width:12px;height:12px;margin-left:4px;opacity:.7}
 @media (min-width:1024px) and (max-width:1180px){.gnav{padding-left:16px}.gnav a{padding:0 9px;font-size:14px}.gnav a::after{left:9px;right:9px}.hd-in{gap:18px}}
+
+/* ========== 丸信について（2026-11-17 松本さんのデザイン案）：トップと同じ部品（英字の小見出し・薄い英字・紺のボタン・相談の帯）で ==========
+   背景は 白（想い）→ 薄い青（取り組み）→ 白（対応する工事）→ 薄い青（エリア）→ 白（方針）→ 薄い青（注意）→ 白（土地活用）→ 紺（相談） */
+.au-mind,.au-svc-sec,.au-pol-sec,.au-land-sec{background:#fff}
+.au-cm-sec,.au-ar,.au-note-sec{background:linear-gradient(180deg,#eef5f9 0%,var(--pale) 55%,#dde9f0 100%)}
+.au-sub{margin-top:4px;color:var(--navy);font-weight:700;font-size:15px;letter-spacing:.06em}
+.au-ph{margin:0}
+.au-ph img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border:4px solid #fff;border-radius:3px;
+  box-shadow:0 1px 2px rgba(23,53,75,.10),0 6px 12px rgba(23,53,75,.10),0 16px 32px rgba(23,53,75,.12)}
+.au-ph figcaption{margin-top:6px;color:var(--mute);font-size:11px}
+.au-ph .phf{aspect-ratio:4/3;border-radius:3px}
+/* 想い */
+.au-mind-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:32px 64px;align-items:center}
+.au-big{margin-top:14px;font-size:clamp(28px,3.4vw,44px)}
+.au-mind-tx>p:last-child{margin-top:22px;font-size:16px;line-height:2.1;letter-spacing:.04em}
+/* 取り組み：大きな斜体の数字・縦線・題と説明・右に写真 */
+.au-cm{margin-top:28px}
+.au-cm>li{display:grid;grid-template-columns:110px minmax(0,1fr) 300px;gap:24px 36px;align-items:center;padding:28px 0;border-bottom:1px solid #c9d6df}
+.au-cm>li:first-child{padding-top:8px}
+.au-n{font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-style:italic;font-size:76px;line-height:1;color:var(--teal);font-variant-numeric:lining-nums}
+.au-tx{padding-left:32px;border-left:1.5px solid #9DB0BB}
+.au-tx h3{font-family:var(--serif);font-weight:700;font-size:clamp(20px,2vw,26px);letter-spacing:.04em}
+.au-tx p{margin-top:10px;font-size:15px;line-height:1.9}
+/* 対応する工事：4つの絵と文字・手壊しの白い札 */
+.au-kinds{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px}
+.au-kinds li{display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 8px;font-weight:700;font-size:16px;color:var(--navy)}
+.au-kinds li+li{border-left:1px solid var(--line)}
+.au-kinds svg{width:40px;height:40px;color:var(--navy);flex:none}
+.au-hand{display:grid;grid-template-columns:auto 1fr;gap:20px 48px;align-items:center;margin-top:32px;padding:32px 40px;background:#fff;border-radius:6px;
+  box-shadow:0 1px 2px rgba(23,53,75,.06),0 8px 22px rgba(23,53,75,.10)}
+.au-svc-sec .au-hand{background:var(--pale2)}
+.au-hand-h{padding-right:48px;border-right:1.5px solid #9DB0BB}
+.au-hand-h .t-ttl{margin-top:6px;font-size:clamp(24px,2.6vw,32px)}
+.au-hand-b p{font-size:15px;line-height:1.95}
+.au-btn{margin-top:16px;min-width:0}
+/* 方針：2列、番号と題と説明、真ん中に縦線 */
+.au-pol{display:grid;grid-template-columns:1fr 1fr;margin-top:28px}
+.au-pol li{display:flex;gap:18px;padding:22px 32px 22px 0;border-bottom:1px solid var(--line)}
+.au-pol li:nth-child(2n){padding:22px 0 22px 40px;border-left:1px solid var(--line)}
+.au-pol li:nth-last-child(-n+2){border-bottom:0}
+.au-pn{font-family:Baskerville,"Times New Roman",serif;font-weight:700;font-size:26px;line-height:1.2;color:var(--teal-d);font-variant-numeric:lining-nums}
+.au-pol h3{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.04em}
+.au-pol p{margin-top:6px;font-size:15px;line-height:1.8}
+/* 解体業者選びの注意：白い札に青緑の太線 */
+.au-note-sec{padding:40px 0}
+.au-note{display:grid;grid-template-columns:auto 1fr;gap:16px 36px;align-items:center;padding:24px 32px;background:#fff;border-left:5px solid var(--teal-d);border-radius:4px;
+  box-shadow:0 1px 2px rgba(23,53,75,.06),0 8px 22px rgba(23,53,75,.10)}
+.au-note h2{padding-right:36px;border-right:1px solid var(--line);font-family:var(--serif);font-weight:700;font-size:clamp(19px,2vw,24px);letter-spacing:.04em}
+.au-note p{font-size:15px;line-height:1.9}
+/* 土地活用：2枚の写真と題と説明 */
+.au-land{display:grid;grid-template-columns:1fr 1fr;gap:32px 48px;margin-top:28px}
+.au-land .au-ph .phf,.au-land .au-ph img{aspect-ratio:16/7}
+.au-land h3{margin-top:14px;font-family:var(--serif);font-weight:700;font-size:22px;letter-spacing:.04em}
+.au-land p{margin-top:6px;font-size:15px;line-height:1.9}
+@media (max-width:1023px){
+  .au-mind-in{grid-template-columns:1fr}
+  .au-cm>li{grid-template-columns:80px minmax(0,1fr);}
+  .au-cm>li .au-ph{grid-column:1/-1}
+  .au-n{font-size:60px}
+  .au-kinds{grid-template-columns:1fr 1fr;gap:4px 0}
+  .au-kinds li:nth-child(3){border-left:0}
+  .au-hand{grid-template-columns:1fr;padding:24px}
+  .au-hand-h{padding:0 0 14px;border-right:0;border-bottom:1.5px solid #9DB0BB}
+  .au-note{grid-template-columns:1fr}
+  .au-note h2{padding:0 0 12px;border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:767px){
+  .au-cm>li{grid-template-columns:56px minmax(0,1fr);gap:14px 16px;padding:24px 0}
+  .au-n{font-size:44px}
+  .au-tx{padding-left:16px}
+  .au-tx p br,.au-pol p br{display:none}
+  .au-kinds li{justify-content:flex-start;font-size:14px;gap:8px}
+  .au-kinds svg{width:30px;height:30px}
+  .au-pol{grid-template-columns:1fr}
+  .au-pol li,.au-pol li:nth-child(2n){padding:18px 0;border-left:0;border-bottom:1px solid var(--line)}
+  .au-pol li:nth-last-child(-n+2){border-bottom:1px solid var(--line)}
+  .au-pol li:last-child{border-bottom:0}
+  .au-land{grid-template-columns:1fr}
+  .au-btn{width:100%}
+}
+/* 方針の番号が狭い画面で縦に割れないように・対応する工事の文字を詰める（2026-11-17） */
+.au-pn{flex:none;white-space:nowrap}
+@media (max-width:767px){.au-kinds li{font-size:13px;letter-spacing:0}.au-kinds svg{width:26px;height:26px}}

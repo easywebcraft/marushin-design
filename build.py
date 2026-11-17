@@ -330,6 +330,22 @@ def qa_html(item, n):
 </details>'''
 
 
+def ct_band(now=False):
+    """紺の「解体工事のご相談はこちら」の帯。トップと丸信についてで同じもの（2026-11-17）。
+    now=True のときだけ「ただいま電話受付中」を出す（要確認の印が二重にならないよう、トップだけ）"""
+    arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    now_html = ('<p class="ct-now" id="ct-now" hidden></p>' + todo('年末年始・お盆などの休み（「ただいま電話受付中」の表示は、土日・祝日だけを休みとして判定しています）')) if now else ''
+    return f'''<section class="ct-band has-wm" data-wm="CONTACT" aria-labelledby="h-contact">
+<div class="wrap ct-in">
+<div class="ct-l"><p class="cm-en" lang="en">CONTACT</p><h2 class="ct-ttl" id="h-contact">解体工事のご相談はこちら</h2>
+<a class="ct-tel" href="{TEL_HREF}">{ic("phone")}<span>{TEL}</span></a>
+<p class="ct-hours">{HOURS}</p>
+{now_html}</div>
+<a class="btn btn-white ct-btn" href="contact.html">お問い合わせ{arw}</a>
+</div>
+</section>'''
+
+
 # ---------- 各ページ ----------
 
 def page_index():
@@ -460,15 +476,7 @@ def page_index():
 </div>
 </section>
 
-<section class="ct-band has-wm" data-wm="CONTACT" aria-labelledby="h-contact">
-<div class="wrap ct-in">
-<div class="ct-l"><p class="cm-en" lang="en">CONTACT</p><h2 class="ct-ttl" id="h-contact">解体工事のご相談はこちら</h2>
-<a class="ct-tel" href="{TEL_HREF}">{ic("phone")}<span>{TEL}</span></a>
-<p class="ct-hours">{HOURS}</p>
-<p class="ct-now" id="ct-now" hidden></p>{todo('年末年始・お盆などの休み（「ただいま電話受付中」の表示は、土日・祝日だけを休みとして判定しています）')}</div>
-<a class="btn btn-white ct-btn" href="contact.html">お問い合わせ<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-</div>
-</section>
+{ct_band(True)}
 
 <aside class="rq" id="rq" aria-label="従業員募集のお知らせ" hidden>
 <button class="rq-x" type="button" aria-label="閉じる"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
@@ -477,110 +485,116 @@ def page_index():
 
 
 def page_about():
+    """丸信について。2026-11-17 松本さんのデザイン案の構成に（トップと同じ見せ方・動き）。
+    文は今のサイトの内容を、デザイン案の短い言い回しで。見出しは「。」「、」なし（決まり）。"""
     company = load('company.json')
+    chev = ic('chev')
+    arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
+    def photo(src, label):
+        """写真があればイメージ写真、なければ仮枠"""
+        if src:
+            return f'<figure class="au-ph"><img src="{src}" alt="" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>写真はイメージです</figcaption></figure>'
+        return f'<div class="au-ph">{frame(label)}</div>'
+
     feats = [
-        ('解体専門の会社へ直接ご依頼いただけます',
-         ['一般的にハウスメーカーや工務店などは、自社内で解体工事が行えるところは少なく、多くの場合は下請けの解体業者が行います。その場合、中間マージンと呼ばれる上乗せ金が乗せられた金額が見積もりとして出ます。',
-          '地域に根付いた解体専門の業者であれば、下請業者に発注するわけではありませんので、中間マージンが発生しません。'],
-         '現地調査・ご相談の様子',
-         '今のサイトは「解体費用は確実に安くなります」と言い切っています。この言い方を載せるか（ここでは外しています）'),
-        ('近隣への配慮',
-         ['解体工事は、細心の注意を払って作業を行っても振動や騒音、チリやホコリなどが必ず発生します。近隣からの苦情とトラブルが多く、しっかりとした対応が必要です。',
-          '丸信では工事前には必ず、近隣へ誠意を持って丁寧な挨拶を行ったうえで解体工事を行います。また、万が一トラブルが発生した際も、速やかに対処いたしますのでご安心ください。'],
-         '工事中の現場（養生シートなど）', ''),
-        ('工事前後のご挨拶',
-         ['株式会社 丸信では、解体工事完了後に再度ご近所様へのご挨拶をおこないます。',
-          'これは、ご協力いただいて無事に工事が終わった感謝の気持ちと共に「本当にご迷惑はなかったか？」を確認するためです。'],
-         '近隣へのご挨拶の様子', ''),
+        ('解体専門の会社へ直接ご依頼', '地域に根付いた解体専門の会社へ直接ご相談いただけます。<br>下請業者への発注による中間マージンが発生しません。',
+         'images/top/flow-2.jpg', '', '今のサイトは「解体費用は確実に安くなります」と言い切っています。この言い方を載せるか（ここでは外しています）'),
+        ('着工前から近隣に配慮', '振動や騒音、チリ・ホコリに配慮し、工事前には丁寧にご挨拶。<br>万が一のトラブルにも、速やかに対応します。',
+         'images/top/flow-3.jpg', '', ''),
+        ('工事が終わっても丁寧に', '工事完了後も改めてご挨拶。ご協力への感謝をお伝えし、<br>ご迷惑がなかったかを確認します。',
+         'images/top/flow-4.jpg', '', ''),
     ]
-    feat_html = []
-    for i, (t, ps, ph, td) in enumerate(feats, 1):
-        fr = frame(ph, 'slant-r' if i % 2 else 'slant-l')
-        cls = 'feat' + ('' if i % 2 else ' feat-rev') + ('' if fr else ' feat-nophoto')
-        tdm = todo(td) if td else ''
-        feat_html.append(f'''<div class="{cls}">
-<div class="feat-tx"><p class="feat-num" aria-hidden="true">{i:02d}</p><div><h3>{t}</h3>{''.join(f'<p>{p}</p>' for p in ps)}{tdm}</div></div>
-{fr}
-</div>''')
+    feat_html = ''.join(
+        f'<li><span class="au-n" aria-hidden="true">{n:02d}</span><div class="au-tx"><h3>{t}</h3><p>{d}</p>{todo(td) if td else ""}</div>{photo(src, lb)}</li>'
+        for n, (t, d, src, lb, td) in enumerate(feats, 1))
+
+    kinds = [('home', '木造住宅'), ('steel', '鉄骨造'), ('rc', '鉄筋コンクリート造'), ('shop', '店舗・事務所')]
+    kind_svg = {
+        'home': '<path d="M4 11.5 12 5l8 6.5"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>',
+        'steel': '<path d="M3 10h18M5 10l7-5 7 5"/><path d="M6 10v10M18 10v10M12 10v10M6 15h12"/>',
+        'rc': '<rect x="6" y="3.5" width="12" height="17"/><path d="M9 7h2M13 7h2M9 10.5h2M13 10.5h2M9 14h2M13 14h2M11 20.5v-3h2v3"/>',
+        'shop': '<path d="M4 9h16l-1.5-4.5h-13z"/><path d="M4 9c0 1.4 1 2.3 2.3 2.3S8.7 10.4 8.7 9c0 1.4 1 2.3 2.3 2.3S13.3 10.4 13.3 9c0 1.4 1 2.3 2.3 2.3S18 10.4 18 9"/><path d="M5.5 11.5V20h13v-8.5M10 20v-5h4v5"/>',
+    }
+    kinds_html = ''.join(
+        f'<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{kind_svg[k]}</svg>{t}</li>'
+        for k, t in kinds)
+    area_rows = ''.join(f'<div><dt>{esc(a["pref"])}</dt><dd>{esc(a["cities"])}</dd></div>' for a in company['area'])
+
     pol = [
-        ('法令順守', '株式会社 丸信では法律・条令及びその他要求事項を順守し、社会的常識に基づき企業活動を行います。そのために社内従業員及び社外協力業者への法律・条例及びその他要求事項の周知を徹底し、お客様をはじめ利害関係者様にご迷惑をおかけすることなく、安心して工事をお任せいただける企業を目指します。'),
-        ('顧客満足', 'お客様のご要望にお応えできますように、お客様との十分な対話・説明を心がけ、お客様に満足していただける解体工事を目指します。'),
-        ('近隣協定', '作業現場の近隣住民の方に事前に丁寧な説明を行い、納得していただけるように努めます。また、作業中の近隣住民の方からのご意見にも誠意をもって対応し、近隣住民の方に配慮した解体工事を目指します。'),
-        ('継続的な運用・改善', '法令・条例の施行、社会環境の変化に柔軟に対応し、社会と調和した成長を目指します。SDGsを目標に設け、それに向けマネジメントシステムの運用・改善を心がけ、継続的な技術・サービスの向上を目指します。'),
+        ('法令順守', '法令・条例を守り、従業員や<br>協力業者への周知を徹底します。'),
+        ('顧客満足', '十分な対話と説明を心がけ、<br>ご要望に応える工事を目指します。'),
+        ('近隣協定', '事前の説明と誠実な対応で、<br>近隣の皆様への配慮を徹底します。'),
+        ('継続的な運用・改善', '社会の変化に対応し、技術・サービスの<br>向上に取り組みます。'),
     ]
-    pol_html = ''.join(f'<li><h3>{t}</h3><p>{p}</p></li>' for t, p in pol)
-    intro_fr = frame('丸信の現場・スタッフの写真', 'slant-l')
+    pol_html = ''.join(f'<li><span class="au-pn" aria-hidden="true">{n:02d}</span><div><h3>{t}</h3><p>{d}</p></div></li>' for n, (t, d) in enumerate(pol, 1))
+
+    land = [
+        ('駐車場運営', '使わなくなった土地の、駐車場としての活用をご提案します。', '駐車場の写真'),
+        ('土木工事・外構整備', 'フェンス・門扉・カーポートなど、土地活用に伴う工事もご相談ください。', '外構（フェンス・カーポートなど）の写真'),
+    ]
+    land_html = ''.join(f'<li>{photo(None, lb)}<h3>{t}</h3><p>{d}</p></li>' for t, d, lb in land)
+
     return f'''{page_head('about.html')}
-<section class="sec">
-<div class="wrap intro{'' if intro_fr else ' intro-nophoto'}">
-{intro_fr}
-<div class="intro-tx">
-<h2 class="h2l">解体工事への想い</h2>
-<p class="intro-lead">一番大切なことは<br>ご近所様への気配りだと考えています</p>
-<p>今後も住み続ける、お客様の事を考えた時、一番大切なことはご近所様への気配りだと思います。</p>
-<p>ご近所様へのご挨拶に始まり、解体工事専門としての熟練された技術と、職人一人ひとりがご近所にご迷惑をかけているという気持ちを持って作業をおこないます。</p>
-<p>気配りには絶対の自信があります。どうぞ安心してご相談ください。</p>
-</div>
+<section class="sec au-mind has-wm" data-wm="MIND" aria-labelledby="h-mind">
+<div class="wrap au-mind-in">
+{photo(None, '丸信の現場・スタッフ、または住宅街の写真')}
+<div class="au-mind-tx"><p class="cm-en" lang="en">OUR MIND</p><p class="au-sub">解体工事への想い</p>
+<h2 class="t-ttl au-big" id="h-mind">一番大切なのは<br>ご近所様への気配り</h2>
+<p>工事の後も、ここで暮らすお客様のために。<br>ご近所様へのご挨拶から、日々の作業まで。<br>熟練の技術と一人ひとりの気配りで、安心してお任せいただける解体工事を目指します。</p></div>
 </div>
 </section>
 
-<section class="feats" aria-labelledby="h-feats">
-<h2 class="vh" id="h-feats">丸信の取り組み</h2>
-{''.join(feat_html)}
-</section>
-
-<section class="sec">
-<div class="wrap duo">
-<div class="duo-col">
-<h2 class="h2i">{ic("excavator", "ic-h")}対応する工事</h2>
-<p>株式会社 丸信では、木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、建築様式を問わず解体工事が可能です。</p>
-<p>思い出の詰まった建物ですが、建替えや減築、駐車場への移行など、住環境の変化により解体の必要性は生じてきます。</p>
-<h3 class="h3b">手壊しによる解体</h3>
-<p>隣接する建物にも注意を払い、手壊しによる解体を進めていきます。道幅が狭く、ブルドーザーや機械が入れない箇所や、家々が密接し解体を出来ない箇所、表面上には見えない細かな部分についても、手壊し解体にて作業を行います。機械では出来ない、細かな気配りの部分を人間が担当するというスタイルです。</p>
-<p>価格についても㎡単価での計算ですので、お見積りの計算もスムーズです。お気軽にご相談ください。</p>
-{todo('「㎡単価での計算」という説明（料金表は坪単価で載っています。どちらが正しいか）')}
-<p class="mt-m">{more('price.html', '料金案内を見る')}</p>
-</div>
-<div class="duo-col">
-<h2 class="h2i">{ic("pin", "ic-h")}対応エリア</h2>
-{area_html(company)}
-<p>上記の対応エリア以外にも柔軟に対応させていただきます。まずはお気軽にお問い合わせください。</p>
-</div>
-</div>
-</section>
-
-<section class="sec sec-pale">
+<section class="sec au-cm-sec has-wm" data-wm="COMMITMENT" aria-labelledby="h-au-cm">
 <div class="wrap">
-{h2c('丸信の方針')}
-<ul class="pol">{pol_html}</ul>
+<p class="cm-en" lang="en">OUR COMMITMENT</p><h2 class="t-ttl" id="h-au-cm">丸信の取り組み</h2>
+<ol class="au-cm">{feat_html}</ol>
 </div>
 </section>
 
-<section class="sec">
-<div class="wrap wrap-s">
-{h2c('解体の悪徳業者にご注意ください')}
-<p>悪徳業者の従来の手口は、施主（依頼者）が解体工事の相場を知らないことをいいことに、高額な請求をかけるというものです。ただ、最近はインターネット上で簡単に相場を調べることが出来るようになった為、同様の手口が使えなくなってきました。</p>
-<p>その代わりに、非常に安価な見積もりを出して解体の依頼を受け、産業廃棄物処理費用を払わずに不法投棄をすることで利益を出しています。</p>
-<p>不法投棄は違法であり、あまり知られていないことですが、業者だけでなく、施主も以下のような罰則があります。</p>
-<div class="box"><p>【罰則】5年以下の懲役、または1000万円以下の罰金、またはその併科。</p></div>
-{todo('罰則の書き方（「懲役」は2025年6月から法律上「拘禁刑」に変わっています）')}
-<p>悪徳業者に騙されず、後悔しない解体工事にしていただければ幸いです。</p>
-</div>
-</section>
-
-<section class="sec sec-pale">
+<section class="sec au-svc-sec has-wm" data-wm="SERVICE" aria-labelledby="h-svc">
 <div class="wrap">
-{h2c('土地活用に関するご提案')}
-<div class="two">
-<div class="panel"><h3>駐車場運営</h3>
-<p>1世帯に2台のペースで車の所有が進んでいる世帯や地域にとって、最大の悩みは駐車場を確保する事であります。広い土地を確保出来ず、遠く離れた場所にレンタルスペースを確保される方も多いようです。</p>
-<p>使わない土地、名義変更された土地を駐車場として運営する事は、ご自身にとっても、地域の活性化にとても有効です。</p></div>
-<div class="panel"><h3>土木工事</h3>
-<p>土地活用による土木工事をお考えの方は、ぜひ当社までご連絡ください。</p>
-<p>フェンス、門扉、カーポートなどの外構・エクステリアの整備、設置から戸建てマンションへの変更まで。土地活用のご相談は何でも承ります。</p></div>
+<p class="cm-en" lang="en">SERVICE</p><h2 class="t-ttl" id="h-svc">対応する工事</h2>
+<p class="t-sub">木造住宅から店舗・事務所まで、建築様式を問わず対応します。</p>
+<ul class="au-kinds">{kinds_html}</ul>
+<div class="au-hand">
+<div class="au-hand-h"><p class="au-sub">手壊しによる解体</p><h3 class="t-ttl">細かな場所こそ<br>手壊しで丁寧に</h3></div>
+<div class="au-hand-b"><p>道幅が狭く重機が入れない場所や、隣接する建物に注意が必要な箇所にも対応。機械ではできない細かな部分を、人の手で丁寧に解体します。</p>
+<a class="btn btn-navy cm-btn au-btn" href="price.html">料金案内を見る{arw}</a></div>
 </div>
 </div>
-</section>'''
+</section>
+
+<section class="sec ar-sec au-ar has-wm" data-wm="AREA" aria-labelledby="h-area">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に近隣エリアへ</p></div>
+<div><dl class="ar">{area_rows}</dl>
+<p class="ar-note">{esc(company["area_note"])}。その他の地域もお気軽にご相談ください。</p></div>
+</div>
+</section>
+
+<section class="sec au-pol-sec has-wm" data-wm="POLICY" aria-labelledby="h-pol">
+<div class="wrap">
+<p class="cm-en" lang="en">POLICY</p><h2 class="t-ttl" id="h-pol">丸信の方針</h2>
+<ul class="au-pol">{pol_html}</ul>
+</div>
+</section>
+
+<section class="au-note-sec" aria-labelledby="h-note">
+<div class="wrap"><div class="au-note">
+<h2 id="h-note">解体業者選びで後悔しないために</h2>
+<p>見積もりの金額だけでなく、工事内容や廃棄物の処理方法も確認しましょう。不安な点は、事前にご相談ください。</p>
+</div></div>
+</section>
+
+<section class="sec au-land-sec has-wm" data-wm="LAND USE" aria-labelledby="h-land">
+<div class="wrap">
+<p class="cm-en" lang="en">LAND USE</p><h2 class="t-ttl" id="h-land">解体のその先土地活用まで</h2>
+<ul class="au-land">{land_html}</ul>
+</div>
+</section>
+
+{ct_band()}'''
 
 
 def page_price():
@@ -920,7 +934,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():

@@ -53,10 +53,10 @@
         setTimeout(function () { el.classList.remove('rv', 'in', 'rv-w'); el.style.removeProperty('--d'); }, 1300);
       });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.ab-in,.sec .h2c,.cm-head,.cm>li,.wk>li,.works .work,.band-raise .band-in,.fl-head,.pr-in,.vc>li,.t-two>*,.ct-in,.area,.qas .qa,.cta-box,' +
+    document.querySelectorAll('.au-mind-in>*,.au-cm>li,.au-kinds,.au-hand,.au-pol li,.au-note,.au-land>li,.ab-in,.sec .h2c,.cm-head,.cm>li,.wk>li,.works .work,.band-raise .band-in,.fl-head,.pr-in,.vc>li,.t-two>*,.ct-in,.area,.qas .qa,.cta-box,' +
       '.feat,.intro,.pol>li,.two>.panel,.tbl-wrap,.flow>li,.voice,.dl,.telbox,.formcard').forEach(function (el, i, all) {
       var sib = el.parentNode.children, n = Array.prototype.indexOf.call(sib, el);
-      if (el.parentNode.matches('.cm,.wk,.vc,.works,.fl,.pol,.two')) el.style.setProperty('--d', ((n % 5) * 0.09).toFixed(2) + 's');
+      if (el.parentNode.matches('.au-cm,.au-pol,.au-land,.cm,.wk,.vc,.works,.fl,.pol,.two')) el.style.setProperty('--d', ((n % 5) * 0.09).toFixed(2) + 's');
       el.classList.add('rv');
       io.observe(el);
     });
