@@ -546,7 +546,7 @@ def page_about():
     return f'''{page_head('about.html')}
 <section class="sec au-mind has-wm" data-wm="MIND" aria-labelledby="h-mind">
 <div class="wrap au-mind-in">
-{photo(None, '丸信の現場・スタッフ、または住宅街の写真')}
+<figure class="au-ph au-staff"><img src="images/about-staff.jpg" alt="丸信の社員の集合写真" width="2000" height="1003" loading="lazy" decoding="async"></figure>
 <div class="au-mind-tx"><p class="cm-en" lang="en">OUR MIND</p><p class="au-sub">解体工事への想い</p>
 <h2 class="t-ttl au-big" id="h-mind">一番大切なのは<br>ご近所様への気配り</h2>
 <p>工事の後も、ここで暮らすお客様のために。<br>ご近所様へのご挨拶から、日々の作業まで。<br>熟練の技術と一人ひとりの気配りで、安心してお任せいただける解体工事を目指します。</p></div>

@@ -1122,3 +1122,5 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .pr-ot-t .num{grid-column:3;grid-row:1/3;align-self:center}
 }
 @media (max-width:767px){.pr-ot-t .pr-no{width:auto;padding-right:4px!important;text-align:left}}
+/* 丸信についての想いの写真は社員の集合写真（横長なので、左右を切りすぎない形に。2026-11-17） */
+.au-staff img{aspect-ratio:16/10;object-position:42% 50%}
