@@ -488,7 +488,7 @@ def page_index():
 
 <aside class="rq" id="rq" aria-label="従業員募集のお知らせ" hidden>
 <button class="rq-x" type="button" aria-label="閉じる"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-<a class="rq-in" href="{RECRUIT_URL}" target="_blank" rel="noopener"><img src="images/top/recruit-banner.jpg" alt="RECRUIT 街の次の一歩をともにつくる 株式会社 丸信 採用情報を見る（外部サイト）" width="1122" height="1402" loading="lazy" decoding="async"></a>
+<a class="rq-in" href="{RECRUIT_URL}" target="_blank" rel="noopener"><img src="images/top/recruit-banner.jpg" alt="RECRUIT 街の次の一歩をともにつくる 株式会社 丸信 採用情報を見る（外部サイト）" width="1122" height="1402" loading="lazy" decoding="async"><span class="rq-tk" aria-hidden="true"><span>{"<span>RECRUIT</span>" * 8}</span></span></a>
 </aside>{todo('求人の案内：載せたい言葉（未経験者歓迎など）があれば')}'''
 
 

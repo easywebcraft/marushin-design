@@ -956,6 +956,14 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .rq-x:hover{background:var(--pale);color:var(--navy)}
 .rq-x svg{width:14px;height:14px}
 @media (max-width:767px){.rq-in{border-width:3px}.rq-x{top:-9px;right:-9px;width:26px;height:26px}}
+/* バナー上部の「RECRUIT」を横に流れる文字に（2026-11-17 松本さん）。画像の文字（縦 47〜74px／1402px）を同じ紺の帯で隠し、
+   その上に同じ色の文字を左へ流す。大きさはバナーの幅に合わせる（cqw）。動きを減らす設定では止める */
+.rq-in{position:relative;container-type:inline-size}
+.rq-tk{position:absolute;left:0;right:0;top:2.4%;height:4.1%;display:flex;align-items:center;overflow:hidden;background:#002842;pointer-events:none}
+.rq-tk>span{display:flex;flex:none;animation:rq-tk 12s linear infinite}
+.rq-tk>span>span{flex:none;padding:0 4.5cqw;font:700 3.4cqw/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.42em;color:#0cbcc4}
+@keyframes rq-tk{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.rq-tk>span{animation:none}}
 /* ヘッダーのメニューの「採用情報」（外部サイト）の小さな印 */
 .gnav-ext{width:12px;height:12px;margin-left:4px;opacity:.7}
 @media (min-width:1024px) and (max-width:1180px){.gnav{padding-left:16px}.gnav a{padding:0 9px;font-size:14px}.gnav a::after{left:9px;right:9px}.hd-in{gap:18px}}
