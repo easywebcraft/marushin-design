@@ -302,25 +302,17 @@
   update();
 })();
 
-// ---- 求人の案内：少し下へ動かしたら出す。× で閉じたら、そのページを見ているあいだは出さない（読み込み直すとまた出る。2026-11-17 松本さん） ----
+// ---- 求人の案内：左端の札をいつも出し、押すとバナーを開く（PC は触れても開く）。× ・ Esc ・ 外を押すと閉じる（2026-11-17 松本さん） ----
 (function () {
   var rq = document.getElementById('rq');
   if (!rq) return;
-  var closed = false;
-  rq.hidden = false;
-  var ft = document.querySelector('.ft');
-  var check = function () {
-    if (closed) return;
-    // フッターの上端が画面の下端から 120px 手前まで来たら消す（フッターの文字に重ねない）
-    var nearFt = ft && ft.getBoundingClientRect().top < window.innerHeight + 120;
-    rq.classList.toggle('is-on', (window.scrollY || pageYOffset) > 240 && !nearFt);
+  var tab = rq.querySelector('.rq-tab');
+  var set = function (open) {
+    rq.classList.toggle('is-open', open);
+    tab.setAttribute('aria-expanded', open ? 'true' : 'false');
   };
-  rq.querySelector('.rq-x').addEventListener('click', function () {
-    closed = true;
-    rq.classList.remove('is-on');
-    setTimeout(function () { rq.hidden = true; }, 500);
-  });
-  window.addEventListener('scroll', check, { passive: true });
-  window.addEventListener('resize', check);
-  check();
+  tab.addEventListener('click', function () { set(!rq.classList.contains('is-open')); });
+  rq.querySelector('.rq-x').addEventListener('click', function () { set(false); tab.blur(); });
+  document.addEventListener('click', function (ev) { if (!rq.contains(ev.target)) set(false); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') set(false); });
 })();

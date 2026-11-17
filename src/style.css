@@ -931,31 +931,35 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 /* ========== 求人の案内（トップだけ・2026-11-17 松本さん「スクロールしたらすぐ出る求人リンク」） ==========
    少し下へ動かすと左下に出て、フッターに近づくとふわっと消える（2026-11-17）。× で閉じると、そのページを見ているあいだは出さない（読み込み直すとまた出る）。
    中身は松本さんが用意したバナー画像（images/top/recruit-banner.jpg・縦長 1122×1402）をそのまま使う */
-.rq{position:fixed;left:24px;bottom:24px;z-index:58;width:260px;
-  opacity:0;transform:translate3d(0,24px,0);transition:opacity .45s cubic-bezier(.33,1,.68,1),transform .55s cubic-bezier(.22,1,.36,1);pointer-events:none}
-.rq.is-on{opacity:1;transform:none;pointer-events:auto}
-.rq-in{display:block;overflow:hidden;border-radius:6px;box-shadow:0 4px 10px rgba(18,31,52,.22),0 18px 44px rgba(18,31,52,.34);transition:transform .2s,box-shadow .2s}
+/* 2026-11-17 松本さん「左下のバナーが邪魔、でも常に採用情報が見えるように」：
+   いつもは画面の左端に細い札（RECRUIT 採用情報）だけを出し、触れる／押すとバナーが横から出る */
+.rq{position:fixed;left:0;top:50%;z-index:58;transform:translateY(-50%)}
+.rq-tab{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 7px 18px;border:0;border-radius:0 6px 6px 0;
+  background:#002842;color:#fff;cursor:pointer;writing-mode:vertical-rl;box-shadow:0 2px 10px rgba(23,53,75,.22);transition:background .2s,padding .2s}
+.rq-tab:hover,.rq.is-open .rq-tab{background:#0b3a5a;padding-left:10px}
+.rq-tab-en{font:700 10.5px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.32em;color:#0cbcc4}
+.rq-tab-ja{font-size:13px;font-weight:700;letter-spacing:.18em}
+.rq-pop{position:absolute;left:calc(100% + 14px);top:50%;width:250px;opacity:0;visibility:hidden;
+  transform:translate3d(-12px,-50%,0);transition:opacity .3s,transform .35s cubic-bezier(.22,1,.36,1),visibility 0s .35s}
+.rq.is-open .rq-pop{opacity:1;visibility:visible;transform:translate3d(0,-50%,0);transition:opacity .3s,transform .35s cubic-bezier(.22,1,.36,1),visibility 0s}
+@media (hover:hover){.rq:hover .rq-pop{opacity:1;visibility:visible;transform:translate3d(0,-50%,0);transition:opacity .3s,transform .35s cubic-bezier(.22,1,.36,1),visibility 0s}}
+.rq-in{display:block;overflow:hidden;border:4px solid #fff;border-radius:4px;
+  box-shadow:0 2px 4px rgba(23,53,75,.10),0 12px 26px rgba(23,53,75,.18)}
 .rq-in img{display:block;width:100%;height:auto}
-.rq-in:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(18,31,52,.26),0 24px 52px rgba(18,31,52,.38)}
-.rq-x{position:absolute;top:-12px;right:-12px;z-index:2;display:grid;place-items:center;width:34px;height:34px;padding:0;border:2px solid #fff;border-radius:50%;
-  background:#0f2a43;color:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.rq-x:hover{background:#19A9B4}
-.rq-x svg{width:18px;height:18px}
-@media (max-width:767px){
-  .rq{left:12px;bottom:calc(76px + env(safe-area-inset-bottom));width:150px}
-  .rq-x{top:-10px;right:-8px;width:30px;height:30px}
-}
-@media (prefers-reduced-motion:reduce){.rq{transition:none}.rq-in:hover{transform:none}}
-@media print{.rq{display:none!important}}
-/* 求人のバナーを背景になじませる（2026-11-17 松本さん「背景に馴染むような見せ方」）：
-   強い影をやめて、施工事例の写真と同じ白いふちと薄い影に。後ろの文字が透けないよう濃さはそのまま。× も白く控えめに */
-.rq-in{border:4px solid #fff;border-radius:4px;
-  box-shadow:0 1px 2px rgba(23,53,75,.08),0 6px 16px rgba(23,53,75,.12);transition:transform .2s,box-shadow .2s,opacity .2s}
-.rq-in:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(23,53,75,.10),0 12px 26px rgba(23,53,75,.16)}
-.rq-x{top:-10px;right:-10px;width:28px;height:28px;border:1px solid var(--line);background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(23,53,75,.15)}
-.rq-x:hover{background:var(--pale);color:var(--navy)}
+.rq-x{position:absolute;top:-10px;right:-10px;z-index:2;display:grid;place-items:center;width:28px;height:28px;padding:0;border:1px solid var(--line);border-radius:50%;
+  background:#fff;color:var(--navy);cursor:pointer;box-shadow:0 1px 4px rgba(23,53,75,.15)}
+.rq-x:hover{background:var(--pale)}
 .rq-x svg{width:14px;height:14px}
-@media (max-width:767px){.rq-in{border-width:3px}.rq-x{top:-9px;right:-9px;width:26px;height:26px}}
+@media (max-width:767px){
+  /* スマホは本文の左の余白（16px）にほぼ収まるよう、英字を外して細くする */
+  .rq-tab{padding:12px 3px 13px;border-radius:0 5px 5px 0}
+  .rq-tab:hover,.rq.is-open .rq-tab{padding-left:5px}
+  .rq-tab-en{display:none}.rq-tab-ja{font-size:11.5px;letter-spacing:.12em}
+  .rq-pop{left:calc(100% + 10px);width:190px}
+  .rq-in{border-width:3px}
+}
+@media (prefers-reduced-motion:reduce){.rq-pop,.rq.is-open .rq-pop{transition:none}}
+@media print{.rq{display:none!important}}
 /* バナー上部の「RECRUIT」を横に流れる文字に（2026-11-17 松本さん）。画像の文字（縦 47〜74px／1402px）を同じ紺の帯で隠し、
    その上に同じ色の文字を左へ流す。大きさはバナーの幅に合わせる（cqw）。動きを減らす設定では止める */
 .rq-in{position:relative;container-type:inline-size}
