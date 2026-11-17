@@ -791,7 +791,7 @@ def page_faq():
 
 def page_outline():
     """会社案内。2026-11-17 松本さんのデザイン案の構成に（丸信について・料金案内と同じ見せ方）。
-    社長あいさつ・企業理念は今のサイトの文を、デザイン案の短い言い回しで。見出しは「。」「、」なし（決まり）。"""
+    社長あいさつは今のサイトの文のまま（2026-11-17 松本さん「原文に戻して」）。企業理念はデザイン案の短い言い回しで。見出しは「。」「、」なし（決まり）。"""
     c = load('company.json')
     arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v15M6.5 13.5 12 19l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
@@ -848,11 +848,9 @@ def page_outline():
 <div class="ol-msg-h"><p class="cm-en" lang="en">MESSAGE</p><h2 class="t-ttl" id="h-msg">社長あいさつ</h2>
 <p class="t-ttl ol-big">解体のことは<br>解体の専門家へ</p></div>
 <div class="ol-msg-b">
-<p>新築や建て替え、リフォーム。その最初の工程となる解体工事は、専門業者への直接のご相談が可能です。</p>
-<p>丸信では、解体費用や施工方法について、お客様のお話を伺いながらご案内いたします。</p>
-<p>まずは一度、株式会社丸信までお気軽にご相談ください。</p>
+{''.join(f'<p>{esc(p)}</p>' for p in c['greeting'])}
 <p class="ol-sign">株式会社 丸信　代表取締役　灰崎 信吉</p>
-{todo('社長あいさつ（今のサイトの2013年ごろの文を、短くまとめ直した案です。この文でよいか）')}
+{todo('社長あいさつの文章（2013年ごろの文章です。このまま載せてよいか）')}
 </div>
 </div>
 <ul class="ol-pics">{pics_html}</ul>
