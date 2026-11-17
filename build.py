@@ -276,7 +276,7 @@ def page_head(fname):
     _f, name, en, _h, _d = PAGE[fname]
     pos = PH_POS.get(fname, '50% 50%')
     # 丸信について・料金案内は、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17）
-    if fname in ('about.html', 'price.html', 'case.html', 'flow.html'):
+    if fname in ('about.html', 'price.html', 'case.html', 'flow.html', 'outline.html'):
         return f'''<div class="ph ph-au">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
 <div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{name}</h1></div></div>
@@ -790,7 +790,10 @@ def page_faq():
 
 
 def page_outline():
+    """会社案内。2026-11-17 松本さんのデザイン案の構成に（丸信について・料金案内と同じ見せ方）。
+    社長あいさつ・企業理念は今のサイトの文を、デザイン案の短い言い回しで。見出しは「。」「、」なし（決まり）。"""
     c = load('company.json')
+    arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v15M6.5 13.5 12 19l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
     def rows(items):
         out = []
@@ -805,44 +808,98 @@ def page_outline():
             out.append(f'<div><dt>{esc(r["k"])}</dt><dd>{v}{t}</dd></div>')
         return ''.join(out)
 
-    phil = ''.join(f'<h3 class="h3b">{esc(p["h"])}</h3>' + ''.join(f'<p>{esc(x)}</p>' for x in p['p']) for p in c['philosophy'])
+    jump = [('ol-msg', '社長あいさつ'), ('ol-prof', '会社概要'), ('ol-lic', '許可・登録'), ('ol-area', '対応エリア'), ('ol-acc', '所在地')]
+    jump_html = ''.join(f'<li><a href="#{i}">{t}{arw}</a></li>' for i, t in jump)
+
+    pics = [('images/top/fv-3.jpg', '50% 60%'), ('images/top/fv-2.jpg', '50% 55%'), ('images/top/staff.jpg', '50% 40%')]
+    pics_html = ''.join(f'<li><img src="{src}" alt="" width="1600" height="1066" loading="lazy" decoding="async" style="object-position:{pos}"></li>' for src, pos in pics)
+
+    def lic(r):
+        prefs = '・'.join(x.split()[0].split('知事')[0] for x in r['v'])   # 「愛知県　第…」「愛知県知事許可…」の県名
+        nums = '<br>'.join(esc(x) for x in r['v'])
+        t = todo(r['todo']) if r.get('todo') else ''
+        return f'<li><h3>{esc(r["k"])}</h3><p class="ol-pref">{esc(prefs)}</p><p class="ol-num">{nums}</p>{t}</li>'
+    lic_html = ''.join(lic(r) for r in c['permits'])
+
+    ph_svg = {
+        'hand': '<path d="M3 12.5 7.5 8l3 1.5L14 7l4 1.5 3 4"/><path d="M7.5 8 3 12.5l5 4.5 2-1.5 2 1.5 2-1.5 2 1.5 3.5-4.5"/><path d="M10.5 9.5 8 12c-.7.8.4 2 1.3 1.3L12 11l4 3.5"/>',
+        'recycle': '<path d="M8.5 6.5 10.6 3a1.6 1.6 0 0 1 2.8 0l2.3 4"/><path d="m15.7 4.5.1 2.6-2.5.6"/><path d="M19 11.5l2.1 3.6a1.6 1.6 0 0 1-1.4 2.4H15"/><path d="m17 19.5-2-2 1.7-1.9"/><path d="M8.5 17.5H4.3a1.6 1.6 0 0 1-1.4-2.4L5 11.4"/><path d="m3.4 12.2 1.6-.8 1.4 2.2"/>',
+        'leaf': '<path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/>',
+    }
+    phil = [
+        ('hand', '近隣への配慮', '工程や作業時間を丁寧にお伝えし<br>周辺の生活環境に配慮して施工します。'),
+        ('recycle', '適正処分とリサイクル', '廃棄物の分別と適正処分を徹底し<br>循環型社会を目指します。'),
+        ('leaf', '省エネルギー', '車両・重機の燃費向上に努め<br>環境負荷の低減に取り組みます。'),
+    ]
+    phil_html = ''.join(
+        f'<li><div class="ol-ph-h"><span class="ol-pn" aria-hidden="true">{n:02d}</span>'
+        f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{ph_svg[k]}</svg></div>'
+        f'<h3>{t}</h3><p>{d}</p></li>'
+        for n, (k, t, d) in enumerate(phil, 1))
+    area_rows = ''.join(f'<div><dt>{esc(a["pref"])}</dt><dd>{esc(a["cities"])}</dd></div>' for a in c['area'])
     map_fr = frame('地図（住所の確認が済んでから入れます）', 'phf-map')
+
     return f'''{page_head('outline.html')}
-<section class="sec">
-<div class="wrap wrap-m">
-<h2 class="h2l">社長あいさつ</h2>
-{''.join(f'<p>{esc(p)}</p>' for p in c['greeting'])}
-<p class="sign">株式会社 丸信　代表取締役　灰崎 信吉</p>
-{todo('社長あいさつの文章（2013年ごろの文章です。このまま載せてよいか）')}
+<nav class="ol-jump" aria-label="このページの内容"><div class="wrap"><ul>{jump_html}</ul></div></nav>
+
+<section class="sec ol-msg has-wm" data-wm="MESSAGE" id="ol-msg" aria-labelledby="h-msg">
+<div class="wrap">
+<div class="ol-msg-in">
+<div class="ol-msg-h"><p class="cm-en" lang="en">MESSAGE</p><h2 class="t-ttl" id="h-msg">社長あいさつ</h2>
+<p class="t-ttl ol-big">解体のことは<br>解体の専門家へ</p></div>
+<div class="ol-msg-b">
+<p>新築や建て替え、リフォーム。その最初の工程となる解体工事は、専門業者への直接のご相談が可能です。</p>
+<p>丸信では、解体費用や施工方法について、お客様のお話を伺いながらご案内いたします。</p>
+<p>まずは一度、株式会社丸信までお気軽にご相談ください。</p>
+<p class="ol-sign">株式会社 丸信　代表取締役　灰崎 信吉</p>
+{todo('社長あいさつ（今のサイトの2013年ごろの文を、短くまとめ直した案です。この文でよいか）')}
+</div>
+</div>
+<ul class="ol-pics">{pics_html}</ul>
+<p class="img-note-s">写真はイメージです</p>
 </div>
 </section>
 
-<section class="sec sec-pale">
-<div class="wrap wrap-m">
-<h2 class="h2l">会社概要</h2>
-<dl class="dl">{rows(c['profile'])}</dl>
-<h2 class="h2l mt-xl">許可・登録</h2>
-<dl class="dl">{rows(c['permits'])}</dl>
-<h2 class="h2l mt-xl">対象エリア</h2>
-{area_html(c)}
+<section class="sec ol-prof has-wm" data-wm="PROFILE" id="ol-prof" aria-labelledby="h-prof">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">PROFILE</p><h2 class="t-ttl" id="h-prof">会社概要</h2></div>
+<dl class="ol-dl">{rows(c['profile'])}</dl>
 </div>
 </section>
 
-<section class="sec">
-<div class="wrap wrap-m">
-<h2 class="h2l">企業理念・経営方針</h2>
-{phil}
+<section class="sec ol-lic-sec has-wm" data-wm="LICENSE" id="ol-lic" aria-labelledby="h-lic">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">LICENSE</p><h2 class="t-ttl" id="h-lic">許可・登録</h2></div>
+<ul class="ol-lic">{lic_html}</ul>
 </div>
 </section>
 
-<section class="sec sec-pale">
-<div class="wrap wrap-m">
-<h2 class="h2l">所在地・アクセス</h2>
-<p class="addr">{ic("pin")}〒{POSTAL} {ADDRESS}</p>
-{map_fr}
-{todo('所在地の郵便番号と地図（郵便番号が確かめられてから地図を入れます）')}
+<section class="sec ol-phil-sec has-wm" data-wm="PHILOSOPHY" aria-labelledby="h-phil">
+<div class="wrap">
+<div class="ol-phil-h"><div><p class="cm-en" lang="en">PHILOSOPHY</p><h2 class="t-ttl" id="h-phil">企業理念・経営方針</h2></div>
+<p class="ol-phil-c">近隣の皆様への配慮と<br>環境に向き合う施工を</p></div>
+<ul class="ol-phil">{phil_html}</ul>
 </div>
-</section>'''
+</section>
+
+<section class="sec ar-sec ol-ar has-wm" data-wm="AREA" id="ol-area" aria-labelledby="h-area">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2></div>
+<div><p class="ol-c">春日井市を中心に<br>東海3県へ</p><dl class="ar">{area_rows}</dl>
+<p class="ar-note">{esc(c["area_note"])}。その他の地域もお気軽にご相談ください。</p></div>
+</div>
+</section>
+
+<section class="sec ol-acc has-wm" data-wm="ACCESS" id="ol-acc" aria-labelledby="h-acc">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">ACCESS</p><h2 class="t-ttl" id="h-acc">所在地・アクセス</h2></div>
+<div class="ol-acc-in"><div><p class="ol-addr">〒{POSTAL}<br>{ADDRESS}</p>
+{todo('所在地の郵便番号と地図（郵便番号が確かめられてから地図を入れます）')}</div>
+{map_fr}</div>
+</div>
+</section>
+
+{ct_band()}'''
 
 
 def page_contact():
@@ -999,7 +1056,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html', 'flow.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html', 'flow.html', 'outline.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
