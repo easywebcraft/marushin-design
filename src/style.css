@@ -1124,3 +1124,36 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (max-width:767px){.pr-ot-t .pr-no{width:auto;padding-right:4px!important;text-align:left}}
 /* 丸信についての想いの写真は社員の集合写真（横長なので、左右を切りすぎない形に。2026-11-17） */
 .au-staff img{aspect-ratio:16/10;object-position:42% 50%}
+
+/* ========== 施工事例（2026-11-17 松本さんのデザイン案）：2列の事例、施工前・施工後を横に並べ、下に番号・構造・名前・場所と線 ========== */
+.cs-sec{background:#fff}
+.cs-head{display:grid;grid-template-columns:auto 1fr;gap:20px 48px;align-items:center}
+.cs-catch{margin-top:6px;font-size:clamp(26px,3vw,38px)}
+.cs-lead{padding-left:40px;border-left:1.5px solid #9DB0BB;font-size:15px;line-height:2}
+.cs{display:grid;grid-template-columns:1fr 1fr;gap:56px 44px;margin-top:44px}
+.cs>li{padding-bottom:20px;border-bottom:1.5px solid #9DB0BB}
+.cs-ph{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.cs-ph figure{position:relative;margin:0;overflow:hidden;background:var(--pale);box-shadow:0 2px 4px rgba(23,53,75,.08),0 10px 22px rgba(23,53,75,.12)}
+.cs-ph img{display:block;width:100%;aspect-ratio:1/1.05;object-fit:cover}
+.cs-ph figcaption{position:absolute;left:0;top:0;padding:3px 14px;background:var(--navy);color:#fff;font-size:14px;font-weight:700;letter-spacing:.08em;line-height:1.8}
+.cs-ph figcaption.after{background:var(--teal-d)}
+.cs-cap{display:flex;align-items:flex-start;gap:22px;margin-top:18px}
+.cs-n{padding-right:22px;border-right:1.5px solid #9DB0BB;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;font-size:32px;line-height:1.2;color:var(--teal-d)}
+.cs-tags{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.cs-tags:empty{display:none}
+.cs-kind{margin:0}
+.cs-note{color:var(--mute);font-size:13px}
+.cs-ttl{margin-top:4px;font-family:var(--serif);font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:.04em}
+.cs-place{margin-top:2px;color:var(--mute);font-size:15px;letter-spacing:.04em}
+.cs-more{margin-top:36px;text-align:center;font-size:15px}
+@media (max-width:1023px){
+  .cs-head{grid-template-columns:1fr}
+  .cs-lead{padding:14px 0 0;border-left:0;border-top:1.5px solid #9DB0BB}
+  .cs-lead br{display:none}
+}
+@media (max-width:767px){
+  .cs{grid-template-columns:1fr;gap:40px}
+  .cs-n{font-size:26px;padding-right:16px}
+  .cs-cap{gap:16px}
+  .cs-ph figcaption{font-size:12px;padding:2px 10px}
+}

@@ -276,7 +276,7 @@ def page_head(fname):
     _f, name, en, _h, _d = PAGE[fname]
     pos = PH_POS.get(fname, '50% 50%')
     # 丸信について・料金案内は、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17）
-    if fname in ('about.html', 'price.html'):
+    if fname in ('about.html', 'price.html', 'case.html'):
         return f'''<div class="ph ph-au">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
 <div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{name}</h1></div></div>
@@ -672,17 +672,32 @@ def page_price():
 
 
 def page_case():
+    """施工事例。2026-11-17 松本さんのデザイン案の構成に（丸信について・料金案内と同じ見せ方）。
+    写真は丸信さんの事例写真（01〜03は届いた大きい写真、04は今のサイトの小さい写真）。見出しは句読点なし。"""
     works = load('works.json')
-    cards = ''.join(work_card(w, lazy=i > 1, level='h2') for i, w in enumerate(works))
-    return f'''{page_head('case.html')}
-<section class="sec">
-<div class="wrap">
-<p class="lead">株式会社丸信にて施工を行いました事例をご紹介します。<br>工事完了後の隣家外壁補修工事や駐車場整備工事など、お客様のニーズに幅広くお応えしております。</p>
-<div class="works works-2">{cards}</div>
-<p class="note center mt-l">※順次、施工事例を追加予定をしております。</p>
-{todo('事例の写真（今のサイトの写真は小さいため、元の大きさの写真があれば差し替えます）')}
+    items = []
+    for n, w in enumerate(works, 1):
+        title = f'{esc(w["place"])} {esc(w["name"])}'
+        lz = '' if n <= 2 else ' loading="lazy" decoding="async"'
+        kind = f'<span class="wk-kind cs-kind">{esc(w["type"])}</span>' if w['type'] else ''
+        note = f'<span class="cs-note">{esc(w["note"])}</span>' if w['note'] else ''
+        items.append(f'''<li><div class="cs-ph">
+<figure><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="1448" height="976"{lz}><figcaption>施工前</figcaption></figure>
+<figure><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="1448" height="976"{lz}><figcaption class="after">施工後</figcaption></figure>
 </div>
-</section>'''
+<div class="cs-cap"><span class="cs-n" aria-hidden="true">{n:02d}</span><div class="cs-tx"><p class="cs-tags">{kind}{note}</p><h2 class="cs-ttl">{esc(w["name"])}</h2><p class="cs-place">{esc(w["place"])}</p></div></div></li>''')
+    return f'''{page_head('case.html')}
+<section class="sec cs-sec has-wm" data-wm="WORKS" aria-labelledby="h-cs">
+<div class="wrap">
+<div class="cs-head"><div><p class="cm-en" lang="en">OUR WORKS</p><p class="t-ttl cs-catch" id="h-cs">一つひとつの現場に誠実に</p></div>
+<p class="cs-lead">株式会社丸信にて施工を行いました事例をご紹介します。<br>工事完了後の隣家外壁補修工事や駐車場整備工事など、<br>お客様のニーズに幅広くお応えしております。</p></div>
+<ol class="cs">{''.join(items)}</ol>
+<p class="cs-more">※順次、施工事例を追加予定をしております。</p>
+{todo('事例04（店舗内装撤去工事）の写真（今のサイトの写真は小さいため、元の大きさの写真があれば差し替えます）')}
+</div>
+</section>
+
+{ct_band()}'''
 
 
 def page_flow():
@@ -961,7 +976,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
