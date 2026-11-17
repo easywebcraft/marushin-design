@@ -275,6 +275,14 @@ def page_head(fname):
     """下層ページの上の帯（題・英字・写真）と、現在位置。"""
     _f, name, en, _h, _d = PAGE[fname]
     pos = PH_POS.get(fname, '50% 50%')
+    # 丸信については、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17）
+    if fname == 'about.html':
+        return f'''<div class="ph ph-au">
+<div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
+<div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{name}</h1></div></div>
+<p class="img-note">写真はイメージです</p>
+</div>
+<nav class="bc" aria-label="現在位置"><ol><li><a href="./">ホーム</a></li><li aria-current="page">{name}</li></ol></nav>'''
     return f'''<div class="ph">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
 <div class="ph-in"><div class="ph-ttl"><h1>{name}</h1><p class="ph-en" lang="en">{en}</p></div></div>
