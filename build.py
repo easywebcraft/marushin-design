@@ -276,7 +276,7 @@ def page_head(fname):
     _f, name, en, _h, _d = PAGE[fname]
     pos = PH_POS.get(fname, '50% 50%')
     # 丸信について・料金案内は、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17）
-    if fname in ('about.html', 'price.html', 'case.html'):
+    if fname in ('about.html', 'price.html', 'case.html', 'flow.html'):
         return f'''<div class="ph ph-au">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
 <div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{name}</h1></div></div>
@@ -701,35 +701,58 @@ def page_case():
 
 
 def page_flow():
+    """施工の流れ。2026-11-17 松本さんのデザイン案の構成に（ほかの下層ページと同じ見せ方）。
+    10段階を4つのまとまり（トップの流れと同じ）に分け、左に写真・右に縦の線と STEP。説明は今のサイトの内容を短くしたもの。"""
     flow = load('flow.json')
-    items = []
-    for i, s in enumerate(flow, 1):
-        items.append(f'''<li>
-<span class="flow-num" aria-hidden="true">{i:02d}</span>
-<div class="flow-body">
-<h2><span class="vh">手順{i}：</span><span class="circ circ-s">{ic(s["icon"])}</span>{esc(s["title"])}</h2>
-{body_html(s["body"])}
-</div>
-</li>''')
+    arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    short = {
+        1: 'まずはご要望をお聞かせください。お問い合わせフォーム、またはお電話で承ります。',
+        2: '現地調査を行い、費用や解体方法を詳しくご説明します。',
+        3: 'お見積もりの内容にご納得いただいたうえで、ご契約となります。',
+        4: '有資格者が調査・申請を行い、調査内容をお客様にご説明します。',
+        5: '工事内容に応じて、必要な届出を行います。',
+        6: '近隣の皆様へ、工事の概要や作業工程を丁寧にご説明します。',
+        7: '現場の状況に合わせ、騒音・振動・粉塵・安全に配慮して施工します。',
+        8: '木材・コンクリート・鉄などを分別し、中間処理施設へ搬出。マニフェスト伝票で処理状況を管理します。',
+        9: '地盤面を平らに整え、工事完了後にお客様に現場をご確認いただきます。',
+        10: 'ご協力への感謝をお伝えするとともに、ご迷惑がなかったかを確認します。',
+    }
+    title = {10: '近隣への工事終了のご挨拶', 6: '近隣への工事説明・ご挨拶', 2: 'お見積もりのご提出・ご説明', 1: 'ご相談・お見積もりのご依頼', 8: '廃材の分別・収集・搬出'}
+    tags = {7: ['騒音対策', '振動対策', '防塵対策', '安全対策']}
+    phases = [('ご相談・お見積もり', [1, 2], 'flow-1'), ('ご契約・着工準備', [3, 4, 5, 6], 'flow-2'),
+              ('解体工事', [7, 8], 'flow-3'), ('整地・工事完了', [9, 10], 'flow-4')]
+    nav = ''.join(f'<li><b>{n:02d}</b><span>{t}</span></li>' for n, (t, _s, _p) in enumerate(phases, 1))
+    blocks = []
+    for n, (t, steps, ph) in enumerate(phases, 1):
+        st = ''.join(
+            f'<li><p class="fw-sn"><span lang="en">STEP</span><b>{k:02d}</b></p><div><h3>{esc(title.get(k, flow[k - 1]["title"]))}</h3><p>{short[k]}</p>'
+            + (''.join(f'<span class="fw-tag">{x}</span>' for x in tags[k]) if k in tags else '') + '</div></li>'
+            for k in steps)
+        blocks.append(f'''<section class="fw-ph" aria-labelledby="h-ph{n}">
+<div class="fw-l"><p class="fw-pn"><span lang="en">PHASE</span> {n:02d}</p><h2 class="fw-pt" id="h-ph{n}">{t}</h2>
+<figure class="au-ph"><img src="images/top/{ph}.jpg" alt="" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>写真はイメージです</figcaption></figure></div>
+<ol class="fw-steps">{st}</ol>
+</section>''')
     return f'''{page_head('flow.html')}
-<section class="sec">
-<div class="wrap wrap-m">
-<p>解体工事は家屋や建物などを壊すだけではありません。ご自分では処分が難しい大きな建築材の解体や、処分する為の分別作業、処分費用、運搬、手続きなどが発生します。手間、人手と莫大な労力を要するのが解体作業・解体工事であると言えます。</p>
-<p>株式会社 丸信が行う解体工事の、施工の主な流れについてご説明します。</p>
-<p class="note">※解体内容によっては異なる場合がございます。詳しくは<a href="contact.html">お問い合わせ</a>ください。</p>
-<ol class="flow">
-{''.join(items)}
-</ol>
+<section class="sec fw-sec has-wm" data-wm="PROCESS" aria-labelledby="h-fw">
+<div class="wrap">
+<p class="cm-en" lang="en">PROCESS</p><p class="t-ttl fw-catch" id="h-fw">ご相談から工事完了まで丁寧に</p>
+<p class="fw-lead">ご相談・お見積もりから、近隣へのご挨拶、解体工事、整地まで。丸信が行う施工の主な流れをご紹介します。</p>
+<p class="fw-small">※解体内容によっては異なる場合がございます。詳しくは<a href="contact.html">お問い合わせ</a>ください。</p>
+<ol class="fw-nav">{nav}</ol>
+{''.join(blocks)}
 </div>
 </section>
 
-<section class="band" aria-labelledby="h-flowfaq">
-<div class="wrap band-in">
-<h2 class="band-ttl" id="h-flowfaq">よくある質問</h2>
-<p class="band-tx">工事の内容や、工事前後の準備・手続きについて、よくいただくご質問をまとめています。</p>
-{more('faq.html', 'よくある質問を見る')}
+<section class="fw-faq" aria-labelledby="h-flowfaq">
+<div class="wrap fw-faq-in">
+<p class="fw-faq-en" lang="en">FAQ</p><h2 id="h-flowfaq">よくある質問</h2>
+<p>工事前の準備や手続きについて、ご質問をまとめています。</p>
+<a class="btn pr-info-btn" href="faq.html">よくある質問を見る{arw}</a>
 </div>
-</section>'''
+</section>
+
+{ct_band()}'''
 
 
 def page_voice():
@@ -976,7 +999,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html', 'flow.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
