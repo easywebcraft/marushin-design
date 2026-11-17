@@ -275,8 +275,8 @@ def page_head(fname):
     """下層ページの上の帯（題・英字・写真）と、現在位置。"""
     _f, name, en, _h, _d = PAGE[fname]
     pos = PH_POS.get(fname, '50% 50%')
-    # 丸信については、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17）
-    if fname == 'about.html':
+    # 丸信について・料金案内は、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17）
+    if fname in ('about.html', 'price.html'):
         return f'''<div class="ph ph-au">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
 <div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{name}</h1></div></div>
@@ -606,50 +606,69 @@ def page_about():
 
 
 def page_price():
+    """料金案内。2026-11-17 松本さんのデザイン案の構成に（丸信について・トップと同じ見せ方）。
+    金額と単位は data/price.json（今のサイトの料金表）のまま。デザイン案の数字は使わない（庭木・庭石の単位がデザイン案と違う）。"""
     price = load('price.json')
-    rows = []
-    for s in price['structures']:
-        for i, (size, cost) in enumerate(s['rows']):
-            th = (f'<th scope="rowgroup" rowspan="{len(s["rows"])}">{esc(s["name"])}<small>（{esc(s["unit"])}）</small></th>'
-                  if i == 0 else '')
-            rows.append(f'<tr>{th}<td>{esc(size)}</td><td class="num">{esc(cost)}</td></tr>')
-    others = []
+    chev = ic('chev')
+    arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    down = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v15M6.5 13.5 12 19l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    svg = {
+        '木造': '<path d="M4 11.5 12 5l8 6.5"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>',
+        '鉄骨造': '<path d="M3 10h18M5 10l7-5 7 5"/><path d="M6 10v10M18 10v10M12 10v10M6 15h12"/>',
+        '鉄筋コンクリート造': '<rect x="6" y="3.5" width="12" height="17"/><path d="M9 7h2M13 7h2M9 10.5h2M13 10.5h2M9 14h2M13 14h2M11 20.5v-3h2v3"/>',
+    }
+    def cost_html(c):
+        # 「3.5～4.5万円」の数字を大きく、単位（万円・円）を小さく
+        import re as _re
+        m = _re.match(r'^(.*?)(万円|円)(.*)$', c)
+        return f'<b>{esc(m.group(1))}</b><small>{esc(m.group(2))}{esc(m.group(3))}</small>' if m else f'<b>{esc(c)}</b>'
+    cards = ''.join(
+        f'<li><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{svg.get(st["name"], "")}</svg>{esc(st["name"])}</h3>'
+        f'<table class="pr-t"><caption class="vh">{esc(st["name"])}の解体費用（坪単価）</caption>'
+        f'<thead><tr><th scope="col">坪数</th><th scope="col">費用（坪単価）</th></tr></thead><tbody>'
+        + ''.join(f'<tr><th scope="row">{esc(a)}</th><td>{cost_html(b)}</td></tr>' for a, b in st['rows'])
+        + '</tbody></table></li>' for st in price['structures'])
+    incl = ['整地', '処分費用', '養生シート', 'コンクリート基礎']
+    incl_html = ''.join(f'<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>{t}</li>' for t in incl)
+    rows, n = [], 0
     for o in price['others']:
-        for i, (what, cost) in enumerate(o['rows']):
-            th = f'<th scope="rowgroup" rowspan="{len(o["rows"])}">{esc(o["name"])}</th>' if i == 0 else ''
-            others.append(f'<tr>{th}<td>{esc(what) or "―"}</td><td class="num">{esc(cost)}</td></tr>')
+        for what, cost in o['rows']:
+            n += 1
+            rows.append(f'<tr><td class="pr-no">{n}.</td><th scope="row">{esc(o["name"])}</th><td>{esc(what) or "―"}</td><td class="num">{cost_html(cost)}</td></tr>')
     return f'''{page_head('price.html')}
-<section class="sec">
-<div class="wrap wrap-m">
-<p class="lead">{esc(price["lead"])}</p>
+<section class="sec pr-intro">
+<div class="wrap">
+<h2 class="t-ttl pr-lead-h">解体工事の費用をわかりやすく</h2>
+<p class="pr-lead">{esc(price["lead"]).replace("料金表です。", "料金をご案内します。")}</p>
 {todo('料金の金額（今のサイトの料金表は2013年ごろのものです。今もこの金額でよいか）')}
 {todo('税込・税別の表記（今のサイトの料金表には、どちらとも書かれていません）')}
-<h2 class="h2l">建物の解体工事</h2>
-<div class="tbl-wrap">
-<table class="tbl tbl-price">
-<caption class="vh">建物の解体工事の料金（坪単価）</caption>
-<thead><tr><th scope="col">構造</th><th scope="col">坪数</th><th scope="col">費用（坪単価）</th></tr></thead>
-<tbody>
-{''.join(rows)}
-</tbody>
-</table>
+<ul class="pr-jump"><li><a href="#demolition">建物の解体工事{down}</a></li><li><a href="#other">その他の工事・処分{down}</a></li></ul>
 </div>
-<p class="incl">{esc(price["included"])}</p>
+</section>
 
-<h2 class="h2l mt-xl">その他の工事・処分</h2>
-<div class="tbl-wrap">
-<table class="tbl tbl-other">
-<caption class="vh">その他の工事・処分の料金</caption>
-<thead><tr><th scope="col">項目</th><th scope="col">内容</th><th scope="col">費用</th></tr></thead>
-<tbody>
-{''.join(others)}
-</tbody>
-</table>
+<section class="sec pr-dm has-wm" data-wm="DEMOLITION" id="demolition" aria-labelledby="h-dm">
+<div class="wrap">
+<div class="pr-dm-h"><div><p class="cm-en" lang="en">DEMOLITION</p><h2 class="t-ttl" id="h-dm">建物の解体工事</h2></div>
+<p class="pr-unit">費用は坪単価です（1坪＝3.3m²）</p></div>
+<ul class="pr-cards">{cards}</ul>
+<div class="pr-incl"><p>上記料金に含まれるもの</p><ul>{incl_html}</ul></div>
 </div>
-<p class="note">※{esc(price["note"])}</p>
-<p class="note">※解体工事着工までのご準備や、別途費用が発生する場合については、<a href="faq.html#prep">よくある質問</a>もご覧ください。</p>
+</section>
+
+<section class="sec pr-ot has-wm" data-wm="OTHER WORKS" id="other" aria-labelledby="h-ot">
+<div class="wrap">
+<p class="cm-en" lang="en">OTHER WORKS</p><h2 class="t-ttl" id="h-ot">その他の工事・処分</h2>
+<div class="pr-tw"><table class="pr-ot-t"><caption class="vh">その他の工事・処分の料金</caption>
+<thead><tr><th scope="col" colspan="2">項目</th><th scope="col">内容</th><th scope="col" class="num">費用</th></tr></thead>
+<tbody>{''.join(rows)}</tbody></table></div>
+<div class="pr-info"><span class="pr-i" aria-hidden="true">i</span>
+<div><h3>着工前のご準備・別途費用について</h3><p>解体工事着工までのご準備や、別途費用が発生する場合については、<a href="faq.html#prep">よくある質問</a>もご覧ください。</p></div>
+<a class="btn pr-info-btn" href="faq.html#prep">よくある質問を見る{arw}</a></div>
+<p class="pr-note">{esc(price["note"]).replace("ございましたら、", "は")}</p>
 </div>
-</section>'''
+</section>
+
+{ct_band()}'''
 
 
 def page_case():
@@ -942,7 +961,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
