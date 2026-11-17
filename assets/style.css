@@ -950,9 +950,18 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   background:#fff;color:var(--navy);cursor:pointer;box-shadow:0 1px 4px rgba(23,53,75,.15)}
 .rq-x:hover{background:var(--pale)}
 .rq-x svg{width:14px;height:14px}
+/* もう少し目立つように（2026-11-17 松本さん）：地をサイトの差し色の青緑に、上に黄色の「募集中」の印 */
+.rq-tab{position:relative;padding-top:66px;background:var(--teal-d)}
+.rq-tab:hover,.rq.is-open .rq-tab{background:var(--teal-dd)}
+.rq-tab-en{color:rgba(255,255,255,.85)}
+.rq-tab-new{position:absolute;top:9px;left:50%;transform:translateX(-50%);padding:6px 3px;border-radius:3px;
+  background:#FFC93C;color:var(--navy);font-size:11px;font-weight:700;line-height:1;letter-spacing:.12em}
+@media (max-width:767px){
+  .rq-tab-new{top:6px;padding:4px 2px;font-size:10px;letter-spacing:.06em}
+}
 @media (max-width:767px){
   /* スマホは本文の左の余白（16px）にほぼ収まるよう、英字を外して細くする */
-  .rq-tab{padding:12px 3px 13px;border-radius:0 5px 5px 0}
+  .rq-tab{padding:50px 3px 13px;border-radius:0 5px 5px 0}
   .rq-tab:hover,.rq.is-open .rq-tab{padding-left:5px}
   .rq-tab-en{display:none}.rq-tab-ja{font-size:11.5px;letter-spacing:.12em}
   .rq-pop{left:calc(100% + 10px);width:190px}
