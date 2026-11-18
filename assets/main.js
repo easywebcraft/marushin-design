@@ -302,26 +302,33 @@
   update();
 })();
 
-// ---- 求人の案内：下へ進むと左端に札を出し、押すとバナーを開く（PC は触れても開く）。札をもう一度押す・Esc・外を押すと閉じる（×は 2026-11-18 松本さんの希望で外した） ----
+// ---- 求人の案内とブログの札：下へ進むと左端に札を出し、押すとバナーを開く（PC は触れても開く）。札をもう一度押す・Esc・外を押すと閉じる（×は 2026-11-18 松本さんの希望で外した）。
+// ブログの札（準備中）は 2026-11-19 に足した。開くのは押した札の分だけ ----
 (function () {
-  var rq = document.getElementById('rq');
-  if (!rq) return;
-  var tab = rq.querySelector('.rq-tab');
-  var set = function (open) {
+  var box = document.getElementById('rqs');
+  if (!box) return;
+  var all = Array.prototype.slice.call(box.querySelectorAll('.rq'));
+  var set = function (rq, open) {
     rq.classList.toggle('is-open', open);
-    tab.setAttribute('aria-expanded', open ? 'true' : 'false');
+    rq.querySelector('.rq-tab').setAttribute('aria-expanded', open ? 'true' : 'false');
   };
-  tab.addEventListener('click', function () { set(!rq.classList.contains('is-open')); });
-  document.addEventListener('click', function (ev) { if (!rq.contains(ev.target)) set(false); });
-  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') set(false); });
+  var closeAll = function (except) { all.forEach(function (rq) { if (rq !== except) set(rq, false); }); };
+  all.forEach(function (rq) {
+    rq.querySelector('.rq-tab').addEventListener('click', function () {
+      closeAll(rq);
+      set(rq, !rq.classList.contains('is-open'));
+    });
+  });
+  document.addEventListener('click', function (ev) { if (!box.contains(ev.target)) closeAll(); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeAll(); });
   // 最初の画面では隠し、画面の高さの半分ほど下へ進んだら出す。上へ戻ると隠す（2026-11-18 松本さん）
   var shown = null;
   var check = function () {
     var on = (window.scrollY || window.pageYOffset) > window.innerHeight * 0.5;
     if (on === shown) return;
     shown = on;
-    rq.classList.toggle('is-wait', !on);
-    if (!on) set(false);
+    box.classList.toggle('is-wait', !on);
+    if (!on) closeAll();
   };
   window.addEventListener('scroll', check, { passive: true });
   window.addEventListener('resize', check);

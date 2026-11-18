@@ -934,11 +934,13 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
    中身は松本さんが用意したバナー画像（images/top/recruit-banner.jpg・縦長 1122×1402）をそのまま使う */
 /* 2026-11-17 松本さん「左下のバナーが邪魔、でも常に採用情報が見えるように」：
    いつもは画面の左端に細い札（RECRUIT 採用情報）だけを出し、触れる／押すとバナーが横から出る */
-.rq{position:fixed;left:0;top:50%;z-index:58;transform:translateY(-50%)}
+/* 2026-11-19 松本さん「採用情報と同じ形式でブログのバナーも（中身は準備中）」：札を縦に2つ並べる（.rqs がまとめて出し入れする） */
+.rqs{position:fixed;left:0;top:50%;z-index:58;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.rq{position:relative}
 /* 最初の画面では隠し、下へ進むと左から出す（2026-11-18 松本さん）。JSが無いときは最初から出る */
-.rq{transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
-.rq.is-wait{opacity:0;visibility:hidden;transform:translate3d(-100%,-50%,0);transition:transform .35s,opacity .25s,visibility 0s .35s}
-@media (prefers-reduced-motion:reduce){.rq,.rq.is-wait{transition:none}}
+.rqs{transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
+.rqs.is-wait{opacity:0;visibility:hidden;transform:translate3d(-100%,-50%,0);transition:transform .35s,opacity .25s,visibility 0s .35s}
+@media (prefers-reduced-motion:reduce){.rqs,.rqs.is-wait{transition:none}}
 .rq-tab{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 7px 18px;border:0;border-radius:0 6px 6px 0;
   background:#002842;color:#fff;cursor:pointer;writing-mode:vertical-rl;box-shadow:0 2px 10px rgba(23,53,75,.22);transition:background .2s,padding .2s}
 .rq-tab:hover,.rq.is-open .rq-tab{background:#0b3a5a;padding-left:10px}
@@ -969,7 +971,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .rq-in{border-width:3px}
 }
 @media (prefers-reduced-motion:reduce){.rq-pop,.rq.is-open .rq-pop{transition:none}}
-@media print{.rq{display:none!important}}
+@media print{.rqs{display:none!important}}
 /* バナー上部の「RECRUIT」を横に流れる文字に（2026-11-17 松本さん）。画像の文字（縦 47〜74px／1402px）を同じ紺の帯で隠し、
    その上に同じ色の文字を左へ流す。大きさはバナーの幅に合わせる（cqw）。動きを減らす設定では止める */
 .rq-in{position:relative;container-type:inline-size}
@@ -978,6 +980,19 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .rq-tk>span>span{flex:none;padding:0 4.5cqw;font:700 3.4cqw/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.42em;color:#0cbcc4}
 @keyframes rq-tk{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.rq-tk>span{animation:none}}
+/* ブログの札（準備中）：採用情報と同じ形で、地を紺にして見分ける。開くと「準備中」の札（リンクなし） */
+.rq-blog .rq-tab{background:var(--navy)}
+.rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{background:#0b3a5a}
+.rq-blog .rq-tab-new{background:#E4E9EE;color:var(--navy)}
+.rq-soon{padding:30px 18px 28px;background:var(--navy);color:#fff;text-align:center}
+.rq-soon-en{margin:0;font:700 11px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.42em;color:#0cbcc4}
+.rq-soon-ttl{margin:12px 0 0;font-family:var(--serif,serif);font-size:24px;font-weight:700;letter-spacing:.12em}
+.rq-soon-st{display:inline-block;margin:16px 0 0;padding:6px 14px;border:1px solid rgba(255,255,255,.5);border-radius:999px;font-size:13px;font-weight:700;letter-spacing:.1em}
+.rq-soon-tx{margin:14px 0 0;font-size:12px;line-height:1.7;color:rgba(255,255,255,.78)}
+.rq-soon-tx span{display:inline-block}   /* 狭い幅では「公開まで」の後で折り返す */
+@media (max-width:767px){
+  .rq-soon{padding:22px 12px 20px}.rq-soon-ttl{font-size:20px}.rq-soon-st{font-size:12px;padding:5px 10px}.rq-soon-tx{font-size:11px}
+}
 /* ヘッダーのメニューの「採用情報」（外部サイト）の小さな印 */
 .gnav-ext{width:12px;height:12px;margin-left:4px;opacity:.7}
 @media (min-width:1024px) and (max-width:1180px){.gnav{padding-left:16px}.gnav a{padding:0 9px;font-size:14px}.gnav a::after{left:9px;right:9px}.hd-in{gap:18px}}
