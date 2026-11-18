@@ -377,11 +377,14 @@ def page_index():
     sanpai = [x.split()[0] for x in perm['産業廃棄物収集運搬業許可']]
     st = [(f'{founded}', '年', '創業', prof['創業'][0]),
           (f'{int(cap.group(1)):,}', '万円', '資本金', ''),
-          ('特定', '', '建設業許可', '愛知県知事許可' if '特-' in perm['建設業許可'][0] else ''),
+          # 2026-11-18 国の建設業者検索で確認：令和8年10月に更新（特-8）、解体工事業ととび・土工工事業がともに特定
+          ('特定', '', '建設業許可', '、'.join(next(r for r in company['permits'] if r['k'] == '建設業許可').get('kinds', [])) or '愛知県知事許可'),
           (f'{len(sanpai)}', '県', '産業廃棄物収集運搬業許可', '・'.join(p.replace('県', '') for p in sanpai))]
     if '特-' not in perm['建設業許可'][0]:
         st[2] = ('許可', '', '建設業許可', '愛知県知事許可')
-    st_html = ''.join(f'<li><p class="ab-sn"><b>{a}</b>{u}</p><p class="ab-sl">{l}</p><p class="ab-sd">{d}</p></li>' for a, u, l, d in st)
+    # 説明は「、」の区切りで折り返す（「土工工／事業」のように語の途中で切れないよう、区切りごとにまとめる）
+    nw = lambda d: '、'.join(f'<span class="nw">{x}</span>' for x in d.split('、'))
+    st_html = ''.join(f'<li><p class="ab-sn"><b>{a}</b>{u}</p><p class="ab-sl">{l}</p><p class="ab-sd">{nw(d)}</p></li>' for a, u, l, d in st)
     # 法令と環境への取り組み（会社の理念・方針の文を言い換えたもの。新しいことは足さない）
     eco = [
         ('法令にもとづく施工', '契約内容と建設リサイクル法にもとづいた施工計画を守り、ご依頼の目的に沿った工事を行います。'),
@@ -846,7 +849,10 @@ def page_outline():
         prefs = '・'.join(x.split()[0].split('知事')[0] for x in r['v'])   # 「愛知県　第…」「愛知県知事許可…」の県名
         nums = '<br>'.join(esc(x) for x in r['v'])
         t = todo(r['todo']) if r.get('todo') else ''
-        return f'<li><h3>{esc(r["k"])}</h3><p class="ol-pref">{esc(prefs)}</p><p class="ol-num">{nums}</p>{t}</li>'
+        kinds = ''
+        if r.get('kinds'):   # 許可の業種（建設業許可だけ）
+            kinds = f'<p class="ol-kind">{esc("、".join(r["kinds"]))}' + (f'<small>（{esc(r["kinds_note"])}）</small>' if r.get('kinds_note') else '') + '</p>'
+        return f'<li><h3>{esc(r["k"])}</h3><p class="ol-pref">{esc(prefs)}</p><p class="ol-num">{nums}</p>{kinds}{t}</li>'
     lic_html = ''.join(lic(r) for r in c['permits'])
 
     ph_svg = {

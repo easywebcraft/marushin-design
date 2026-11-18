@@ -1260,6 +1260,8 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ol-lic h3{padding-bottom:10px;border-bottom:1px solid var(--line);font-family:var(--serif);font-weight:700;font-size:clamp(19px,1.8vw,22px);letter-spacing:.04em}
 .ol-pref{margin-top:12px;font-family:var(--serif);font-weight:700;font-size:19px;color:var(--navy);letter-spacing:.06em}
 .ol-num{margin-top:4px;font-size:14px;color:var(--mute);line-height:1.9}
+.ol-kind{margin-top:6px;font-size:14px;font-weight:700;color:var(--navy);line-height:1.8}
+.ol-kind small{font-size:12.5px;font-weight:500;color:var(--mute)}
 .ol-phil-h{display:grid;grid-template-columns:auto 1fr;gap:16px 48px;align-items:center}
 .ol-phil-c{padding-left:40px;border-left:1.5px solid #9DB0BB;font-family:var(--serif);font-weight:700;font-size:clamp(20px,2.2vw,28px);color:var(--navy);letter-spacing:.06em;line-height:1.6}
 .ol-phil-c br{display:none}
@@ -1338,3 +1340,4 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 /* 会社案内の地図（2026-11-18） */
 .ol-map{display:block;width:100%;aspect-ratio:16/7;border:0;border-radius:8px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 8px 22px rgba(23,53,75,.10)}
 @media (max-width:767px){.ol-map{aspect-ratio:4/3}}
+.ab-sd .nw{display:inline-block}
