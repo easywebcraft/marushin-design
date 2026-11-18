@@ -994,7 +994,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .au-mind-tx>p:last-child{margin-top:22px;font-size:16px;line-height:2.1;letter-spacing:.04em}
 /* 取り組み：大きな斜体の数字・縦線・題と説明・右に写真 */
 .au-cm{margin-top:28px}
-.au-cm>li{display:grid;grid-template-columns:110px minmax(0,1fr) 300px;gap:24px 36px;align-items:center;padding:28px 0;border-bottom:1px solid #c9d6df}
+.au-cm>li{display:grid;grid-template-columns:110px minmax(0,1fr) min(42%,560px);gap:24px 48px;align-items:center;padding:32px 0;border-bottom:1px solid #c9d6df}  /* 写真を大きく（2026-11-18 松本さん「余白が気になる」） */
 .au-cm>li:first-child{padding-top:8px}
 .au-n{font-family:Baskerville,"Baskerville Old Face","Times New Roman",Times,serif;font-style:italic;font-size:76px;line-height:1;color:var(--teal);font-variant-numeric:lining-nums}
 .au-tx{padding-left:32px;border-left:1.5px solid #9DB0BB}
