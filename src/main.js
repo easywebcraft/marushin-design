@@ -302,7 +302,7 @@
   update();
 })();
 
-// ---- 求人の案内：左端の札をいつも出し、押すとバナーを開く（PC は触れても開く）。× ・ Esc ・ 外を押すと閉じる（2026-11-17 松本さん） ----
+// ---- 求人の案内：下へ進むと左端に札を出し、押すとバナーを開く（PC は触れても開く）。× ・ Esc ・ 外を押すと閉じる（2026-11-17 松本さん） ----
 (function () {
   var rq = document.getElementById('rq');
   if (!rq) return;
@@ -315,4 +315,16 @@
   rq.querySelector('.rq-x').addEventListener('click', function () { set(false); tab.blur(); });
   document.addEventListener('click', function (ev) { if (!rq.contains(ev.target)) set(false); });
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') set(false); });
+  // 最初の画面では隠し、画面の高さの半分ほど下へ進んだら出す。上へ戻ると隠す（2026-11-18 松本さん）
+  var shown = null;
+  var check = function () {
+    var on = (window.scrollY || window.pageYOffset) > window.innerHeight * 0.5;
+    if (on === shown) return;
+    shown = on;
+    rq.classList.toggle('is-wait', !on);
+    if (!on) set(false);
+  };
+  window.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check);
+  check();
 })();
