@@ -674,15 +674,7 @@ html.ewl-on .ewl.is-out{opacity:0}
 .ewl.is-in .ewl-p2{opacity:1}
 .ewl .logo{transform:scale(var(--ewk,1.9));transform-origin:50% 50%;
   transition:transform 1s cubic-bezier(.65,0,.35,1),opacity .45s ease .95s}
-/* 100%になった瞬間の「きらっ」：輪が金色に光り、社名の上を金色の光の筋が走る（2026-11-12 松本さん「キラは金色に」） */
-.ewl.is-full .ewl-ring .f{animation:ewlGlow .8s ease-out both}
-@keyframes ewlGlow{0%{filter:none}30%{stroke:#F0C24A;filter:drop-shadow(0 0 6px rgba(232,178,44,.95)) brightness(1.15)}100%{stroke:#D9A62E;filter:none}}
-@supports ((-webkit-background-clip:text) or (background-clip:text)){
-  .ewl .logo{background:linear-gradient(100deg,var(--navy) 42%,#C8961E 46.5%,#FFE08A 50%,#C8961E 53.5%,var(--navy) 58%) 100% 0/300% 100% no-repeat;
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .ewl.is-full .logo{animation:ewlSheen .8s ease-in-out .1s both}
-}
-@keyframes ewlSheen{from{background-position:100% 0}to{background-position:0 0}}
+/* 100%になった瞬間の金色の「きらっ」（輪の光・社名の光の筋）は外した（2026-11-18 松本さん「金色の光だけやめて」） */
 /* 着いてから本物と入れ替える（途中で消すと、移っていく動きが見えない） */
 .ewl.is-absorb .logo{opacity:0}
 .ewl-skip{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.1em;
@@ -1306,4 +1298,36 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .ol-dl dd{padding:10px 12px;font-size:14px}
   .ol-lic{grid-template-columns:1fr}
   .ol-phil-c br,.ol-c br{display:inline}
+}
+
+/* ========== 会社の強みと、法令と環境への取り組み（2026-11-18 松本さん「しっかりした会社という印象に」） ========== */
+.ab-st{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);margin:30px 0 0;padding:26px 0 0;list-style:none;border-top:1px solid var(--line)}
+.ab-st li{padding:0 20px;text-align:center;border-left:1px solid var(--line)}
+.ab-st li:first-child{border-left:0}
+.ab-sn{margin:0;color:var(--navy);font-size:14px;font-weight:700;letter-spacing:.06em}
+.ab-sn b{margin-right:2px;font-family:var(--serif);font-size:36px;font-weight:600;line-height:1.1;letter-spacing:.02em;color:var(--teal-d)}
+.ab-sl{margin:6px 0 0;font-size:13.5px;font-weight:700;line-height:1.5;color:var(--navy)}
+.ab-sd{margin:2px 0 0;font-size:12px;line-height:1.5;color:#5F6F7B}
+.eco{margin:44px 0 0;padding:30px 34px 32px;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 10px 26px rgba(18,31,52,.08)}
+.eco-ttl{display:flex;align-items:center;gap:14px;margin:0 0 20px;font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.06em;color:var(--navy)}
+.eco-ttl::before{content:"";width:28px;height:1.5px;background:var(--teal)}
+.eco-l{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0;padding:0;list-style:none}
+.eco-l li{padding:0 22px;border-left:1px solid var(--line)}
+.eco-l li:first-child{padding-left:0;border-left:0}
+.eco-l h4{margin:0 0 8px;font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--teal-d)}
+.eco-l p{margin:0;font-size:14px;line-height:1.85}
+@media (max-width:1023px){
+  .ab-st{grid-template-columns:repeat(2,1fr);row-gap:22px}
+  .ab-st li:nth-child(3){border-left:0}
+  .eco-l{grid-template-columns:repeat(2,1fr);row-gap:22px}
+  .eco-l li:nth-child(3){padding-left:0;border-left:0}
+}
+@media (max-width:767px){
+  .ab-st{margin-top:22px;padding-top:20px}
+  .ab-st li{padding:0 10px}
+  .ab-sn b{font-size:30px}
+  .eco{margin-top:32px;padding:24px 20px}
+  .eco-l{grid-template-columns:1fr;row-gap:18px}
+  .eco-l li{padding:0 0 18px;border-left:0;border-bottom:1px solid var(--line)}
+  .eco-l li:last-child{padding-bottom:0;border-bottom:0}
 }

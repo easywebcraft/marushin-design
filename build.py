@@ -16,6 +16,7 @@ import hashlib
 import html
 import json
 import shutil
+import re
 import sys
 from pathlib import Path
 
@@ -366,6 +367,28 @@ def page_index():
     ]
     cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
+    # 会社の強み（2026-11-18 松本さん「しっかりした会社という印象に」）。数字・許可は company.json から取り、変われば一緒に変わる
+    prof = {r['k']: r['v'] for r in company['profile']}
+    perm = {r['k']: r['v'] for r in company['permits']}
+    m = re.match(r'平成(\d+)年', prof['創業'][0])
+    founded = 1988 + int(m.group(1))
+    cap = re.match(r'(\d+)万円', prof['資本金'][0])
+    sanpai = [x.split()[0] for x in perm['産業廃棄物収集運搬業許可']]
+    st = [(f'{founded}', '年', '創業', prof['創業'][0]),
+          (f'{int(cap.group(1)):,}', '万円', '資本金', ''),
+          ('特定', '', '建設業許可', '愛知県知事許可' if '特-' in perm['建設業許可'][0] else ''),
+          (f'{len(sanpai)}', '県', '産業廃棄物収集運搬業許可', '・'.join(p.replace('県', '') for p in sanpai))]
+    if '特-' not in perm['建設業許可'][0]:
+        st[2] = ('許可', '', '建設業許可', '愛知県知事許可')
+    st_html = ''.join(f'<li><p class="ab-sn"><b>{a}</b>{u}</p><p class="ab-sl">{l}</p><p class="ab-sd">{d}</p></li>' for a, u, l, d in st)
+    # 法令と環境への取り組み（会社の理念・方針の文を言い換えたもの。新しいことは足さない）
+    eco = [
+        ('法令にもとづく施工', '契約内容と建設リサイクル法にもとづいた施工計画を守り、ご依頼の目的に沿った工事を行います。'),
+        ('廃棄物の適正な処分', f'解体で出た廃棄物を正しく分けて処分し、リサイクルで排出を減らします。産業廃棄物収集運搬業の許可（{"・".join(sanpai)}）を持っています。'),
+        ('汚染土壌の浄化', '汚染された土壌の浄化に取り組んでいます。'),
+        ('車両と重機の省エネ', '解体工事で使う車両・重機の燃費の向上に努めます。'),
+    ]
+    eco_html = ''.join(f'<li><h4>{t}</h4><p>{d}</p></li>' for t, d in eco)
     # 施工事例（2026-11-17 松本さんのデザイン案）：番号・施工前後の写真・構造の札・場所・題。トップだけの見せ方（施工事例のページは work_card のまま）
     def wk(n, w):
         title = f'{esc(w["place"])} {esc(w["name"])}'
@@ -417,6 +440,7 @@ def page_index():
 <div class="wrap ab-in">
 <h2 class="ab-ttl" id="h-about">丸信の解体工事について</h2>
 <p class="ab-tx">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、<br>建築様式を問わず解体工事が可能です。</p>
+<ul class="ab-st" aria-label="会社の概要">{st_html}</ul>
 </div>
 </section>
 
@@ -427,6 +451,7 @@ def page_index():
 <h2 class="cm-ttl" id="h-torikumi">解体の前も後も<br>安心につながる丸信の取り組み</h2></div>
 </div>
 <ol class="cm">{cards_html}</ol>
+<div class="eco"><h3 class="eco-ttl">法令と環境への取り組み</h3><ul class="eco-l">{eco_html}</ul></div>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="outline.html">丸信の会社案内を見る{ic("chev")}</a></p>
 </div>
 </section>
