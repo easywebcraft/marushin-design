@@ -19,6 +19,7 @@ import shutil
 import re
 import sys
 from pathlib import Path
+from urllib.parse import quote
 
 BASE = Path(__file__).parent
 SRC = BASE / 'src'
@@ -32,7 +33,7 @@ TEL = '0568-29-7788'
 TEL_HREF = 'tel:0568297788'
 FAX = '0568-29-7789'
 HOURS = '営業時間 9:00〜17:00（定休日：土日曜・祝日）'  # 今のサイトの会社概要「営業時間 9:00～17:00」「定休日 土日曜・祝日」
-POSTAL = '486-0932'  # 今のサイトには 480-0306 の表記もある。丸信さんに確認する（todo に出している）
+POSTAL = '486-0932'  # 今のサイトには 480-0306 の表記もあったが、2026-11-18 松本さんが 486-0932 と確認
 ADDRESS = '愛知県春日井市松河戸町4133番2'
 RECRUIT_URL = 'https://arwrk.net/recruit/yr19dq6rh1okksq'  # 今のサイトの「リクルート」のリンク先（AirWORK）。2026-11-17 当面は AirWORK を続ける（松本さん）
 # お問い合わせフォームの送り先。決まるまでは空（＝未接続。画面に「未接続」と出し、「送信しました」とは出さない）
@@ -864,7 +865,9 @@ def page_outline():
         f'<h3>{t}</h3><p>{d}</p></li>'
         for n, (k, t, d) in enumerate(phil, 1))
     area_rows = ''.join(f'<div><dt>{esc(a["pref"])}</dt><dd>{esc(a["cities"])}</dd></div>' for a in c['area'])
-    map_fr = frame('地図（住所の確認が済んでから入れます）', 'phf-map')
+    # 地図（2026-11-18 郵便番号が確かめられたので入れた）。Google マップの埋め込み（鍵は要らない）
+    map_fr = (f'<iframe class="ol-map" src="https://maps.google.com/maps?q={quote(ADDRESS)}&amp;z=16&amp;output=embed" '
+              f'title="{COMPANY}の地図" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>')
 
     return f'''{page_head('outline.html')}
 <nav class="ol-jump" aria-label="このページの内容"><div class="wrap"><ul>{jump_html}</ul></div></nav>
@@ -918,8 +921,7 @@ def page_outline():
 <section class="sec ol-acc has-wm" data-wm="ACCESS" id="ol-acc" aria-labelledby="h-acc">
 <div class="wrap t-two">
 <div><p class="cm-en" lang="en">ACCESS</p><h2 class="t-ttl" id="h-acc">所在地・アクセス</h2></div>
-<div class="ol-acc-in"><div><p class="ol-addr">〒{POSTAL}<br>{ADDRESS}</p>
-{todo('所在地の郵便番号と地図（郵便番号が確かめられてから地図を入れます）')}</div>
+<div class="ol-acc-in"><div><p class="ol-addr">〒{POSTAL}<br>{ADDRESS}</p></div>
 {map_fr}</div>
 </div>
 </section>

@@ -1273,7 +1273,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ol-phil p{margin-top:8px;font-size:15px;line-height:1.9}
 .ol-c{margin-bottom:16px;font-family:var(--serif);font-weight:700;font-size:clamp(22px,2.4vw,30px);color:var(--navy);letter-spacing:.06em;line-height:1.5}
 .ol-c br{display:none}
-.ol-acc-in{display:grid;grid-template-columns:1fr minmax(0,1fr);gap:20px 40px;align-items:center}
+.ol-acc-in{display:grid;grid-template-columns:1fr;gap:20px 40px;align-items:center}  /* 地図を入れたので、住所の下に横いっぱいに（2026-11-18） */
 .ol-addr{font-family:var(--serif);font-weight:700;font-size:clamp(18px,1.8vw,22px);color:var(--navy);letter-spacing:.04em;line-height:1.7}
 .ol-acc .phf-map{margin-top:0;aspect-ratio:16/8}
 @media (max-width:1023px){
@@ -1335,3 +1335,6 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .eco-l li{padding:0 0 18px;border-left:0;border-bottom:1px solid var(--line)}
   .eco-l li:last-child{padding-bottom:0;border-bottom:0}
 }
+/* 会社案内の地図（2026-11-18） */
+.ol-map{display:block;width:100%;aspect-ratio:16/7;border:0;border-radius:8px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 8px 22px rgba(23,53,75,.10)}
+@media (max-width:767px){.ol-map{aspect-ratio:4/3}}
