@@ -123,7 +123,7 @@
     }
     requestAnimationFrame(function () { L.classList.add('is-in'); });
     var fill = L.querySelector('.ewl-ring .f'), pct = L.querySelector('.ewl-pct');
-    var C = 2 * Math.PI * 54, D = 1600, t0 = null;
+    var C = 2 * Math.PI * 54, D = 1100, t0 = null;   // 輪が満ちるまで（2026-11-18 松本さん「もう少し短く」で 1.6秒→1.1秒）
     fill.style.strokeDasharray = C;
     fill.style.strokeDashoffset = C;
     var tick = function (ts) {
@@ -135,7 +135,7 @@
       if (p < 1) { requestAnimationFrame(tick); return; }
       // 輪が満ちたら「きらっ」と光らせ、そのあと輪と数字だけ消し、社名はもう少し見せてからヘッダーへ
       L.classList.add('is-full');
-      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 900); }, 950);
+      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 500); }, 700);
     };
     requestAnimationFrame(tick);
   })();

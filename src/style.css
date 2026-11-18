@@ -675,12 +675,12 @@ html.ewl-on .ewl.is-out{opacity:0}
 .ewl .logo{transform:scale(var(--ewk,1.9));transform-origin:50% 50%;
   transition:transform 1s cubic-bezier(.65,0,.35,1),opacity .45s ease .95s}
 /* 100%になった瞬間の「きらっ」：輪が青緑に光り、社名の上を光の筋が走る（2026-11-12 に金色にしたが、11-18 松本さん「金色にするのはやめて」で元の青緑に） */
-.ewl.is-full .ewl-ring .f{animation:ewlGlow .8s ease-out both}
+.ewl.is-full .ewl-ring .f{animation:ewlGlow .6s ease-out both}
 @keyframes ewlGlow{0%{filter:none}30%{filter:drop-shadow(0 0 5px rgba(56,168,184,.95)) brightness(1.25)}100%{filter:none}}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
   .ewl .logo{background:linear-gradient(100deg,var(--navy) 43%,#6FD6E3 50%,var(--navy) 57%) 100% 0/300% 100% no-repeat;
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .ewl.is-full .logo{animation:ewlSheen .8s ease-in-out .1s both}
+  .ewl.is-full .logo{animation:ewlSheen .6s ease-in-out .05s both}
 }
 @keyframes ewlSheen{from{background-position:100% 0}to{background-position:0 0}}
 /* 着いてから本物と入れ替える（途中で消すと、移っていく動きが見えない） */
