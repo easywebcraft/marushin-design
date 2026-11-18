@@ -951,10 +951,6 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .rq-in{display:block;overflow:hidden;border:4px solid #fff;border-radius:4px;
   box-shadow:0 2px 4px rgba(23,53,75,.10),0 12px 26px rgba(23,53,75,.18)}
 .rq-in img{display:block;width:100%;height:auto}
-.rq-x{position:absolute;top:-10px;right:-10px;z-index:2;display:grid;place-items:center;width:28px;height:28px;padding:0;border:1px solid var(--line);border-radius:50%;
-  background:#fff;color:var(--navy);cursor:pointer;box-shadow:0 1px 4px rgba(23,53,75,.15)}
-.rq-x:hover{background:var(--pale)}
-.rq-x svg{width:14px;height:14px}
 /* もう少し目立つように（2026-11-17 松本さん）：地をサイトの差し色の青緑に、上に黄色の「募集中」の印 */
 .rq-tab{position:relative;padding-top:66px;background:var(--teal-d)}
 .rq-tab:hover,.rq.is-open .rq-tab{background:var(--teal-dd)}
