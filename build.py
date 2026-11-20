@@ -74,6 +74,8 @@ PH_IMG = {
     'flow.html': ('images/ph/flow.jpg', '62% 55%'),      # 工程表とヘルメット
     'outline.html': ('images/ph/outline.jpg', '72% 60%'),  # 打ち合わせの部屋
     'faq.html': ('images/ph/faq.jpg', '58% 55%'),        # はてなマーク
+    'voice.html': ('images/ph/voice.jpg', '68% 58%'),    # 吹き出し
+    'policy.html': ('images/ph/policy.jpg', '62% 60%'),  # 鍵を掛けたファイル
 }
 
 ASSET_V = ''  # main() で CSS・JS の中身から決める
