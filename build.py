@@ -442,6 +442,22 @@ def eco_block(company):
     return f'<div class="eco"><h3 class="eco-ttl">法令と環境への取り組み</h3><ul class="eco-l">{items}</ul></div>'
 
 
+# 対応する工事の種類と絵（「丸信について」とトップで同じものを使う）
+KINDS = [('home', '木造住宅'), ('steel', '鉄骨造'), ('rc', '鉄筋コンクリート造'), ('shop', '店舗・事務所')]
+KIND_SVG = {
+    'home': '<path d="M4 11.5 12 5l8 6.5"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>',
+    'steel': '<path d="M3 10h18M5 10l7-5 7 5"/><path d="M6 10v10M18 10v10M12 10v10M6 15h12"/>',
+    'rc': '<rect x="6" y="3.5" width="12" height="17"/><path d="M9 7h2M13 7h2M9 10.5h2M13 10.5h2M9 14h2M13 14h2M11 20.5v-3h2v3"/>',
+    'shop': '<path d="M4 9h16l-1.5-4.5h-13z"/><path d="M4 9c0 1.4 1 2.3 2.3 2.3S8.7 10.4 8.7 9c0 1.4 1 2.3 2.3 2.3S13.3 10.4 13.3 9c0 1.4 1 2.3 2.3 2.3S18 10.4 18 9"/><path d="M5.5 11.5V20h13v-8.5M10 20v-5h4v5"/>',
+}
+
+
+def kinds_list():
+    return ''.join(
+        f'<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{KIND_SVG[k]}</svg>{t}</li>'
+        for k, t in KINDS)
+
+
 # ---------- 各ページ ----------
 
 def page_index():
@@ -460,17 +476,6 @@ def page_index():
                          f'<span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span></div>'
                          f'<h3>{t}</h3><p>{p.format("・".join(sanpai))}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
-    # 会社の強み（2026-11-18 松本さん「しっかりした会社という印象に」）。許可は company.json から取り、変われば一緒に変わる
-    perm = {r['k']: r['v'] for r in company['permits']}
-    # 2026-11-20 営業との打ち合わせ：創業年・資本金の数字はトップに出さない（許可の2つだけ残す）
-    st = [# 2026-11-18 国の建設業者検索で確認：令和8年10月に更新（特-8）、解体工事業ととび・土工工事業がともに特定
-          ('特定', '', '建設業許可', '、'.join(next(r for r in company['permits'] if r['k'] == '建設業許可').get('kinds', [])) or '愛知県知事許可'),
-          (f'{len(sanpai)}', '県', '産業廃棄物収集運搬業許可', '・'.join(p.replace('県', '') for p in sanpai))]
-    if '特-' not in perm['建設業許可'][0]:
-        st[0] = ('許可', '', '建設業許可', '愛知県知事許可')
-    # 説明は「、」の区切りで折り返す（「土工工／事業」のように語の途中で切れないよう、区切りごとにまとめる）
-    nw = lambda d: '、'.join(f'<span class="nw">{x}</span>' for x in d.split('、'))
-    st_html = ''.join(f'<li><p class="ab-sn"><b>{a}</b>{u}</p><p class="ab-sl">{l}</p><p class="ab-sd">{nw(d)}</p></li>' for a, u, l, d in st)
     # 施工事例（2026-11-17 松本さんのデザイン案）：番号・施工前後の写真・構造の札・場所・題。トップだけの見せ方（施工事例のページは work_card のまま）
     def wk(n, w):
         title = f'{esc(w["place"])} {esc(w["name"])}'
@@ -531,7 +536,8 @@ def page_index():
 <div class="wrap ab-in">
 <h2 class="ab-ttl" id="h-about">丸信の解体工事について</h2>
 <p class="ab-tx">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、<br>建築様式を問わず解体工事が可能です。</p>
-<ul class="ab-st" aria-label="会社の概要">{st_html}</ul>
+<div class="ab-kd"><ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
+<p class="ab-more"><a class="tlink t-link" href="about.html#h-svc">対応する工事を詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
 </div>
 </section>
 
@@ -630,16 +636,7 @@ def page_about():
         f'<li><div class="au-card"><span class="au-n" aria-hidden="true">{n:02d}</span><div class="au-tx"><h3>{t}</h3><p>{d}</p>{todo(td) if td else ""}</div></div>{photo(src, lb)}</li>'
         for n, (t, d, src, lb, td) in enumerate(feats, 1))
 
-    kinds = [('home', '木造住宅'), ('steel', '鉄骨造'), ('rc', '鉄筋コンクリート造'), ('shop', '店舗・事務所')]
-    kind_svg = {
-        'home': '<path d="M4 11.5 12 5l8 6.5"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/>',
-        'steel': '<path d="M3 10h18M5 10l7-5 7 5"/><path d="M6 10v10M18 10v10M12 10v10M6 15h12"/>',
-        'rc': '<rect x="6" y="3.5" width="12" height="17"/><path d="M9 7h2M13 7h2M9 10.5h2M13 10.5h2M9 14h2M13 14h2M11 20.5v-3h2v3"/>',
-        'shop': '<path d="M4 9h16l-1.5-4.5h-13z"/><path d="M4 9c0 1.4 1 2.3 2.3 2.3S8.7 10.4 8.7 9c0 1.4 1 2.3 2.3 2.3S13.3 10.4 13.3 9c0 1.4 1 2.3 2.3 2.3S18 10.4 18 9"/><path d="M5.5 11.5V20h13v-8.5M10 20v-5h4v5"/>',
-    }
-    kinds_html = ''.join(
-        f'<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{kind_svg[k]}</svg>{t}</li>'
-        for k, t in kinds)
+    kinds_html = kinds_list()
     area_rows = ''.join(f'<div><dt>{esc(a["pref"])}</dt><dd>{esc(a["cities"])}</dd></div>' for a in company['area'])
 
     pol = [

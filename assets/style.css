@@ -1524,3 +1524,10 @@ html,body{overflow-x:clip}
   -webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}   /* 絵の場所はページ側（build.py）に書く */
 @media (max-width:1023px){.cm-ic{width:84px}}
 @media (max-width:767px){.cm-ic{width:76px}}
+
+/* 2026-11-20 松本さん：トップ「丸信の解体工事について」の下は、許可の数字（特定・3県）をやめて、対応する工事の4つの絵に。
+   許可は会社案内の表と「丸信のこだわり」03 に載っている */
+.ab-kd{grid-column:1/-1;margin:28px 0 0;padding:22px 0 0;border-top:1px solid var(--line)}
+.ab-kd .au-kinds{margin-top:0}
+.ab-more{margin-top:14px;text-align:right}
+@media (max-width:767px){.ab-kd{margin-top:18px;padding-top:14px}.ab-more{text-align:center}}
