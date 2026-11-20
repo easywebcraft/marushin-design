@@ -68,6 +68,7 @@ PAGE = {p[0]: p for p in PAGES}
 PH_POS = '75% 58%'   # 下層ページ上の写真の切り取り位置。2026-11-20 松本さん「見え方を統一して」で全ページ同じに（重機の全体が入る位置）
 # ページごとの上の写真（2026-11-21 松本さんにいただいた4枚。1536×1024）。ここに無いページは重機の写真（images/hero.jpg・PH_POS）
 PH_IMG = {
+    'price.html': ('images/ph/price.jpg', '62% 50%'),    # 電卓と図面とヘルメット
     'case.html': ('images/ph/case.jpg', '80% 62%'),      # 更地と小さい重機
     'flow.html': ('images/ph/flow.jpg', '62% 55%'),      # 工程表とヘルメット
     'outline.html': ('images/ph/outline.jpg', '72% 60%'),  # 打ち合わせの部屋
