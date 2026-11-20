@@ -293,7 +293,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 
 /* フッター */
 .ft{background:var(--navy);color:#fff}
-.ft-in{max-width:var(--wide);margin:0 auto;padding:44px var(--gut) 28px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:40px}
+.ft-in{max-width:var(--wide);margin:0 auto;padding:44px var(--gut) 28px;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:40px}
 .ft-brand address{margin-top:10px;font-size:13px;line-height:1.8;color:#D6E3EA}
 .ft-nav{padding-left:40px;border-left:1px solid rgba(255,255,255,.28)}
 .ft-nav ul{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;gap:0 32px}
@@ -443,7 +443,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .ft-in{grid-template-columns:1fr;gap:24px}
   .ft-nav{padding-left:0;border-left:0}
   .ft-nav ul{grid-template-columns:repeat(3,auto)}
-  .ft-cta{justify-self:start}
   .duo-col{padding:0 24px}
   /* 縦長の画面では文字が重機に重なるので、左側の暗さを広げる（スマホは写真と文字を分けるので下で消す） */
   .hero-ph::after{background:linear-gradient(90deg,rgba(16,40,56,.66) 0%,rgba(16,40,56,.46) 48%,rgba(16,40,56,.04) 100%)}
@@ -552,7 +551,6 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .ft-in{padding:36px var(--gut) 24px}
   .ft-nav ul{grid-template-columns:1fr 1fr;gap:0 16px}
   .ft-nav a{min-height:44px}
-  .ft-cta{display:none}
   .fixbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:55;
     padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 12px rgba(23,53,75,.12)}
   .fixbar .btn{min-height:50px;padding:8px 6px;font-size:15px}

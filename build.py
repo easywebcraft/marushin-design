@@ -265,7 +265,6 @@ def footer(fname):
 <nav class="ft-nav" aria-label="フッターメニュー"><ul>
 {''.join(links)}
 </ul></nav>
-<a class="btn btn-white ft-cta" href="contact.html">{ic("mail")}お問い合わせ</a>
 </div>
 <p class="copy"><small>&copy; {COMPANY}</small></p>
 </footer>
