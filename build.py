@@ -491,7 +491,6 @@ def page_index():
 <p class="hero-label">解体から次の一歩へ</p>
 <h1>建物の解体は<br><em>丸信へ</em></h1>
 <p class="hero-sub">愛知県（春日井市・小牧市・尾張旭市・瀬戸市・名古屋市等）の解体のご相談は、株式会社丸信にお任せください。</p>
-<p class="hero-en" lang="en" aria-hidden="true">MARUSHIN</p>
 <div class="hero-btns">
 <a class="btn btn-teal btn-lg" href="contact.html">{ic("mail")}無料相談</a>
 <a class="btn btn-ghost btn-lg" href="case.html">施工事例を見る{ic("chev")}</a>
