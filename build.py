@@ -472,9 +472,10 @@ def page_index():
     sanpai = sanpai_prefs(company)
     # 番号の右に絵（2026-11-20 松本さんにいただいた絵を images/top/cm-ic-1〜3.png に切り出し、白地を透明にしたもの）。
     # 色は絵の形で切り抜いてサイトの色を流し込むので、色の切り替えにも合う
-    cards_html = ''.join(f'<li><div class="cm-top"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
-                         f'<span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span></div>'
-                         f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></li>'
+    # 2026-11-20 松本さん「左に見出し、右に3つを縦に」：絵を左、右に小さい番号・見出し・説明
+    cards_html = ''.join(f'<li><span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span>'
+                         f'<div class="cm-bd"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
+                         f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></div></li>'
                          for n, (t, p) in enumerate(cards, 1))
     # 施工事例（2026-11-17 松本さんのデザイン案 → 2026-11-20 松本さん「施工前を大きく、施工後を小さく添える」）：
     # 施工前を大きく、施工後を右下に小さく重ねる。下に「構造｜場所」の1行と題。前後を同じ大きさで比べるのは施工事例のページ（work_card ではなく page_case）
@@ -522,13 +523,13 @@ def page_index():
 </section>
 
 <section class="sec cm-sec has-wm" data-wm="COMMITMENT" aria-labelledby="h-torikumi">
-<div class="wrap">
+<div class="wrap cm-in">
 <div class="cm-head">
 <div><p class="cm-en" lang="en">OUR COMMITMENT</p>
 <h2 class="cm-ttl" id="h-torikumi">丸信のこだわり</h2></div>
 </div>
 <ol class="cm">{cards_html}</ol>
-<p class="center cm-more"><a class="btn btn-navy cm-btn" href="about.html">丸信について詳しく見る{ic("chev")}</a></p>
+<p class="cm-more"><a class="btn btn-navy cm-btn" href="about.html">丸信について詳しく見る{ic("chev")}</a></p>
 </div>
 </section>
 

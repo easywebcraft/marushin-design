@@ -1573,3 +1573,37 @@ html,body{overflow-x:clip}
   .wk-info .wk-ttl{font-size:18px}
 }
 .wk-meta .nw{display:inline-block}
+
+/* ========== トップの「丸信のこだわり」：左に見出しとボタン、右に3つを縦に（2026-11-20 松本さん「形だけ変える」） ==========
+   番号は小さく見出しの上に。絵は各項目の左に同じ大きさで。項目のあいだは細い横線。ボタンは見出しの下で影を弱く。
+   スマホは見出し → 3項目 → ボタンの順 */
+.cm-in{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,7fr);grid-template-areas:"hd list" "btn list";grid-template-rows:auto 1fr;column-gap:64px}
+.cm-in .cm-head{grid-area:hd;display:block}
+.cm-in .cm-more{grid-area:btn;margin-top:36px}
+.cm-in .cm-btn{min-width:0;box-shadow:0 2px 6px rgba(23,53,75,.12)}
+.cm-in .cm-btn:hover{box-shadow:0 4px 10px rgba(23,53,75,.16)}
+.cm-in .cm{grid-area:list;display:block;margin-top:0}
+.cm-in .cm>li,.cm-in .cm>li:first-child,.cm-in .cm>li:last-child{display:grid;grid-template-columns:96px 1fr;gap:0 32px;align-items:start;padding:28px 0;border:0;border-bottom:1px solid var(--line)}
+.cm-in .cm>li:first-child{padding-top:0}
+.cm-in .cm>li:last-child{border-bottom:0;padding-bottom:0}
+.cm-in .cm>li+li::before{display:none}
+.cm-in .cm-ic{width:96px;margin-top:4px}
+.cm-in .cm-n{font-size:20px;line-height:1.2;letter-spacing:.08em}
+.cm-in .cm h3{margin-top:6px;font-size:clamp(20px,1.9vw,24px)}
+.cm-in .cm h3 br{display:none}
+.cm-in .cm p{margin-top:8px;font-size:15px;line-height:1.9}
+@media (max-width:1023px){
+  .cm-in{column-gap:40px}
+  .cm-in .cm>li,.cm-in .cm>li:first-child,.cm-in .cm>li:last-child{grid-template-columns:72px 1fr;gap:0 24px}
+  .cm-in .cm-ic{width:72px}
+}
+@media (max-width:767px){
+  .cm-in{grid-template-columns:1fr;grid-template-areas:"hd" "list" "btn";grid-template-rows:auto}
+  .cm-in .cm{margin-top:28px}
+  .cm-in .cm>li,.cm-in .cm>li:first-child,.cm-in .cm>li:last-child{grid-template-columns:60px 1fr;gap:0 18px;padding:22px 0}
+  .cm-in .cm>li:first-child{padding-top:0}
+  .cm-in .cm>li:last-child{padding-bottom:0}
+  .cm-in .cm-ic{width:60px}
+  .cm-in .cm h3{font-size:19px}
+  .cm-in .cm-more{margin-top:28px}
+}
