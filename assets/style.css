@@ -1453,9 +1453,11 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
    どちらも最初の画面では隠し、下へ進むと出す。フッターが見えたら隠す（main.js） */
 .rqs,.rqs.is-wait{position:static;transform:none;display:block;opacity:1;visibility:visible;transition:none}
 .rqb{position:fixed;left:16px;bottom:16px;z-index:58;width:190px;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
-.rq-blog{position:fixed;right:0;top:50%;z-index:58;transform:translateY(-50%);transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
+/* ブログの札は傾き（transform）を動かさず、右の位置（right）と透明度で出し入れする。
+   2026-11-20 iPhone の Safari で、transform の動きが途中で止まって札が右にはみ出したままになったため */
+.rq-blog{position:fixed;right:0;top:50%;z-index:58;transform:translateY(-50%);transition:right .4s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
 .rqs.is-wait .rqb{opacity:0;visibility:hidden;transform:translate3d(-110%,0,0);transition:transform .35s,opacity .25s,visibility 0s .35s}
-.rqs.is-wait .rq-blog{opacity:0;visibility:hidden;transform:translate3d(100%,-50%,0);transition:transform .35s,opacity .25s,visibility 0s .35s}
+.rqs.is-wait .rq-blog{right:-48px;opacity:0;visibility:hidden;transition:right .35s,opacity .25s,visibility 0s .35s}
 @media (prefers-reduced-motion:reduce){.rqb,.rq-blog,.rqs.is-wait .rqb,.rqs.is-wait .rq-blog{transition:none}}
 .rq-ttl{font-size:14.5cqw;line-height:1.25;letter-spacing:.08em}
 .rq-blog .rq-tab{border-radius:6px 0 0 6px}
