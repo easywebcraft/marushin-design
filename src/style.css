@@ -1458,10 +1458,10 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 #rq .rq-pop{top:auto;bottom:0;transform:translate3d(-12px,0,0)}
 #rq.is-open .rq-pop{transform:translate3d(0,0,0)}
 @media (hover:hover){#rq:hover .rq-pop{transform:translate3d(0,0,0)}}
-/* ブログの札は傾き（transform）を動かさず、右の位置（right）と透明度で出し入れする。
-   2026-11-20 iPhone の Safari で、transform の動きが途中で止まって札が右にはみ出したままになったため */
-.rq-blog{position:fixed;right:0;top:50%;z-index:58;transform:translateY(-50%);transition:right .4s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
-.rqs.is-wait .rq-blog{right:-48px;opacity:0;visibility:hidden;transition:right .35s,opacity .25s,visibility 0s .35s}
+/* ブログの札は、隠すときも画面の外へ動かさず、その場で透明にするだけ。
+   2026-11-20 iPhone の Safari で、画面の右の外に置いた札の分だけページの幅が広がり、出したときに札が右にはみ出したため */
+.rq-blog{position:fixed;right:0;top:50%;z-index:58;transform:translateY(-50%);transition:opacity .3s,visibility 0s}
+.rqs.is-wait .rq-blog{opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
 .rq-blog .rq-tab{border-radius:6px 0 0 6px}
 .rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{padding-left:7px;padding-right:10px}
 .rq-blog .rq-pop{left:auto;right:calc(100% + 14px);transform:translate3d(12px,-50%,0)}
