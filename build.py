@@ -349,7 +349,6 @@ def page_head(fname):
     return f'''<div class="ph ph-au">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
 <div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{ttl}</h1></div></div>
-<p class="img-note">写真はイメージです</p>
 </div>
 <nav class="bc" aria-label="現在位置"><ol><li><a href="./">ホーム</a></li><li aria-current="page">{name}</li></ol></nav>'''
 
@@ -485,7 +484,6 @@ def page_index():
 <picture><source media="(max-width:767px)" srcset="images/top/fv-1-sp.jpg"><img class="hero-img" src="images/top/fv-1.jpg" alt="" width="1536" height="1024" fetchpriority="high"></picture>
 <i class="hero-sl" style="background-image:url(images/top/fv-2.jpg);animation-delay:5s"></i>
 <i class="hero-sl" style="background-image:url(images/top/fv-3.jpg);animation-delay:11s"></i>
-<p class="img-note">写真はイメージです</p>
 </div>
 <div class="hero-in">
 <p class="hero-label">解体から次の一歩へ</p>
@@ -543,7 +541,6 @@ def page_index():
 <div class="fl-head"><p class="cm-en" lang="en">FLOW</p>
 <h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで</h2></div>
 <ol class="fl">{steps}</ol>
-<p class="fl-note">写真はイメージです</p>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="flow.html">施工の流れを詳しく見る{ic("chev")}</a></p>
 </div>
 </section>
@@ -600,7 +597,7 @@ def page_about():
     def photo(src, label):
         """写真があればイメージ写真、なければ仮枠"""
         if src:
-            return f'<figure class="au-ph"><img src="{src}" alt="" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>写真はイメージです</figcaption></figure>'
+            return f'<figure class="au-ph"><img src="{src}" alt="" width="1448" height="1086" loading="lazy" decoding="async"></figure>'
         return f'<div class="au-ph">{frame(label)}</div>'
 
     feats = [
@@ -827,7 +824,7 @@ def page_flow():
             for k in steps)
         blocks.append(f'''<section class="fw-ph" aria-labelledby="h-ph{n}">
 <div class="fw-l"><p class="fw-pn"><span lang="en">PHASE</span> {n:02d}</p><h2 class="fw-pt" id="h-ph{n}">{t}</h2>
-<figure class="au-ph"><img src="images/top/{ph}.jpg" alt="" width="1448" height="1086" loading="lazy" decoding="async"><figcaption>写真はイメージです</figcaption></figure></div>
+<figure class="au-ph"><img src="images/top/{ph}.jpg" alt="" width="1448" height="1086" loading="lazy" decoding="async"></figure></div>
 <ol class="fw-steps">{st}</ol>
 </section>''')
     return f'''{page_head('flow.html')}
@@ -979,7 +976,6 @@ def page_outline():
 </div>
 </div>
 <ul class="ol-pics">{pics_html}</ul>
-<p class="img-note-s">写真はイメージです</p>
 </div>
 </section>
 
