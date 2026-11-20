@@ -1096,6 +1096,8 @@ def page_contact():
 
 
 def page_policy():
+    """プライバシーポリシー。2026-11-20 松本さん「案を作って」で、2013年の文章を今の個人情報保護法に合わせて書き直した
+    （事業者の住所・代表者、安全管理の取り組み、開示などの請求、窓口を足し、使っていない「新商品のお知らせ」を外した）"""
     pol = load('policy.json')
     secs = ''.join(f'<section class="pol-sec"><h2><span class="pol-n" aria-hidden="true">{i:02d}</span>{esc(s["h"])}</h2>\n{body_html(s["p"])}</section>'
                    for i, s in enumerate(pol, 1))
@@ -1103,7 +1105,8 @@ def page_policy():
 <section class="sec">
 <div class="wrap wrap-s">
 {secs}
-{todo('プライバシーポリシーの内容（2013年の文章を移しました。新しいフォームの扱いと合っているか）')}
+{'' if RELEASE else '<p class="pol-date">改定日：公開する日を入れます</p>' + todo('改定日（公開する日を入れる）')}
+{todo('プライバシーポリシーの内容（2026-11-20 EWCが今の法律に合わせて書き直した案。窓口のアドレス（info）・委託先・書類の保管のしかたが丸信さんの実際の扱いと合っているか）')}
 </div>
 </section>'''
 

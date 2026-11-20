@@ -1416,3 +1416,4 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .fq-more .t-link{grid-column:1/-1}
   .fq-more-h{font-size:18px}
 }
+.pol-date{margin-top:44px;color:var(--mute);font-size:14px;text-align:right}
