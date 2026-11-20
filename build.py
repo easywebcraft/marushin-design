@@ -190,18 +190,22 @@ def theme_head():
             '.tsw-btn{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#fff;color:#22313C;font:inherit;font-weight:700;'
             'box-shadow:0 6px 18px rgba(0,0,0,.18);cursor:pointer}'
             '.tsw-dot{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--navy) 50%,var(--teal-d) 50%)}'
-            '.tsw-list{position:absolute;right:0;bottom:calc(100% + 8px);width:250px;margin:0;padding:8px;list-style:none;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.2)}'
+            '.tsw-list{position:absolute;right:0;bottom:calc(100% + 8px);width:280px;margin:0;padding:8px;list-style:none;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.2)}'
             '.tsw-list[hidden]{display:none}'
             '.tsw-list p{margin:4px 8px 6px;color:#566874;font-size:12px}'
             '.tsw-list button{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:4px 8px;border:0;border-radius:6px;background:none;color:#22313C;font:inherit;text-align:left;cursor:pointer}'
             '.tsw-list button:hover{background:#F3F5F7}'
             '.tsw-list button[aria-pressed="true"]{background:#EEF3F6;font-weight:700}'
             '.tsw-sw{flex:none;width:34px;height:22px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}'
+            '.tsw-list p.tsw-h{margin:8px 8px 2px;color:#22313C;font-weight:700;font-size:12px}'
+            '.tsw-bi{flex:none;display:grid;place-items:center;width:34px;height:22px;border-radius:4px;background:#22313C;color:#fff;font-weight:700;font-size:12px}'
             '@media (max-width:767px){.tsw{right:10px;bottom:84px}}'
             '@media print{.tsw{display:none}}')
     keys = [k for k, *_ in THEMES]
     js = ('(function(){var k=null;try{var m=location.search.match(/[?&]color=([a-z]+)/);if(m){k=m[1];localStorage.setItem("mstheme",k)}else{k=localStorage.getItem("mstheme")}}catch(e){}'
-          f'if(k&&{keys!r}.indexOf(k)>0)document.documentElement.setAttribute("data-theme",k)}})();')
+          f'if(k&&{keys!r}.indexOf(k)>0)document.documentElement.setAttribute("data-theme",k);'
+          'var bn=null;try{if(/[?&]banner=open(&|$)/.test(location.search)){bn="open";localStorage.setItem("msbanner",bn)}else if(/[?&]banner=tab(&|$)/.test(location.search)){bn="tab";localStorage.setItem("msbanner",bn)}else{bn=localStorage.getItem("msbanner")}}catch(e){}'
+          'if(bn==="open")document.documentElement.setAttribute("data-banner","open")})();')
     return f'<style>{css}</style>\n<script>{js}</script>\n'
 
 
@@ -209,14 +213,22 @@ def theme_body():
     """右下の「色を選ぶ」ボタン。選んだ色はこの端末に覚え、ほかのページでも同じ色にする"""
     items = ''.join(f'<li><button type="button" data-k="{k}" aria-pressed="false"><span class="tsw-sw" style="background:linear-gradient(135deg,{a} 50%,{c} 50%)"></span>{esc(n)}</button></li>'
                     for k, n, a, c, _v in THEMES)
+    banners = ('<li><p class="tsw-h">採用バナーの見せ方</p></li>'
+               '<li><button type="button" data-b="tab" aria-pressed="false"><span class="tsw-bi">A</span>札を押すとバナーが開く（今の形）</button></li>'
+               '<li><button type="button" data-b="open" aria-pressed="false"><span class="tsw-bi">B</span>バナーをいつも出しておく</button></li>')
     js = ('(function(){var w=document.getElementById("tsw");if(!w)return;var b=w.querySelector(".tsw-btn"),l=w.querySelector(".tsw-list"),r=document.documentElement;'
-          'var mark=function(){var k=r.getAttribute("data-theme")||"base";Array.prototype.forEach.call(l.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")})};'
+          'var mark=function(){var k=r.getAttribute("data-theme")||"base",bn=r.getAttribute("data-banner")==="open"?"open":"tab";'
+          'Array.prototype.forEach.call(l.querySelectorAll("button[data-k]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")});'
+          'Array.prototype.forEach.call(l.querySelectorAll("button[data-b]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-b")===bn?"true":"false")})};'
           'b.addEventListener("click",function(){var o=l.hidden;l.hidden=!o;b.setAttribute("aria-expanded",o?"true":"false")});'
-          'l.addEventListener("click",function(e){var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
+          'l.addEventListener("click",function(e){var y=e.target.closest("button[data-b]");if(y){var bn=y.getAttribute("data-b");'
+          'if(bn==="open")r.setAttribute("data-banner","open");else r.removeAttribute("data-banner");try{localStorage.setItem("msbanner",bn)}catch(e){}'
+          'if(window.msBannerMode)window.msBannerMode();mark();return}'
+          'var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
           'if(k==="base")r.removeAttribute("data-theme");else r.setAttribute("data-theme",k);try{localStorage.setItem("mstheme",k)}catch(e){}mark()});'
           'document.addEventListener("click",function(e){if(!w.contains(e.target)){l.hidden=true;b.setAttribute("aria-expanded","false")}});mark()})();')
-    return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p>色の案を選ぶと、すぐにサイト全体の色が変わります</p></li>{items}</ul>'
-            f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色を選ぶ</button></div>\n<script>{js}</script>\n')
+    return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p class="tsw-h">色の案</p></li>{items}{banners}<li><p>選ぶとすぐにサイト全体が切り替わります。採用バナーはトップページを少し下へ進めると出ます</p></li></ul>'
+            f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色・表示を選ぶ</button></div>\n<script>{js}</script>\n')
 
 
 def head(fname, title, desc):

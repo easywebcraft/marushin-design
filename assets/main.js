@@ -313,22 +313,15 @@
     rq.classList.toggle('is-open', open);
     rq.querySelector('.rq-tab').setAttribute('aria-expanded', open ? 'true' : 'false');
   };
-  // 2026-11-20 お客様に見比べてもらう用：URL の末尾が ?banner=open のときは、札が出ている間は求人のバナーを開いたままにする
-  // （ブログの札を押している間だけブログを出す）。ほかのページへ移っても同じ見え方になるよう、サイト内のリンクにも付ける
-  var always = /[?&]banner=open(&|$)/.test(location.search);
+  // 2026-11-20 お客様に見比べてもらう用：<html data-banner="open"> のときは、札が出ている間は求人のバナーを開いたままにする
+  // （ブログの札を押している間だけブログを出す）。data-banner は確認用だけにある「色を選ぶ」の部品が付け外しする（?banner=open でも付く）
+  var always = function () { return document.documentElement.getAttribute('data-banner') === 'open'; };
   var main = document.getElementById('rq');
   var closeAll = function (except) {
     all.forEach(function (rq) { if (rq !== except) set(rq, false); });
-    if (always && shown && !except && main) set(main, true);
+    if (always() && shown && !except && main) set(main, true);
   };
-  if (always) {
-    Array.prototype.forEach.call(document.querySelectorAll('a[href]'), function (a) {
-      var h = a.getAttribute('href');
-      if (/^(https?:|mailto:|tel:|#)/.test(h)) return;
-      var i = h.indexOf('#');
-      a.setAttribute('href', (i < 0 ? h : h.slice(0, i)) + '?banner=open' + (i < 0 ? '' : h.slice(i)));
-    });
-  }
+  window.msBannerMode = function () { closeAll(); };
   all.forEach(function (rq) {
     rq.querySelector('.rq-tab').addEventListener('click', function () {
       var open = !rq.classList.contains('is-open');
