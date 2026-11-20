@@ -423,6 +423,25 @@ def ct_band():
 </section>'''
 
 
+def sanpai_prefs(company):
+    """産業廃棄物収集運搬業の許可がある県（company.json の許可から）"""
+    perm = {r['k']: r['v'] for r in company['permits']}
+    return [x.split()[0] for x in perm['産業廃棄物収集運搬業許可']]
+
+
+def eco_block(company):
+    """法令と環境への取り組み（会社の理念・方針の文を言い換えたもの。新しいことは足さない）。
+    2026-11-20 トップから「丸信について」の方針の下へ移した"""
+    eco = [
+        ('法令にもとづく施工', '契約内容と建設リサイクル法にもとづいた施工計画を守り、ご依頼の目的に沿った工事を行います。'),
+        ('廃棄物の適正な処分', f'解体で出た廃棄物を正しく分けて処分し、リサイクルで排出を減らします。産業廃棄物収集運搬業の許可（{"・".join(sanpai_prefs(company))}）を持っています。'),
+        ('汚染土壌の浄化', '汚染された土壌の浄化に取り組んでいます。'),
+        ('車両と重機の省エネ', '解体工事で使う車両・重機の燃費の向上に努めます。'),
+    ]
+    items = ''.join(f'<li><h4>{t}</h4><p>{d}</p></li>' for t, d in eco)
+    return f'<div class="eco"><h3 class="eco-ttl">法令と環境への取り組み</h3><ul class="eco-l">{items}</ul></div>'
+
+
 # ---------- 各ページ ----------
 
 def page_index():
@@ -430,14 +449,15 @@ def page_index():
     # 丸信の取り組み（2026-11-17 松本さんのデザイン案のとおり。文は今のサイトの3項目を言い換えたもの）
     cards = [
         ('解体専門の会社に<br>直接相談', '地域に根付いた解体専門の会社です。下請業者への発注による中間マージンが発生しません。'),
-        ('着工前から<br>近隣に配慮', '工事前には、近隣の皆様へ丁寧にご挨拶。万が一のトラブルにも、速やかに対応いたします。'),
-        ('工事が終わっても<br>丁寧に', '工事完了後も、改めてご近所へご挨拶。ご迷惑がなかったかを確認することまで、大切にしています。'),
+        # 2026-11-20 松本さん：前の②（着工前の挨拶）と③（完了後の挨拶）を1つにまとめ、3つ目を廃棄物の処理に
+        ('着工前から完了後まで<br>近隣に配慮', '工事前のご挨拶から、完了後にご迷惑がなかったかの確認まで。近隣の皆様への配慮を大切にし、万が一のトラブルにも速やかに対応いたします。'),
+        ('廃棄物の処理まで<br>責任を持って', '解体で出た廃棄物は正しく分けて処分し、リサイクルを進めます。産業廃棄物収集運搬業の許可（{}）を持っています。'),
     ]
-    cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p}</p></li>'
+    sanpai = sanpai_prefs(company)
+    cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p.format("・".join(sanpai))}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
     # 会社の強み（2026-11-18 松本さん「しっかりした会社という印象に」）。許可は company.json から取り、変われば一緒に変わる
     perm = {r['k']: r['v'] for r in company['permits']}
-    sanpai = [x.split()[0] for x in perm['産業廃棄物収集運搬業許可']]
     # 2026-11-20 営業との打ち合わせ：創業年・資本金の数字はトップに出さない（許可の2つだけ残す）
     st = [# 2026-11-18 国の建設業者検索で確認：令和8年10月に更新（特-8）、解体工事業ととび・土工工事業がともに特定
           ('特定', '', '建設業許可', '、'.join(next(r for r in company['permits'] if r['k'] == '建設業許可').get('kinds', [])) or '愛知県知事許可'),
@@ -447,14 +467,6 @@ def page_index():
     # 説明は「、」の区切りで折り返す（「土工工／事業」のように語の途中で切れないよう、区切りごとにまとめる）
     nw = lambda d: '、'.join(f'<span class="nw">{x}</span>' for x in d.split('、'))
     st_html = ''.join(f'<li><p class="ab-sn"><b>{a}</b>{u}</p><p class="ab-sl">{l}</p><p class="ab-sd">{nw(d)}</p></li>' for a, u, l, d in st)
-    # 法令と環境への取り組み（会社の理念・方針の文を言い換えたもの。新しいことは足さない）
-    eco = [
-        ('法令にもとづく施工', '契約内容と建設リサイクル法にもとづいた施工計画を守り、ご依頼の目的に沿った工事を行います。'),
-        ('廃棄物の適正な処分', f'解体で出た廃棄物を正しく分けて処分し、リサイクルで排出を減らします。産業廃棄物収集運搬業の許可（{"・".join(sanpai)}）を持っています。'),
-        ('汚染土壌の浄化', '汚染された土壌の浄化に取り組んでいます。'),
-        ('車両と重機の省エネ', '解体工事で使う車両・重機の燃費の向上に努めます。'),
-    ]
-    eco_html = ''.join(f'<li><h4>{t}</h4><p>{d}</p></li>' for t, d in eco)
     # 施工事例（2026-11-17 松本さんのデザイン案）：番号・施工前後の写真・構造の札・場所・題。トップだけの見せ方（施工事例のページは work_card のまま）
     def wk(n, w):
         title = f'{esc(w["place"])} {esc(w["name"])}'
@@ -507,8 +519,7 @@ def page_index():
 <h2 class="cm-ttl" id="h-torikumi">丸信のこだわり</h2></div>
 </div>
 <ol class="cm">{cards_html}</ol>
-<div class="eco"><h3 class="eco-ttl">法令と環境への取り組み</h3><ul class="eco-l">{eco_html}</ul></div>
-<p class="center cm-more"><a class="btn btn-navy cm-btn" href="outline.html">丸信の会社案内を見る{ic("chev")}</a></p>
+<p class="center cm-more"><a class="btn btn-navy cm-btn" href="about.html">丸信について詳しく見る{ic("chev")}</a></p>
 </div>
 </section>
 
@@ -683,6 +694,7 @@ def page_about():
 <div class="wrap">
 <p class="cm-en" lang="en">POLICY</p><h2 class="t-ttl" id="h-pol">丸信の方針</h2>
 <ul class="au-pol">{pol_html}</ul>
+{eco_block(company)}
 </div>
 </section>
 
