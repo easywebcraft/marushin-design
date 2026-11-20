@@ -1706,3 +1706,5 @@ html,body{overflow-x:clip}
 .wk>li.rv.in .wk-ph .wk-af{transition:opacity .6s ease calc(var(--d,0s) + .55s),transform .7s cubic-bezier(.2,.7,.3,1) calc(var(--d,0s) + .55s)}
 /* 2026-11-21 松本さん「冒頭演出の波紋は一つに」：2つ目の輪を出さない */
 .ewl.is-full .ewl-p1::after{animation:none;opacity:0}
+/* 2026-11-21 松本さん「冒頭演出の波紋は削除して」：広がる輪を出さない（輪の光と社名の筋は残す） */
+.ewl-p1::before,.ewl-p1::after{display:none}
