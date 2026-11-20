@@ -1094,6 +1094,8 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .ph-au .ph-in{padding:36px var(--gut) 40px}
   .ph-au .ph-en{font-size:12px}
   .ph-au h1{font-size:27px}
+  .ph-long .ph-img{inset:0 0 0 62%;clip-path:polygon(22% 0,100% 0,100% 100%,0 100%)}
+  .ph-long h1{font-size:23px}
 }
 
 /* ========== 料金案内（2026-11-17 松本さんのデザイン案）：丸信についてと同じ部品で ==========

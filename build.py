@@ -344,17 +344,12 @@ def page_head(fname):
     """下層ページの上の帯（題・英字・写真）と、現在位置。"""
     _f, name, en, _h, _d = PAGE[fname]
     pos = PH_POS.get(fname, '50% 50%')
-    # 丸信について・料金案内など（よくある質問は 2026-11-20 に足した）は、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17）
-    if fname in ('about.html', 'price.html', 'case.html', 'flow.html', 'outline.html', 'faq.html'):
-        return f'''<div class="ph ph-au">
+    # 全ページ、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17 丸信について・料金案内から。
+    # 2026-11-20 よくある質問・お客様の声・お問い合わせ・プライバシーポリシーもそろえた）
+    long = ' ph-long' if len(name) > 8 else ''   # プライバシーポリシーなど長い題は、スマホで写真に重ならないよう詰める
+    return f'''<div class="ph ph-au{long}">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
 <div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{name}</h1></div></div>
-<p class="img-note">写真はイメージです</p>
-</div>
-<nav class="bc" aria-label="現在位置"><ol><li><a href="./">ホーム</a></li><li aria-current="page">{name}</li></ol></nav>'''
-    return f'''<div class="ph">
-<div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
-<div class="ph-in"><div class="ph-ttl"><h1>{name}</h1><p class="ph-en" lang="en">{en}</p></div></div>
 <p class="img-note">写真はイメージです</p>
 </div>
 <nav class="bc" aria-label="現在位置"><ol><li><a href="./">ホーム</a></li><li aria-current="page">{name}</li></ol></nav>'''
