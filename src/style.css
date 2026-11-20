@@ -844,12 +844,6 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
   .ct-l::after{border-right:1px solid rgba(255,255,255,.3)}
   .ln-wait .ab-ttl::after,.pr-in.ln-wait .pr-h::after,.ct-in.ln-wait .ct-l::after{transform:scaleY(0)}
 }
-/* 4. ただいま受付中 */
-.ct-now{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:6px 16px;border:1px solid rgba(255,255,255,.35);border-radius:999px;font-size:14px;font-weight:700;letter-spacing:.04em}
-.ct-now::before{content:"";width:9px;height:9px;border-radius:50%;background:#9aa7b4;flex:none}
-.ct-now.is-open::before{background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:ctPulse 2s ease-out infinite}
-@keyframes ctPulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}80%,100%{box-shadow:0 0 0 9px rgba(74,222,128,0)}}
-@media (prefers-reduced-motion:reduce){.ct-now.is-open::before{animation:none}}
 
 /* ========== トップの立体感（2026-11-17 松本さん「立体感を追加してほしい」） ==========
    並び・色・文は変えず、影と重なりで奥行きを出す。触れると少し浮くのはボタンだけ（動きを減らす設定では浮かない） */

@@ -235,49 +235,7 @@
   // 3. 線が引かれる
   once(all('.cm-en,.cm,.wk,.ab-in,.pr-in,.ct-in'), 'ln-wait');
 
-  // 4. ただいま受付中：日本時間で、平日（土日・祝日を除く）の 9:00〜17:00 を受付中とする
-  var now = document.getElementById('ct-now');
-  if (!now) return;
-  var hol = {};
-  var holidays = function (y) {   // EWC-CRM の jp_holidays.py と同じ決まり（2020年以降）
-    if (hol[y]) return hol[y];
-    var d = function (m, day) { return Date.UTC(y, m - 1, day); };
-    var nthMon = function (m, n) { var t = new Date(d(m, 1)); return d(m, 1 + ((8 - t.getUTCDay()) % 7) + (n - 1) * 7); };
-    var eq = function (base) { return Math.floor(base + 0.242194 * (y - 1980) - Math.floor((y - 1980) / 4)); };
-    var h = [d(1, 1), nthMon(1, 2), d(2, 11), d(2, 23), d(3, eq(20.8431)), d(4, 29), d(5, 3), d(5, 4), d(5, 5),
-      nthMon(7, 3), d(8, 11), nthMon(9, 3), d(9, eq(23.2488)), nthMon(10, 2), d(11, 3), d(11, 23)];
-    var set = {}, DAY = 864e5;
-    h.forEach(function (t) { set[t] = 1; });
-    h.slice().sort().forEach(function (t) {   // 国民の休日：祝日にはさまれた日
-      if (!set[t + DAY] && set[t + 2 * DAY] && new Date(t + DAY).getUTCDay() !== 0) set[t + DAY] = 1;
-    });
-    Object.keys(set).map(Number).sort().forEach(function (t) {   // 振替休日
-      if (new Date(t).getUTCDay() !== 0) return;
-      var s = t + DAY; while (set[s]) s += DAY; set[s] = 1;
-    });
-    return (hol[y] = set);
-  };
-  var biz = function (t) { var w = new Date(t).getUTCDay(); return w > 0 && w < 6 && !holidays(new Date(t).getUTCFullYear())[t]; };
-  var WD = '日月火水木金土';
-  var label = function (t) { var x = new Date(t); return (x.getUTCMonth() + 1) + '月' + x.getUTCDate() + '日（' + WD[x.getUTCDay()] + '）'; };
-  var update = function () {
-    var p = {};
-    new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
-      .formatToParts(new Date()).forEach(function (x) { p[x.type] = +x.value; });
-    var today = Date.UTC(p.year, p.month - 1, p.day), min = p.hour * 60 + p.minute, open = biz(today);
-    var txt, on = false;
-    if (open && min >= 540 && min < 1020) { txt = 'ただいま電話受付中（本日17:00まで）'; on = true; }
-    else if (open && min < 540) txt = '本日は9:00から受付します';
-    else {
-      var n = today + 864e5; while (!biz(n)) n += 864e5;
-      txt = (open ? '本日の受付は終了しました。' : '本日はお休みです。') + '次の受付は' + label(n) + ' 9:00からです';
-    }
-    now.textContent = txt;
-    now.classList.toggle('is-open', on);
-    now.hidden = false;
-  };
-  update();
-  setInterval(update, 60000);
+  // （4. 「ただいま電話受付中」の表示は 2026-11-20 松本さんの指示で外した。年末年始などの長い休みにも出てしまうため）
 })();
 
 // ---- トップの奥行き：大きな薄い英字を、下へ進むと本文よりゆっくり動かす（2026-11-17） ----

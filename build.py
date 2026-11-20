@@ -401,17 +401,16 @@ def qa_html(item, n):
 </details>'''
 
 
-def ct_band(now=False):
-    """紺の「解体工事のご相談はこちら」の帯。トップと丸信についてで同じもの（2026-11-17）。
-    now=True のときだけ「ただいま電話受付中」を出す（要確認の印が二重にならないよう、トップだけ）"""
+def ct_band():
+    """紺の「解体工事のご相談はこちら」の帯。全ページで同じもの（2026-11-17）。
+    トップにあった「ただいま電話受付中」は、年末年始などの長い休みにも出てしまうので外した（2026-11-20 松本さん）"""
     arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-    now_html = ('<p class="ct-now" id="ct-now" hidden></p>' + todo('年末年始・お盆などの休み（「ただいま電話受付中」の表示は、土日・祝日だけを休みとして判定しています）')) if now else ''
     return f'''<section class="ct-band has-wm" data-wm="CONTACT" aria-labelledby="h-contact">
 <div class="wrap ct-in">
 <div class="ct-l"><p class="cm-en" lang="en">CONTACT</p><h2 class="ct-ttl" id="h-contact">解体工事のご相談はこちら</h2>
 <a class="ct-tel" href="{TEL_HREF}">{ic("phone")}<span>{TEL}</span></a>
 <p class="ct-hours">{HOURS}</p>
-{now_html}</div>
+</div>
 <a class="btn btn-white ct-btn" href="contact.html">お問い合わせ{arw}</a>
 </div>
 </section>'''
@@ -574,7 +573,7 @@ def page_index():
 </div>
 </section>
 
-{ct_band(True)}
+{ct_band()}
 
 <div class="rqs" id="rqs">
 <aside class="rq" id="rq" aria-label="従業員募集のお知らせ">
@@ -1138,7 +1137,6 @@ PRIO = [
     ('改定日', '中', '', '', True),
     ('銀行名', '中', '古い銀行名のままだと、お振り込みの際に迷わせてしまいます', '今の銀行名と支店名を教えてください', False),
     ('懲役', '中', '', '', True),
-    ('年末年始', '中', 'お休みの日でも「ただいま電話受付中」と表示されてしまいます', '年末年始・お盆などのお休みの日を教えてください', False),
     ('社長あいさつ', '低', '', 'このまま載せてよいか、書き直したいところがあれば教えてください', False),
     ('求人の案内', '低', '', '「未経験者歓迎」など、求人の案内に載せたい言葉があれば教えてください', False),
     ('確実に安くなります', '低', '', '新しいサイトでは外しています。載せたい場合はお知らせください', False),
