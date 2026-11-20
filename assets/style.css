@@ -1640,3 +1640,14 @@ html,body{overflow-x:clip}
   .ab-band .au-kinds li{padding:6px 0 6px 4px;font-size:12.5px}
   .ab-band .au-kinds li:nth-child(even){padding-left:14px}
 }
+/* 2026-11-20 松本さん「こだわりの見出しは元の位置（左）に」「FVの下に帯が見えるのが違和感、FVは画像いっぱいに」：
+   見出しは他の段と同じ左寄せ。帯は FV に重ねず、PC の FV は画面の高さいっぱい */
+.cm-cards .cm-head{text-align:left}
+.cm-cards .cm-en{justify-content:flex-start}
+@media (min-width:768px){
+  .ab-in{margin-top:0}
+  .ab-band{padding-top:28px}
+}
+@media (min-width:1024px){
+  html.js .hero{min-height:max(600px,100vh);min-height:max(600px,100svh)}
+}
