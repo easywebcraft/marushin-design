@@ -623,7 +623,7 @@ def page_about():
          'images/top/flow-4.jpg', '', ''),
     ]
     feat_html = ''.join(
-        f'<li><span class="au-n" aria-hidden="true">{n:02d}</span><div class="au-tx"><h3>{t}</h3><p>{d}</p>{todo(td) if td else ""}</div>{photo(src, lb)}</li>'
+        f'<li><div class="au-card"><span class="au-n" aria-hidden="true">{n:02d}</span><div class="au-tx"><h3>{t}</h3><p>{d}</p>{todo(td) if td else ""}</div></div>{photo(src, lb)}</li>'
         for n, (t, d, src, lb, td) in enumerate(feats, 1))
 
     kinds = [('home', '木造住宅'), ('steel', '鉄骨造'), ('rc', '鉄筋コンクリート造'), ('shop', '店舗・事務所')]
