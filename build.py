@@ -27,6 +27,7 @@ DATA = BASE / 'data'
 SITE = BASE  # GitHub Pages はリポジトリ直下を配信する。--release のときは dist/
 RELEASE = False  # 公開用の書き出し（制作中の帯・noindex・要確認の印・仮枠を外す）
 SITE_URL = ''  # 公開URL（末尾の / なし）。決まるまでは空で、canonical を出さない
+PREVIEW_URL = 'https://easywebcraft.github.io/marushin-design'  # 確認用の公開先（OGP画像の場所に使う）
 
 COMPANY = '株式会社 丸信'
 TEL = '0568-29-7788'
@@ -174,6 +175,11 @@ def head(fname, title, desc):
     if RELEASE and SITE_URL:
         path = '' if fname == 'index.html' else fname
         canonical = f'<link rel="canonical" href="{SITE_URL}/{path}">\n'
+    # LINE などに URL を貼ったときの写真（ogp.py で作る）。場所はアドレスの頭から書く決まり。公開用で URL が未定なら出さない
+    img_base = SITE_URL if RELEASE else PREVIEW_URL
+    ogv = hashlib.md5((BASE / 'images' / 'ogp.jpg').read_bytes()).hexdigest()[:8]  # 撮り直したら LINE などが新しい写真を取り直すように
+    ogimg = (f'<meta property="og:image" content="{img_base}/images/ogp.jpg?v={ogv}">\n'
+             '<meta name="twitter:card" content="summary_large_image">\n') if img_base else ''
     return f'''<!doctype html>
 <html lang="ja">
 <head>
@@ -186,7 +192,7 @@ def head(fname, title, desc):
 <meta property="og:site_name" content="{esc(COMPANY)}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
-<link rel="stylesheet" href="assets/style.css?v={ASSET_V}">
+{ogimg}<link rel="stylesheet" href="assets/style.css?v={ASSET_V}">
 {EWL_HEAD if fname == 'index.html' else ''}</head>'''
 
 

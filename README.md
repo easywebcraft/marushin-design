@@ -52,6 +52,10 @@ python3 build.py --release --force --site-url https://www.marushin-kaitai.com
 | 黄色の「要確認」の印 | 出る | 出ない |
 | 写真の仮枠 | 出る | 出ない |
 | `check.html` | 作る | 作らない |
+| URL を貼ったときの写真（OGP画像）の場所 | 確認用の github.io | `--site-url` のアドレス（無ければ出さない） |
+
+LINE などに URL を貼ったときに出る写真は `images/ogp.jpg`（1200×630）。トップの最初の画面を `python3 ogp.py` で撮って作る。
+トップの写真や見出しを変えたら撮り直してから `build.py` を流す。
 
 `raw/`（今のサイトを保存したもの）と `dist/` は、この置き場所には上げない。
 
