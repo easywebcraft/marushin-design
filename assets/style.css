@@ -793,7 +793,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ct-band{background:var(--navy);color:#fff;padding:56px 0}
 .ct-in{display:grid;grid-template-columns:1fr auto;align-items:center;gap:32px 64px}
 .ct-l{padding-right:64px;border-right:1px solid rgba(255,255,255,.3)}
-.ct-band .cm-en{color:#7CCAD3}
+.ct-band .cm-en{color:color-mix(in srgb,var(--teal),#fff 30%)}
 .ct-ttl{margin-top:4px;color:#fff;font-family:var(--serif);font-weight:700;font-size:clamp(24px,2.8vw,34px);letter-spacing:.06em}
 .ct-tel{display:inline-flex;align-items:center;gap:12px;margin-top:12px;color:#fff;text-decoration:none;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:700;font-size:clamp(34px,4.4vw,52px);line-height:1.15;letter-spacing:.04em;white-space:nowrap}
@@ -871,7 +871,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .fq-sec{background:linear-gradient(180deg,var(--pale2),#fff)}
 @media (max-width:767px){.ar,.qas.fq{padding:4px 14px}}
 /* ご相談の帯：奥に向かうグラデーション、電話番号に影 */
-.ct-band{background:radial-gradient(120% 140% at 15% 0%,#26506a 0%,var(--navy) 55%,#10283a 100%)}
+.ct-band{background:radial-gradient(120% 140% at 15% 0%,color-mix(in srgb,var(--navy),#fff 14%) 0%,var(--navy) 55%,var(--navy-d) 100%)}  /* 2026-11-20 色の案を変えても同じ色味の濃淡になるよう、固定の青をやめた */
 .ct-tel{text-shadow:0 4px 18px rgba(0,0,0,.35)}
 .ct-btn{box-shadow:0 6px 16px rgba(0,0,0,.28),0 16px 34px rgba(0,0,0,.22)}
 @media (prefers-reduced-motion:reduce){
@@ -978,7 +978,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.rq-tk>span{animation:none}}
 /* ブログの札（準備中）：採用情報と同じ形で、地を紺にして見分ける。開くと「準備中」の札（リンクなし） */
 .rq-blog .rq-tab{background:var(--navy)}
-.rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{background:#0b3a5a}
+.rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{background:var(--navy-d)}
 .rq-blog .rq-tab-new{background:#E4E9EE;color:var(--navy)}
 .rq-soon{padding:30px 18px 28px;background:var(--navy);color:#fff;text-align:center}
 .rq-soon-en{margin:0;font:700 11px/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.42em;color:#0cbcc4}
