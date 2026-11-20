@@ -522,6 +522,15 @@ def page_index():
 <span class="hero-scroll" aria-hidden="true">scroll</span>
 </section>
 
+<section class="ab-band" aria-labelledby="h-about">
+<div class="wrap ab-in">
+<h2 class="ab-ttl" id="h-about">対応する解体工事</h2>
+<p class="ab-tx">建物の種類を問わず、解体工事に対応しています。</p>
+<div class="ab-kd"><ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
+<p class="ab-more"><a class="tlink t-link" href="about.html#h-svc">対応する工事を詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
+</div>
+</section>
+
 <section class="sec cm-sec has-wm" data-wm="COMMITMENT" aria-labelledby="h-torikumi">
 <div class="wrap cm-in">
 <div class="cm-head">
@@ -530,15 +539,6 @@ def page_index():
 </div>
 <ol class="cm">{cards_html}</ol>
 <p class="cm-more"><a class="btn btn-navy cm-btn" href="about.html">丸信について詳しく見る{ic("chev")}</a></p>
-</div>
-</section>
-
-<section class="ab-band" aria-labelledby="h-about">
-<div class="wrap ab-in">
-<h2 class="ab-ttl" id="h-about">対応する解体工事</h2>
-<p class="ab-tx">建物の種類を問わず、解体工事に対応しています。</p>
-<div class="ab-kd"><ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
-<p class="ab-more"><a class="tlink t-link" href="about.html#h-svc">対応する工事を詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
 </div>
 </section>
 
