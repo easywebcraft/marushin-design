@@ -1704,3 +1704,5 @@ html,body{overflow-x:clip}
 .wk>li.rv.in .wk-ph figcaption{transition:clip-path .45s cubic-bezier(.4,0,.2,1) calc(var(--d,0s) + .35s)}
 .wk>li.rv.in .wk-af figcaption{transition-delay:calc(var(--d,0s) + .95s)}
 .wk>li.rv.in .wk-ph .wk-af{transition:opacity .6s ease calc(var(--d,0s) + .55s),transform .7s cubic-bezier(.2,.7,.3,1) calc(var(--d,0s) + .55s)}
+/* 2026-11-21 松本さん「冒頭演出の波紋は一つに」：2つ目の輪を出さない */
+.ewl.is-full .ewl-p1::after{animation:none;opacity:0}
