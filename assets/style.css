@@ -1678,3 +1678,7 @@ html,body{overflow-x:clip}
   .ewl.is-full .logo{animation:ewlSheen .85s ease-in-out .05s both}
 }
 @media (prefers-reduced-motion:reduce){.ewl-p1::before,.ewl-p1::after{display:none}}
+/* 2026-11-20 松本さん「FVの無料相談が背景と同化することがある」：PC の写真の上では白いふちと濃い影で浮かせる（色は左側の色のまま） */
+@media (min-width:768px){
+  .hero-btns .btn-teal{border-color:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.18),0 10px 26px rgba(0,0,0,.45)}
+}
