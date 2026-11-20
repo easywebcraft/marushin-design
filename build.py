@@ -504,7 +504,7 @@ def page_index():
 <div class="wrap">
 <div class="cm-head">
 <div><p class="cm-en" lang="en">OUR COMMITMENT</p>
-<h2 class="cm-ttl" id="h-torikumi">解体の前も後も<br>安心につながる丸信の取り組み</h2></div>
+<h2 class="cm-ttl" id="h-torikumi">丸信のこだわり</h2></div>
 </div>
 <ol class="cm">{cards_html}</ol>
 <div class="eco"><h3 class="eco-ttl">法令と環境への取り組み</h3><ul class="eco-l">{eco_html}</ul></div>
