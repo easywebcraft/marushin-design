@@ -172,7 +172,10 @@ def href(f):
 # ---- 色の切り替え（確認用だけ。2026-11-20 松本さん「ボタンでお客様に切り替えてもらい、好みの色を選んでもらいたい」）----
 # 主に使う色（--navy＝濃い色、--teal 系＝差し色、--pale 系＝薄い地の色）だけを入れ替える。公開用には入らない。
 THEMES = [
-    ('base', '紺×青緑（今の色）', '#17354B', '#147F8D', {}),
+    # 先頭が既定の色（style.css の :root と同じ値・上書きなし）。2026-11-20 松本さん「濃紺×金茶をデフォルトに」で入れ替え
+    ('gold', '濃紺×金茶（今の色）', '#142640', '#8E7034', {}),
+    ('base', '紺×青緑（前の色）', '#17354B', '#147F8D', {'navy': '#17354B', 'navy-d': '#102838', 'teal': '#38A8B8', 'teal-d': '#147F8D', 'teal-dd': '#0E6773',
+                                          'pale': '#E6F1F6', 'pale2': '#F3F8FB', 'line': '#D3E0E8', 'tint': '#D5ECEE', 'bg1': '#eef5f9', 'bg2': '#dde9f0'}),
     ('brick', '紺×赤茶', '#1E2B3C', '#A9502A', {'navy': '#1E2B3C', 'navy-d': '#141E2B', 'teal': '#D0784F', 'teal-d': '#A9502A', 'teal-dd': '#8A3E1F',
                                            'pale': '#F4ECE6', 'pale2': '#FAF6F2', 'line': '#E5D8CE', 'tint': '#F2DCCF', 'bg1': '#F8F2EE', 'bg2': '#EBDFD6'}),
     ('orange', '黒×オレンジ（重機の色）', '#24282D', '#C66A0A', {'navy': '#24282D', 'navy-d': '#17191C', 'teal': '#F29A2E', 'teal-d': '#C66A0A', 'teal-dd': '#A3560A',
@@ -182,8 +185,6 @@ THEMES = [
     # 2026-11-20 営業との打ち合わせで7種類に。派手さを抑えた落ち着いた色を足した
     ('brown', '焦げ茶×黄土', '#3A2A1E', '#8C6A33', {'navy': '#3A2A1E', 'navy-d': '#271C13', 'teal': '#B08A4E', 'teal-d': '#8C6A33', 'teal-dd': '#6E5226',
                                          'pale': '#F3EEE6', 'pale2': '#FAF7F2', 'line': '#E3D9CB', 'tint': '#EADFC9', 'bg1': '#F7F3EC', 'bg2': '#E9E0D2'}),
-    ('gold', '濃紺×金茶', '#142640', '#8E7034', {'navy': '#142640', 'navy-d': '#0C1A2E', 'teal': '#B8975A', 'teal-d': '#8E7034', 'teal-dd': '#715929',
-                                       'pale': '#F1EEE6', 'pale2': '#F9F7F2', 'line': '#E1DACB', 'tint': '#EDE3CC', 'bg1': '#F6F3EC', 'bg2': '#E7E0D1'}),
     ('gray', '墨×グレー', '#2B2F33', '#56616B', {'navy': '#2B2F33', 'navy-d': '#1C1F22', 'teal': '#7A8590', 'teal-d': '#56616B', 'teal-dd': '#434C54',
                                       'pale': '#EEF0F2', 'pale2': '#F7F8F9', 'line': '#DADEE2', 'tint': '#DDE2E7', 'bg1': '#F3F5F6', 'bg2': '#E3E7EA'}),
 ]
@@ -223,7 +224,7 @@ def theme_body():
                '<li><button type="button" data-b="tab" aria-pressed="false"><span class="tsw-bi">A</span>札を押すとバナーが開く（今の形）</button></li>'
                '<li><button type="button" data-b="open" aria-pressed="false"><span class="tsw-bi">B</span>バナーをいつも出しておく</button></li>')
     js = ('(function(){var w=document.getElementById("tsw");if(!w)return;var b=w.querySelector(".tsw-btn"),l=w.querySelector(".tsw-list"),r=document.documentElement;'
-          'var mark=function(){var k=r.getAttribute("data-theme")||"base",bn=r.getAttribute("data-banner")==="open"?"open":"tab";'
+          'var mark=function(){var k=r.getAttribute("data-theme")||"' + THEMES[0][0] + '",bn=r.getAttribute("data-banner")==="open"?"open":"tab";'
           'Array.prototype.forEach.call(l.querySelectorAll("button[data-k]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")});'
           'Array.prototype.forEach.call(l.querySelectorAll("button[data-b]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-b")===bn?"true":"false")})};'
           'b.addEventListener("click",function(){var o=l.hidden;l.hidden=!o;b.setAttribute("aria-expanded",o?"true":"false")});'
@@ -231,7 +232,7 @@ def theme_body():
           'if(bn==="open")r.setAttribute("data-banner","open");else r.removeAttribute("data-banner");try{localStorage.setItem("msbanner",bn)}catch(e){}'
           'if(window.msBannerMode)window.msBannerMode();mark();return}'
           'var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
-          'if(k==="base")r.removeAttribute("data-theme");else r.setAttribute("data-theme",k);try{localStorage.setItem("mstheme",k)}catch(e){}mark()});'
+          'if(k==="' + THEMES[0][0] + '")r.removeAttribute("data-theme");else r.setAttribute("data-theme",k);try{localStorage.setItem("mstheme",k)}catch(e){}mark()});'
           'document.addEventListener("click",function(e){if(!w.contains(e.target)){l.hidden=true;b.setAttribute("aria-expanded","false")}});mark()})();')
     return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p class="tsw-h">色の案</p></li>{items}{banners}<li><p>選ぶとすぐにサイト全体が切り替わります。採用バナーはトップページを少し下へ進めると出ます</p></li></ul>'
             f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色・表示を選ぶ</button></div>\n<script>{js}</script>\n')
