@@ -76,6 +76,7 @@ PH_IMG = {
     'faq.html': ('images/ph/faq.jpg', '58% 55%'),        # はてなマーク
     'voice.html': ('images/ph/voice.jpg', '68% 58%'),    # 吹き出し
     'policy.html': ('images/ph/policy.jpg', '62% 60%'),  # 鍵を掛けたファイル
+    'contact.html': ('images/ph/contact.jpg', '70% 42%'),  # 封筒とメモ
 }
 
 ASSET_V = ''  # main() で CSS・JS の中身から決める
