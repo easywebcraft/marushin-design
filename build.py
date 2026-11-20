@@ -192,7 +192,7 @@ THEMES = [
 def theme_head():
     """色の切り替えの見た目と、ページを開いた直後に選んだ色を当てる短い処理（ちらつかないよう head に置く）"""
     css = ''.join(f':root[data-theme="{k}"]{{' + ''.join(f'--{n}:{v};' for n, v in vs.items()) + '}' for k, _n, _a, _b, vs in THEMES if vs)
-    css += ('.tsw{position:fixed;right:14px;bottom:14px;z-index:80;font-size:13px}'
+    css += ('.tsw{position:fixed;right:60px;bottom:14px;z-index:57;font-size:13px}'
             '.tsw-btn{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#fff;color:#22313C;font:inherit;font-weight:700;'
             'box-shadow:0 6px 18px rgba(0,0,0,.18);cursor:pointer}'
             '.tsw-dot{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--navy) 50%,var(--teal-d) 50%)}'
@@ -205,7 +205,7 @@ def theme_head():
             '.tsw-sw{flex:none;width:34px;height:22px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}'
             '.tsw-list p.tsw-h{margin:8px 8px 2px;color:#22313C;font-weight:700;font-size:12px}'
             '.tsw-bi{flex:none;display:grid;place-items:center;width:34px;height:22px;border-radius:4px;background:#22313C;color:#fff;font-weight:700;font-size:12px}'
-            '@media (max-width:767px){.tsw{right:10px;bottom:84px}}'
+            '@media (max-width:767px){.tsw{right:36px;bottom:84px}}'
             '@media print{.tsw{display:none}}')
     keys = [k for k, *_ in THEMES]
     js = ('(function(){var k=null;try{var m=location.search.match(/[?&]color=([a-z]+)/);if(m){k=m[1];localStorage.setItem("mstheme",k)}else{k=localStorage.getItem("mstheme")}}catch(e){}'

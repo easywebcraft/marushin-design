@@ -1460,16 +1460,20 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (hover:hover){#rq:hover .rq-pop{transform:translate3d(0,0,0)}}
 /* ブログの札は、隠すときも画面の外へ動かさず、その場で透明にするだけ。
    2026-11-20 iPhone の Safari で、画面の右の外に置いた札の分だけページの幅が広がり、出したときに札が右にはみ出したため */
-.rq-blog{position:fixed;right:0;top:50%;z-index:58;transform:translateY(-50%);transition:opacity .3s,visibility 0s}
+.rq-blog{position:fixed;right:0;bottom:16px;z-index:58;transition:opacity .3s,visibility 0s}   /* 高さは求人の札とそろえる（2026-11-20） */
+/* 2つの札は別々に置いたので、開いても重なりの順（z-index）を下げない（前の「開いた札を手前に」の指定を打ち消す） */
+#rq,#rq:hover,#rq.is-open,#rq:focus-within,.rq-blog,.rq-blog:hover,.rq-blog.is-open,.rq-blog:focus-within{z-index:58}
 .rqs.is-wait .rq-blog{opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
 /* 押した・開いた・閉じたで札の幅を変えない（iPhone は押したあとも :hover が残り、幅が変わると札が右にずれたため。2026-11-20） */
 .rq-blog .rq-tab,.rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{padding-left:8px;padding-right:8px;border-radius:6px 0 0 6px;transition:background .2s}
-.rq-blog .rq-pop{left:auto;right:calc(100% + 14px);transform:translate3d(12px,-50%,0)}
+.rq-blog .rq-pop{left:auto;right:calc(100% + 14px);top:auto;bottom:0;transform:translate3d(12px,0,0)}
+.rq-blog.is-open .rq-pop{transform:translate3d(0,0,0)}
+@media (hover:hover){.rq-blog:hover .rq-pop{transform:translate3d(0,0,0)}}
 @media (prefers-reduced-motion:reduce){#rq,.rq-blog,.rqs.is-wait #rq,.rqs.is-wait .rq-blog{transition:none}}
 /* 題を「従業員募集中」にしたので大きく */
 .rq-ttl{font-size:14.5cqw;line-height:1.25;letter-spacing:.08em}
 @media (max-width:767px){
-  #rq{bottom:78px}   /* 下の電話・相談の帯の上 */
+  #rq,.rq-blog{bottom:78px}   /* 下の電話・相談の帯の上 */
   .rq-blog .rq-tab,.rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{padding-left:4px;padding-right:4px;border-radius:5px 0 0 5px}
   .rq-blog .rq-pop{right:calc(100% + 10px)}
 }
