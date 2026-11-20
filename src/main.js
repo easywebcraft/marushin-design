@@ -307,28 +307,45 @@
 (function () {
   var box = document.getElementById('rqs');
   if (!box) return;
+  var shown = null;
   var all = Array.prototype.slice.call(box.querySelectorAll('.rq'));
   var set = function (rq, open) {
     rq.classList.toggle('is-open', open);
     rq.querySelector('.rq-tab').setAttribute('aria-expanded', open ? 'true' : 'false');
   };
-  var closeAll = function (except) { all.forEach(function (rq) { if (rq !== except) set(rq, false); }); };
+  // 2026-11-20 お客様に見比べてもらう用：URL の末尾が ?banner=open のときは、札が出ている間は求人のバナーを開いたままにする
+  // （ブログの札を押している間だけブログを出す）。ほかのページへ移っても同じ見え方になるよう、サイト内のリンクにも付ける
+  var always = /[?&]banner=open(&|$)/.test(location.search);
+  var main = document.getElementById('rq');
+  var closeAll = function (except) {
+    all.forEach(function (rq) { if (rq !== except) set(rq, false); });
+    if (always && shown && !except && main) set(main, true);
+  };
+  if (always) {
+    Array.prototype.forEach.call(document.querySelectorAll('a[href]'), function (a) {
+      var h = a.getAttribute('href');
+      if (/^(https?:|mailto:|tel:|#)/.test(h)) return;
+      var i = h.indexOf('#');
+      a.setAttribute('href', (i < 0 ? h : h.slice(0, i)) + '?banner=open' + (i < 0 ? '' : h.slice(i)));
+    });
+  }
   all.forEach(function (rq) {
     rq.querySelector('.rq-tab').addEventListener('click', function () {
+      var open = !rq.classList.contains('is-open');
       closeAll(rq);
-      set(rq, !rq.classList.contains('is-open'));
+      set(rq, open);
+      if (!open) closeAll();
     });
   });
   document.addEventListener('click', function (ev) { if (!box.contains(ev.target)) closeAll(); });
   document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeAll(); });
   // 最初の画面では隠し、画面の高さの半分ほど下へ進んだら出す。上へ戻ると隠す（2026-11-18 松本さん）
-  var shown = null;
   var check = function () {
     var on = (window.scrollY || window.pageYOffset) > window.innerHeight * 0.5;
     if (on === shown) return;
     shown = on;
     box.classList.toggle('is-wait', !on);
-    if (!on) closeAll();
+    if (!on) { all.forEach(function (rq) { set(rq, false); }); } else closeAll();
   };
   window.addEventListener('scroll', check, { passive: true });
   window.addEventListener('resize', check);

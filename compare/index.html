@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>採用バナーの見せ方の比較｜株式会社 丸信（確認用）</title>
+<style>
+:root{--navy:#17354B;--teal:#147F8D;--pale:#E6F1F6;--line:#D3E0E8;--text:#22313C;--mute:#566874}
+*{box-sizing:border-box}
+body{margin:0;background:#F3F8FB;color:var(--text);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.7}
+.draft{background:#3a2f00;color:#f4e3a1;text-align:center;font-size:13px;padding:6px 12px}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 24px 60px}
+h1{margin:0;color:var(--navy);font-size:clamp(22px,3vw,30px)}
+.lead{margin:10px 0 0;color:var(--mute)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px;box-shadow:0 8px 22px rgba(23,53,75,.08);display:flex;flex-direction:column}
+.tag{align-self:flex-start;display:inline-block;padding:2px 12px;border-radius:999px;background:var(--navy);color:#fff;font-weight:700;font-size:14px}
+.card.b .tag{background:var(--teal)}
+h2{margin:10px 0 4px;color:var(--navy);font-size:20px}
+.card p{margin:0 0 14px;font-size:14px}
+.shots{display:grid;grid-template-columns:2.4fr 1fr;gap:12px;align-items:start}
+.shots figure{margin:0}
+.shots img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px}
+figcaption{margin-top:4px;font-size:12px;color:var(--mute);text-align:center}
+.btn{display:flex;justify-content:center;align-items:center;min-height:50px;margin-top:auto;padding:0 20px;border-radius:999px;background:var(--navy);color:#fff;font-weight:700;text-decoration:none}
+.card.b .btn{background:var(--teal)}
+.shots+.btn{margin-top:18px}
+.note{margin-top:28px;padding:16px 20px;background:var(--pale);border-radius:8px;font-size:14px}
+.note ul{margin:6px 0 0;padding-left:1.2em}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="draft">制作中の確認用ページです</div>
+<div class="wrap">
+<h1>採用バナーの見せ方の比較</h1>
+<p class="lead">ページを下へ進めると、画面の左端に「採用情報」と「ブログ」の札が出ます。札を押したときにバナーを出すか、はじめからバナーを出しておくかの2案です。<br>下のボタンから実際のページを開いて、スクロールしたときの見え方をお確かめください。</p>
+<div class="grid">
+<section class="card a">
+<span class="tag">A案</span>
+<h2>札を押すとバナーが開く</h2>
+<p>ふだんは左端に札だけを出します。押すと（パソコンでは札に触れると）バナーが開きます。本文が隠れにくい見せ方です。</p>
+<div class="shots">
+<figure><img src="a-pc.jpg" alt="A案 パソコンの画面" width="1400" height="875"><figcaption>パソコン</figcaption></figure>
+<figure><img src="a-sp.jpg" alt="A案 スマートフォンの画面" width="390" height="760"><figcaption>スマートフォン</figcaption></figure>
+</div>
+<a class="btn" href="../" target="_blank" rel="noopener">A案のページを開く</a>
+</section>
+<section class="card b">
+<span class="tag">B案</span>
+<h2>バナーをいつも出しておく</h2>
+<p>札が出ている間は、採用のバナーを開いたままにします。求人がいちばん目に入る見せ方です。ブログの札を押すと、その間だけブログの案内に替わります。</p>
+<div class="shots">
+<figure><img src="b-pc.jpg" alt="B案 パソコンの画面" width="1400" height="875"><figcaption>パソコン</figcaption></figure>
+<figure><img src="b-sp.jpg" alt="B案 スマートフォンの画面" width="390" height="760"><figcaption>スマートフォン</figcaption></figure>
+</div>
+<a class="btn" href="../?banner=open" target="_blank" rel="noopener">B案のページを開く</a>
+</section>
+</div>
+<div class="note"><b>見比べるときのポイント</b>
+<ul>
+<li>スマートフォンで、本文が読みにくくならないか</li>
+<li>求人の案内が十分に目に入るか</li>
+<li>どちらの案も、ページの最初の画面では札もバナーも出ません（下へ進めると出ます）</li>
+</ul></div>
+</div>
+</body>
+</html>
