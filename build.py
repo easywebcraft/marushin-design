@@ -277,7 +277,7 @@ def header(fname):
 <a class="skip" href="#main">本文へ移動</a>
 {draft}<header class="hd{' hd-ovl' if fname == 'index.html' else ''}">
 <div class="hd-in">
-<a class="logo" href="./" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span></a>
+<a class="logo" href="./" aria-label="{COMPANY} ホーム"><span class="logo-s">株式会社</span><span class="logo-l">丸信</span><span class="logo-en" lang="en" aria-hidden="true">MARUSHIN</span></a>
 <nav class="gnav" aria-label="メインメニュー"><ul>
 {''.join(items)}
 </ul></nav>
