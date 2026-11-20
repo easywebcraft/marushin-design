@@ -1760,3 +1760,6 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
 .wk>li.rv.in .wk-ph figcaption{transition:clip-path .6s var(--mo-ease) calc(var(--d,0s) + .2s)}
 .wk>li.rv.in .wk-af figcaption{transition-delay:calc(var(--d,0s) + .45s)}
 .wk>li.rv.in .wk-ph .wk-af{transition:opacity var(--mo-dur) var(--mo-ease) calc(var(--d,0s) + .12s),transform var(--mo-dur) var(--mo-ease) calc(var(--d,0s) + .12s)}
+/* 2026-11-21 松本さん「施工の流れの段の間隔も統一感を」：0.22秒 → ほかと同じ 0.12秒 */
+.fl>li{transition-delay:calc(var(--i,0)*.12s)}
+.fl-arw{transition-delay:calc(var(--i,0)*.12s + .08s)}

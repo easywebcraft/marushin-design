@@ -59,7 +59,7 @@
     var io = new IntersectionObserver(show(function () { return io; }, 1500), { rootMargin: '0px 0px -12% 0px' });
     // 施工事例の1件は、写真の下（施工後が重なるところ）まで画面に入ってから動かす（2026-11-20 松本さん「スクロールする前に動きが終わる」）。
     // 施工後・札の動きが終わるまで .rv/.in を外さない
-    var ioWk = new IntersectionObserver(show(function () { return ioWk; }, 2200), { threshold: 0.2, rootMargin: '0px 0px -12% 0px' }   /* 2026-11-21「出だしが遅くてスクロールに追いついていない」で 0.6→0.2 */);
+    var ioWk = new IntersectionObserver(show(function () { return ioWk; }, 2200), { rootMargin: '0px 0px -12% 0px' }   /* 2026-11-21 松本さん「統一感を」：ほかの段と同じ動き出す位置に */);
     document.querySelectorAll('.ol-msg-in>*,.ol-pics,.ol-dl,.ol-lic>li,.ol-phil-h,.ol-phil>li,.ol-acc-in,.fw-nav,.fw-l,.fw-steps>li,.fw-faq-in,.cs-head,.cs>li,.pr-cards>li,.pr-incl,.pr-tw,.pr-info,.au-mind-in>*,.au-cm>li,.au-kinds,.au-hand,.au-pol li,.au-note,.au-land>li,.ab-in,.sec .h2c,.cm-head,.cm>li,.wk>li,.works .work,.band-raise .band-in,.fl-head,.pr-in,.vc>li,.t-two>*,.ct-in,.area,.qas .qa,.cta-box,' +
       '.feat,.intro,.pol>li,.two>.panel,.tbl-wrap,.flow>li,.voice,.dl,.telbox,.formcard').forEach(function (el, i, all) {
       var sib = el.parentNode.children, n = Array.prototype.indexOf.call(sib, el);
