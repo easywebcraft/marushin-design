@@ -1763,3 +1763,12 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
 /* 2026-11-21 松本さん「施工の流れの段の間隔も統一感を」：0.22秒 → ほかと同じ 0.12秒 */
 .fl>li{transition-delay:calc(var(--i,0)*.12s)}
 .fl-arw{transition-delay:calc(var(--i,0)*.12s + .08s)}
+/* 2026-11-21 松本さん「施工後の画像をもう少し大きく・施工前と同じようにカーソルで少し拡大」：幅 45%→52%（スマホは 44%→50%） */
+.wk-ph{padding-bottom:19%}
+.wk-ph .wk-af{width:52%}
+@media (max-width:767px){.wk>li{grid-template-columns:50% 1fr}.wk-ph .wk-af{width:auto}}
+@media (hover:hover){
+  .wk-af img{transition:transform .8s var(--mo-ease)}
+  .wk>li:hover .wk-af img{transform:scale(1.03)}
+}
+@media (prefers-reduced-motion:reduce){.wk-af img{transition:none}.wk>li:hover .wk-af img{transform:none}}
