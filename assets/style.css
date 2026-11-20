@@ -1651,3 +1651,7 @@ html,body{overflow-x:clip}
 @media (min-width:1024px){
   html.js .hero{min-height:max(600px,100vh);min-height:max(600px,100svh)}
 }
+/* 2026-11-20 松本さん「FVのお問い合わせ・無料相談のボタンを組み合わせ色の左側の色に」：上のお問い合わせ（全ページ共通）と FV の無料相談を濃い色（--navy）に */
+.hd-cta,.hero-btns .btn-teal{background:var(--navy);color:#fff}
+.hd-cta:hover,.hero-btns .btn-teal:hover{background:var(--navy-d);color:#fff}
+.hero-btns .btn-teal{box-shadow:0 8px 22px rgba(0,0,0,.35)}
