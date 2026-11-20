@@ -1725,3 +1725,34 @@ html.js .ewl.is-absorb .logo{opacity:0;transition:opacity .6s ease .1s}
 .cm-cards .cm h3{margin-top:24px}
 @media (max-width:1023px){.cm-cards .cm-bd{padding:0 20px}.cm-cards .cm>li,.cm-cards .cm>li:first-child,.cm-cards .cm>li:last-child{padding:0 0 26px}}
 @media (max-width:767px){.cm-cards .cm-bd{padding:0 20px}.cm-cards .cm h3{margin-top:18px}}
+
+/* ========== 動きの統一（2026-11-21 松本さん「TOPページの動きを見直して統一感を」） ==========
+   ばらばらだった速さ・加減速・動く幅を、次の3つにそろえる（動きを減らす設定では、これまでどおり動かさない）
+   --mo-ease：出だしが速く、終わりをなめらかに止める ／ --mo-dur：0.8秒 ／ --mo-dist：下から 20px
+   並びの間隔は 0.12秒（JS）。施工の流れの段だけは、順番を見せるために 0.22秒のまま */
+:root{--mo-ease:cubic-bezier(.22,1,.36,1);--mo-dur:.8s;--mo-dist:20px}
+/* ふわっと現れる */
+.rv{transform:translateY(var(--mo-dist));transition:opacity var(--mo-dur) var(--mo-ease) var(--d,0s),transform var(--mo-dur) var(--mo-ease) var(--d,0s)}
+/* 施工の流れの段・矢印 */
+.fl.fl-wait>li{transform:translate3d(0,var(--mo-dist),0)}
+.fl>li{transition:opacity var(--mo-dur) var(--mo-ease) calc(var(--i,0)*.22s),transform var(--mo-dur) var(--mo-ease) calc(var(--i,0)*.22s)}
+.fl-arw{transition:opacity var(--mo-dur) var(--mo-ease) calc(var(--i,0)*.22s + .15s),transform var(--mo-dur) var(--mo-ease) calc(var(--i,0)*.22s + .15s)}
+/* 線が引かれる */
+.cm-en::after{transition:transform var(--mo-dur) var(--mo-ease) .1s}
+.cm>li+li::before,.wk>li+li::before{transition:transform var(--mo-dur) var(--mo-ease) .1s}
+@media (min-width:1024px){.ab-ttl::after,.pr-h::after,.ct-l::after{transition:transform var(--mo-dur) var(--mo-ease) .1s}}
+/* FV の文字とメニュー */
+@keyframes heroUp{from{opacity:0;transform:translateY(var(--mo-dist))}to{opacity:1;transform:none}}
+html.ewl-play .hero-in>*{animation:heroUp var(--mo-dur) var(--mo-ease) both}
+html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
+/* 施工事例の施工後・札（出る順と間は今のまま） */
+.wk>li.rv.in .wk-ph figcaption{transition:clip-path .6s var(--mo-ease) calc(var(--d,0s) + .35s)}
+.wk>li.rv.in .wk-af figcaption{transition-delay:calc(var(--d,0s) + .65s)}
+.wk>li.rv.in .wk-ph .wk-af{transition:opacity var(--mo-dur) var(--mo-ease) calc(var(--d,0s) + .25s),transform var(--mo-dur) var(--mo-ease) calc(var(--d,0s) + .25s)}
+/* 触れたとき：ボタンが少し浮く・矢印が右へ・写真が少し大きく。どれも同じ加減速で */
+.cm-btn,.t-btn,.ct-btn{transition:transform .3s var(--mo-ease),box-shadow .3s var(--mo-ease),background-color .2s,color .2s}
+.t-arw,.cm-btn .ic,.hero-btns .ic{transition:transform .3s var(--mo-ease)}
+@media (hover:hover){
+  .wk-bf img{transition:transform .8s var(--mo-ease)}
+  .tlink:hover .t-arw,.t-link:hover .t-arw{transform:translateX(4px)}
+}

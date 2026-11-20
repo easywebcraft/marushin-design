@@ -55,14 +55,15 @@
         });
       };
     };
-    var io = new IntersectionObserver(show(function () { return io; }, 1300), { threshold: 0.12 });
+    // 動き出す位置は、トップの線・施工の流れと同じ「画面の下から 12% 入ったところ」にそろえる（2026-11-21 動きの統一）
+    var io = new IntersectionObserver(show(function () { return io; }, 1500), { rootMargin: '0px 0px -12% 0px' });
     // 施工事例の1件は、写真の下（施工後が重なるところ）まで画面に入ってから動かす（2026-11-20 松本さん「スクロールする前に動きが終わる」）。
     // 施工後・札の動きが終わるまで .rv/.in を外さない
     var ioWk = new IntersectionObserver(show(function () { return ioWk; }, 2200), { threshold: 0.6, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.ol-msg-in>*,.ol-pics,.ol-dl,.ol-lic>li,.ol-phil-h,.ol-phil>li,.ol-acc-in,.fw-nav,.fw-l,.fw-steps>li,.fw-faq-in,.cs-head,.cs>li,.pr-cards>li,.pr-incl,.pr-tw,.pr-info,.au-mind-in>*,.au-cm>li,.au-kinds,.au-hand,.au-pol li,.au-note,.au-land>li,.ab-in,.sec .h2c,.cm-head,.cm>li,.wk>li,.works .work,.band-raise .band-in,.fl-head,.pr-in,.vc>li,.t-two>*,.ct-in,.area,.qas .qa,.cta-box,' +
       '.feat,.intro,.pol>li,.two>.panel,.tbl-wrap,.flow>li,.voice,.dl,.telbox,.formcard').forEach(function (el, i, all) {
       var sib = el.parentNode.children, n = Array.prototype.indexOf.call(sib, el);
-      if (el.parentNode.matches('.ol-lic,.ol-phil,.fw-steps,.cs,.pr-cards,.au-cm,.au-pol,.au-land,.cm,.wk,.vc,.works,.fl,.pol,.two')) el.style.setProperty('--d', ((n % 5) * 0.09).toFixed(2) + 's');
+      if (el.parentNode.matches('.ol-lic,.ol-phil,.fw-steps,.cs,.pr-cards,.au-cm,.au-pol,.au-land,.cm,.wk,.vc,.works,.fl,.pol,.two')) el.style.setProperty('--d', ((n % 5) * 0.12).toFixed(2) + 's');   // 並びの間隔はサイト全体で 0.12秒（2026-11-21 動きの統一）
       el.classList.add('rv');
       (el.matches('.wk>li') ? ioWk : io).observe(el);
     });
