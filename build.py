@@ -534,7 +534,7 @@ def page_index():
 
 <section class="ab-band" aria-labelledby="h-about">
 <div class="wrap ab-in">
-<h2 class="ab-ttl" id="h-about">丸信の解体工事について</h2>
+<h2 class="ab-ttl" id="h-about">対応する解体工事</h2>
 <p class="ab-tx">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、<br>建築様式を問わず解体工事が可能です。</p>
 <div class="ab-kd"><ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
 <p class="ab-more"><a class="tlink t-link" href="about.html#h-svc">対応する工事を詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
@@ -552,6 +552,14 @@ def page_index():
 </div>
 </section>
 
+<section class="sec vc-sec has-wm" data-wm="VOICE" aria-labelledby="h-voice">
+<div class="wrap">
+<p class="cm-en" lang="en">VOICE</p><h2 class="t-ttl" id="h-voice">お客様の声</h2>
+<ul class="vc">{voices}</ul>
+<p class="center t-more"><a class="tlink t-link" href="voice.html">お客様の声を見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+</div>
+</section>
+
 <section class="pr-band has-wm" data-wm="PRICE" aria-labelledby="h-price">
 <div class="wrap pr-in">
 <div class="pr-h"><p class="cm-en" lang="en">PRICE</p><h2 class="t-ttl" id="h-price">料金案内</h2></div>
@@ -566,14 +574,6 @@ def page_index():
 <h2 class="cm-ttl" id="h-flow">ご相談から工事完了まで</h2></div>
 <ol class="fl">{steps}</ol>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="flow.html">施工の流れを詳しく見る{ic("chev")}</a></p>
-</div>
-</section>
-
-<section class="sec vc-sec has-wm" data-wm="VOICE" aria-labelledby="h-voice">
-<div class="wrap">
-<p class="cm-en" lang="en">VOICE</p><h2 class="t-ttl" id="h-voice">お客様の声</h2>
-<ul class="vc">{voices}</ul>
-<p class="center t-more"><a class="tlink t-link" href="voice.html">お客様の声を見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
 </div>
 </section>
 
