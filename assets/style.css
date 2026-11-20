@@ -1686,3 +1686,17 @@ html,body{overflow-x:clip}
 .cs-wk{grid-template-columns:1fr 1fr;gap:56px 56px;margin-top:44px}
 .cs-wk .wk-info .wk-ttl{font-size:clamp(20px,2vw,26px)}
 @media (max-width:767px){.cs-wk{grid-template-columns:1fr;gap:0}}
+
+/* ========== 施工事例に少し動き（2026-11-20 松本さん「派手にはしたくないが、少し動きを」・トップと施工事例のページ） ==========
+   1件が出てくるとき（.rv → .rv.in。1.3秒後に JS が両方外す）に、①札が「施工前」→「施工後」の順に横から出る
+   ②施工後の写真が少し遅れて右下から重なる。③PC はマウスを乗せると施工前の写真がゆっくり少し大きくなる */
+.wk>li.rv .wk-ph figcaption{clip-path:inset(0 100% 0 0)}
+.wk>li.rv.in .wk-ph figcaption{clip-path:inset(0 0 0 0);transition:clip-path .4s cubic-bezier(.4,0,.2,1) calc(var(--d,0s) + .25s)}
+.wk>li.rv.in .wk-af figcaption{transition-delay:calc(var(--d,0s) + .6s)}
+.wk>li.rv .wk-ph .wk-af{opacity:0;transform:translate(18px,18px)}
+.wk>li.rv.in .wk-ph .wk-af{opacity:1;transform:none;transition:opacity .5s ease calc(var(--d,0s) + .35s),transform .55s cubic-bezier(.2,.7,.3,1) calc(var(--d,0s) + .35s)}
+@media (hover:hover){
+  .wk-bf img{transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+  .wk>li:hover .wk-bf img{transform:scale(1.03)}
+}
+@media (prefers-reduced-motion:reduce){.wk-bf img{transition:none}.wk>li:hover .wk-bf img{transform:none}}
