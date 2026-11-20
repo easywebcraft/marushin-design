@@ -65,9 +65,7 @@ PAGES = [
 ]
 PAGE = {p[0]: p for p in PAGES}
 # 下層ページの上の写真の見せる位置（同じ写真でも、ページごとに少し変える）
-PH_POS = {'about.html': '70% 40%', 'price.html': '40% 55%', 'case.html': '60% 62%', 'flow.html': '80% 45%',
-          'outline.html': '30% 50%', 'voice.html': '55% 35%', 'faq.html': '75% 58%', 'contact.html': '45% 42%',
-          'policy.html': '65% 50%'}
+PH_POS = '75% 58%'   # 下層ページ上の写真の切り取り位置。2026-11-20 松本さん「見え方を統一して」で全ページ同じに（重機の全体が入る位置）
 
 ASSET_V = ''  # main() で CSS・JS の中身から決める
 CUR = ''  # いま書き出しているページ（要確認の一覧に使う）
@@ -343,13 +341,14 @@ def footer(fname):
 def page_head(fname):
     """下層ページの上の帯（題・英字・写真）と、現在位置。"""
     _f, name, en, _h, _d = PAGE[fname]
-    pos = PH_POS.get(fname, '50% 50%')
+    pos = PH_POS
     # 全ページ、松本さんのデザイン案の見せ方（左に英字と大きな明朝の題・右に斜めに切った写真。2026-11-17 丸信について・料金案内から。
     # 2026-11-20 よくある質問・お客様の声・お問い合わせ・プライバシーポリシーもそろえた）
-    long = ' ph-long' if len(name) > 8 else ''   # プライバシーポリシーなど長い題は、スマホで写真に重ならないよう詰める
-    return f'''<div class="ph ph-au{long}">
+    # 長い題は、写真の見え方を変えずにすむよう、スマホでは言葉の切れ目で2行に折る（2026-11-20）
+    ttl = name.replace('プライバシーポリシー', '<span class="ib">プライバシー</span><span class="ib">ポリシー</span>')
+    return f'''<div class="ph ph-au">
 <div class="ph-img"><img src="images/hero.jpg" alt="" width="1600" height="1066" style="object-position:{pos}"></div>
-<div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{name}</h1></div></div>
+<div class="ph-in"><div class="ph-ttl"><p class="ph-en" lang="en">{en}</p><h1>{ttl}</h1></div></div>
 <p class="img-note">写真はイメージです</p>
 </div>
 <nav class="bc" aria-label="現在位置"><ol><li><a href="./">ホーム</a></li><li aria-current="page">{name}</li></ol></nav>'''
