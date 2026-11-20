@@ -135,7 +135,7 @@
       if (p < 1) { requestAnimationFrame(tick); return; }
       // 輪が満ちたら「きらっ」と光らせ、そのあと輪と数字だけ消し、社名はもう少し見せてからヘッダーへ
       L.classList.add('is-full');
-      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 500); }, 700);
+      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 500); }, 950);   // 2026-11-20「きらっをもっと強調」で 700→950（光が見える間をのばす）
     };
     requestAnimationFrame(tick);
   })();
