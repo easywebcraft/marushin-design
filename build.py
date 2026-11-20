@@ -174,11 +174,11 @@ def href(f):
 THEMES = [
     # 先頭が既定の色（style.css の :root と同じ値・上書きなし）。2026-11-20 松本さん「濃紺×金茶をデフォルトに」で入れ替え
     ('gold', '濃紺×金茶（今の色）', '#142640', '#8E7034', {}),
-    ('base', '紺×青緑（前の色）', '#17354B', '#147F8D', {'navy': '#17354B', 'navy-d': '#102838', 'teal': '#38A8B8', 'teal-d': '#147F8D', 'teal-dd': '#0E6773',
+    ('base', '紺×青緑', '#17354B', '#147F8D', {'navy': '#17354B', 'navy-d': '#102838', 'teal': '#38A8B8', 'teal-d': '#147F8D', 'teal-dd': '#0E6773',
                                           'pale': '#E6F1F6', 'pale2': '#F3F8FB', 'line': '#D3E0E8', 'tint': '#D5ECEE', 'bg1': '#eef5f9', 'bg2': '#dde9f0'}),
     ('brick', '紺×赤茶', '#1E2B3C', '#A9502A', {'navy': '#1E2B3C', 'navy-d': '#141E2B', 'teal': '#D0784F', 'teal-d': '#A9502A', 'teal-dd': '#8A3E1F',
                                            'pale': '#F4ECE6', 'pale2': '#FAF6F2', 'line': '#E5D8CE', 'tint': '#F2DCCF', 'bg1': '#F8F2EE', 'bg2': '#EBDFD6'}),
-    ('orange', '黒×オレンジ（重機の色）', '#24282D', '#C66A0A', {'navy': '#24282D', 'navy-d': '#17191C', 'teal': '#F29A2E', 'teal-d': '#C66A0A', 'teal-dd': '#A3560A',
+    ('orange', '黒×オレンジ', '#24282D', '#C66A0A', {'navy': '#24282D', 'navy-d': '#17191C', 'teal': '#F29A2E', 'teal-d': '#C66A0A', 'teal-dd': '#A3560A',
                                                   'pale': '#F5F1EA', 'pale2': '#FAF8F4', 'line': '#E4DDD2', 'tint': '#FBE3C4', 'bg1': '#F9F6F1', 'bg2': '#ECE5DA'}),
     ('green', '深緑×緑', '#1E3A2F', '#2F7A4A', {'navy': '#1E3A2F', 'navy-d': '#142820', 'teal': '#5E9C6E', 'teal-d': '#2F7A4A', 'teal-dd': '#22603A',
                                           'pale': '#E9F2EC', 'pale2': '#F4F9F5', 'line': '#D3E3D8', 'tint': '#D4EBDC', 'bg1': '#F0F6F2', 'bg2': '#DCE9E0'}),
