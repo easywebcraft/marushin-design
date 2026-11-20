@@ -1682,3 +1682,7 @@ html,body{overflow-x:clip}
 @media (min-width:768px){
   .hero-btns .btn-teal{border-color:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.18),0 10px 26px rgba(0,0,0,.45)}
 }
+/* 施工事例のページもトップと同じ見せ方に（2026-11-20 松本さん）。PC は2列で写真を大きく */
+.cs-wk{grid-template-columns:1fr 1fr;gap:56px 56px;margin-top:44px}
+.cs-wk .wk-info .wk-ttl{font-size:clamp(20px,2vw,26px)}
+@media (max-width:767px){.cs-wk{grid-template-columns:1fr;gap:0}}

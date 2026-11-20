@@ -385,20 +385,6 @@ def area_html(company):
     return f'<dl class="area">{rows}</dl>\n<p class="note center">{esc(company["area_note"])}</p>'
 
 
-def work_card(w, lazy=True, level='h3'):
-    title = f'{esc(w["place"])} {esc(w["name"])}'
-    kind = f'<span class="work-kind">{esc(w["type"])}</span>' if w['type'] else ''
-    note = f'<p class="note">{esc(w["note"])}</p>' if w['note'] else ''
-    lz = ' loading="lazy" decoding="async"' if lazy else ''
-    return f'''<article class="work">
-<div class="work-ph">
-<figure><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="208" height="156"{lz}><figcaption>施工前</figcaption></figure>
-<figure><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="268" height="201"{lz}><figcaption class="after">施工後</figcaption></figure>
-</div>
-<div class="work-tx"><{level} class="work-ttl">{title}</{level}>{kind}{note}</div>
-</article>'''
-
-
 def qa_html(item, n):
     t = todo(item['todo']) if item.get('todo') else ''
     return f'''<details class="qa" id="q{n}">
@@ -459,6 +445,20 @@ def kinds_list():
         for k, t in KINDS)
 
 
+def work_card(w, h='h3', lazy=True):
+    """施工事例の1件（トップと施工事例のページで共通）。2026-11-17 松本さんのデザイン案 → 2026-11-20 松本さん「施工前を大きく、施工後を小さく添える」、
+    同日「施工事例ページの見せ方もTOPに合わせて」：施工前を大きく、施工後を右下に小さく重ねる。下に「構造｜場所」の1行と題"""
+    title = f'{esc(w["place"])} {esc(w["name"])}'
+    meta = '｜'.join(f'<span class="nw">{esc(x)}</span>' for x in (w['type'], w['place']) if x)   # スマホで場所の途中で折り返さないように
+    note = f'<p class="wk-note">{esc(w["note"])}</p>' if w['note'] else ''
+    lz = ' loading="lazy" decoding="async"' if lazy else ''
+    name = esc(w['name']) if w['name'].endswith('工事') else f'{esc(w["name"])} 解体工事'   # 「店舗内装撤去工事」に「解体工事」を重ねない
+    return (f'<li><div class="wk-ph">'
+            f'<figure class="wk-bf"><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="1448" height="976"{lz}><figcaption>施工前</figcaption></figure>'
+            f'<figure class="wk-af"><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="1448" height="976"{lz}><figcaption class="after">施工後</figcaption></figure>'
+            f'</div><div class="wk-info"><p class="wk-meta">{meta}</p><{h} class="wk-ttl">{name}</{h}>{note}</div></li>')
+
+
 # ---------- 各ページ ----------
 
 def page_index():
@@ -478,17 +478,7 @@ def page_index():
                          f'<div class="cm-bd"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
                          f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></div></li>'
                          for n, (t, p) in enumerate(cards, 1))
-    # 施工事例（2026-11-17 松本さんのデザイン案 → 2026-11-20 松本さん「施工前を大きく、施工後を小さく添える」）：
-    # 施工前を大きく、施工後を右下に小さく重ねる。下に「構造｜場所」の1行と題。前後を同じ大きさで比べるのは施工事例のページ（work_card ではなく page_case）
-    def wk(n, w):
-        title = f'{esc(w["place"])} {esc(w["name"])}'
-        meta = '｜'.join(f'<span class="nw">{esc(x)}</span>' for x in (w['type'], w['place']) if x)   # スマホで場所の途中で折り返さないように
-        note = f'<p class="wk-note">{esc(w["note"])}</p>' if w['note'] else ''
-        return (f'<li><div class="wk-ph">'
-                f'<figure class="wk-bf"><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="1448" height="976" loading="lazy" decoding="async"><figcaption>施工前</figcaption></figure>'
-                f'<figure class="wk-af"><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="1448" height="976" loading="lazy" decoding="async"><figcaption class="after">施工後</figcaption></figure>'
-                f'</div><div class="wk-info"><p class="wk-meta">{meta}</p><h3 class="wk-ttl">{esc(w["name"])} 解体工事</h3>{note}</div></li>')
-    works_html = ''.join(wk(n, w) for n, w in enumerate(works[:3], 1))
+    works_html = ''.join(work_card(w) for w in works[:3])
     # 施工の流れ（2026-11-17 松本さんのデザイン案）：10段階を4つのまとまりで。中身は施工の流れのページ（data/flow.json）のとおり
     fl = [
         ('chat', 'ご相談・お見積もり', 'ご相談・お見積もり依頼から、お見積もりのご提出まで。'),
@@ -787,23 +777,13 @@ def page_case():
     """施工事例。2026-11-17 松本さんのデザイン案の構成に（丸信について・料金案内と同じ見せ方）。
     写真は丸信さんの事例写真（01〜03は届いた大きい写真、04は今のサイトの小さい写真）。見出しは句読点なし。"""
     works = load('works.json')
-    items = []
-    for n, w in enumerate(works, 1):
-        title = f'{esc(w["place"])} {esc(w["name"])}'
-        lz = '' if n <= 2 else ' loading="lazy" decoding="async"'
-        kind = f'<span class="wk-kind cs-kind">{esc(w["type"])}</span>' if w['type'] else ''
-        note = f'<span class="cs-note">{esc(w["note"])}</span>' if w['note'] else ''
-        items.append(f'''<li><div class="cs-ph">
-<figure><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="1448" height="976"{lz}><figcaption>施工前</figcaption></figure>
-<figure><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="1448" height="976"{lz}><figcaption class="after">施工後</figcaption></figure>
-</div>
-<div class="cs-cap"><span class="cs-n" aria-hidden="true">{n:02d}</span><div class="cs-tx"><p class="cs-tags">{kind}{note}</p><h2 class="cs-ttl">{esc(w["name"])}</h2><p class="cs-place">{esc(w["place"])}</p></div></div></li>''')
+    items = [work_card(w, 'h2', lazy=n > 2) for n, w in enumerate(works, 1)]
     return f'''{page_head('case.html')}
 <section class="sec cs-sec has-wm" data-wm="WORKS" aria-labelledby="h-cs">
 <div class="wrap">
 <div class="cs-head"><div><p class="cm-en" lang="en">OUR WORKS</p><p class="t-ttl cs-catch" id="h-cs">一つひとつの現場に誠実に</p></div>
 <p class="cs-lead">株式会社丸信にて施工を行いました事例をご紹介します。<br>工事完了後の隣家外壁補修工事や駐車場整備工事など、<br>お客様のニーズに幅広くお応えしております。</p></div>
-<ol class="cs">{''.join(items)}</ol>
+<ol class="wk cs-wk">{''.join(items)}</ol>
 <p class="cs-more">※順次、施工事例を追加予定をしております。</p>
 </div>
 </section>
