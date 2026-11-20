@@ -1574,41 +1574,69 @@ html,body{overflow-x:clip}
 }
 .wk-meta .nw{display:inline-block}
 
-/* ========== トップの「丸信のこだわり」：左に見出しとボタン、右に3つを縦に（2026-11-20 松本さん「形だけ変える」） ==========
-   番号は小さく見出しの上に。絵は各項目の左に同じ大きさで。項目のあいだは細い横線。ボタンは見出しの下で影を弱く。
-   スマホは見出し → 3項目 → ボタンの順 */
-.cm-in{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,7fr);grid-template-areas:"hd list" "btn list";grid-template-rows:auto 1fr;column-gap:64px}
-.cm-in .cm-head{grid-area:hd;display:block}
-.cm-in .cm-more{grid-area:btn;margin-top:36px}
-.cm-in .cm-btn{min-width:0;box-shadow:0 2px 6px rgba(23,53,75,.12)}
-.cm-in .cm-btn:hover{box-shadow:0 4px 10px rgba(23,53,75,.16)}
-.cm-in .cm{grid-area:list;display:block;margin-top:0}
-.cm-in .cm>li,.cm-in .cm>li:first-child,.cm-in .cm>li:last-child{display:grid;grid-template-columns:96px 1fr;gap:0 32px;align-items:start;padding:28px 0;border:0;border-bottom:1px solid var(--line)}
-.cm-in .cm>li:first-child{padding-top:0}
-.cm-in .cm>li:last-child{border-bottom:0;padding-bottom:0}
-.cm-in .cm>li+li::before{display:none}
-.cm-in .cm-ic{width:96px;margin-top:4px}
-.cm-in .cm-n{font-size:20px;line-height:1.2;letter-spacing:.08em}
-.cm-in .cm h3{margin-top:6px;font-size:clamp(20px,1.9vw,24px)}
-.cm-in .cm h3 br{display:none}
-.cm-in .cm p{margin-top:8px;font-size:15px;line-height:1.9}
-@media (max-width:1023px){
-  .cm-in{column-gap:40px}
-  .cm-in .cm>li,.cm-in .cm>li:first-child,.cm-in .cm>li:last-child{grid-template-columns:72px 1fr;gap:0 24px}
-  .cm-in .cm-ic{width:72px}
-}
-@media (max-width:767px){
-  .cm-in{grid-template-columns:1fr;grid-template-areas:"hd" "list" "btn";grid-template-rows:auto}
-  .cm-in .cm{margin-top:28px}
-  .cm-in .cm>li,.cm-in .cm>li:first-child,.cm-in .cm>li:last-child{grid-template-columns:60px 1fr;gap:0 18px;padding:22px 0}
-  .cm-in .cm>li:first-child{padding-top:0}
-  .cm-in .cm>li:last-child{padding-bottom:0}
-  .cm-in .cm-ic{width:60px}
-  .cm-in .cm h3{font-size:19px}
-  .cm-in .cm-more{margin-top:28px}
-}
 /* 2026-11-20 松本さん「従業員募集中は一列に、空いた分は流れる RECRUIT をもっと大きく」 */
 .rq-ttl{font-size:13cqw;line-height:1.3;letter-spacing:.04em;white-space:nowrap}
 .rq-card .rq-tk{padding:5cqw 0 4cqw}
 .rq-card .rq-tk>span>span{padding:0 5cqw;font-size:8cqw;letter-spacing:.24em}
 .rq-co{margin-top:3cqw}
+
+/* ========== トップの対応工事とこだわり（2026-11-20 松本さん「形だけ変える」） ==========
+   対応工事：見出し・4種類・「詳しく見る」を1行の白い帯にして、PCでは FV の下端に少し重ねる（説明の一文はなくした）。
+   こだわり：中央の見出しの下に白いカード3枚。左上に小さい番号、上から絵・見出し・説明（左揃え）。ボタンは3枚の下の中央 */
+.ab-band{z-index:2;background:var(--pale);border-bottom:0;box-shadow:none}
+.ab-in{display:flex;align-items:center;gap:32px;padding:22px 36px;background:#fff;border-radius:4px;box-shadow:0 2px 6px rgba(23,53,75,.06),0 14px 32px rgba(23,53,75,.10)}
+@media (min-width:768px){.ab-in{margin-top:-44px}}
+.ab-band .ab-ttl{flex:none;padding:4px 32px 4px 0;margin:0;font-size:18px;letter-spacing:.08em;white-space:nowrap}
+.ab-band .au-kinds{flex:1;margin:0}
+.ab-band .au-kinds li{padding:6px 8px;font-size:15px;gap:10px}
+.ab-band .au-kinds svg{width:32px;height:32px}
+.ab-band .ab-more{flex:none;margin:0}
+@media (max-width:1023px){
+  .ab-in{flex-wrap:wrap;gap:14px 24px;padding:20px 24px}
+  .ab-band .ab-ttl{padding-right:24px}
+  .ab-band .au-kinds{flex-basis:100%;order:3}
+  .ab-band .ab-more{margin-left:auto}
+}
+@media (max-width:767px){
+  .ab-band{padding:20px 0 0}
+  .ab-in{padding:16px 16px 14px}
+  .ab-band .ab-ttl{padding:0;border:0;font-size:17px}
+  .ab-band .ab-ttl::after{display:none}
+  .ab-band .au-kinds li{font-size:13px;gap:8px}
+  .ab-band .au-kinds svg{width:26px;height:26px}
+}
+
+.cm-cards .cm-head{display:block;text-align:center}
+.cm-cards .cm-en{justify-content:center}
+.cm-cards .cm{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:40px}
+.cm-cards .cm>li,.cm-cards .cm>li:first-child,.cm-cards .cm>li:last-child{position:relative;padding:40px 34px 36px;border:0;background:#fff;border-radius:4px;box-shadow:0 1px 3px rgba(23,53,75,.05),0 8px 24px rgba(23,53,75,.06)}
+.cm-cards .cm>li+li::before{display:none}
+.cm-cards .cm-ic{display:block;width:128px;margin:0 auto}
+.cm-cards .cm-n{position:absolute;left:22px;top:18px;font-size:18px;line-height:1;letter-spacing:.08em}
+.cm-cards .cm h3{margin-top:26px;font-size:clamp(19px,1.8vw,23px)}
+.cm-cards .cm p{margin-top:12px;font-size:15px;line-height:1.9}
+.cm-cards .cm-more{margin-top:40px}
+.cm-cards .cm-btn{box-shadow:0 2px 6px rgba(23,53,75,.12)}
+@media (max-width:1023px){
+  .cm-cards .cm{gap:18px}
+  .cm-cards .cm>li,.cm-cards .cm>li:first-child,.cm-cards .cm>li:last-child{padding:34px 22px 28px}
+  .cm-cards .cm-ic{width:100px}
+}
+@media (max-width:767px){
+  .cm-cards .cm{grid-template-columns:1fr;gap:16px;margin-top:28px}
+  .cm-cards .cm>li,.cm-cards .cm>li:first-child,.cm-cards .cm>li:last-child{padding:30px 22px 26px}
+  .cm-cards .cm-ic{width:96px}
+  .cm-cards .cm h3{margin-top:18px;font-size:20px}
+  .cm-cards .cm-more{margin-top:28px}
+}
+/* 帯の地はこだわりの段の上端の色にそろえる。種類の名前は途中で折り返さない */
+.ab-band{background:var(--bg1,var(--pale))}
+.ab-band .au-kinds li{white-space:nowrap;padding:6px 4px}
+.ab-band .ab-ttl{padding-right:28px}
+.ab-in{gap:24px}
+@media (max-width:767px){.ab-band .au-kinds li{justify-content:flex-start;padding:6px 2px 6px 10px;gap:6px}}
+@media (max-width:767px){
+  .ab-in{row-gap:6px}
+  .ab-band .au-kinds li{padding:6px 0 6px 4px;font-size:12.5px}
+  .ab-band .au-kinds li:nth-child(even){padding-left:14px}
+}

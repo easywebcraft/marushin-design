@@ -472,7 +472,7 @@ def page_index():
     sanpai = sanpai_prefs(company)
     # 番号の右に絵（2026-11-20 松本さんにいただいた絵を images/top/cm-ic-1〜3.png に切り出し、白地を透明にしたもの）。
     # 色は絵の形で切り抜いてサイトの色を流し込むので、色の切り替えにも合う
-    # 2026-11-20 松本さん「左に見出し、右に3つを縦に」：絵を左、右に小さい番号・見出し・説明
+    # 2026-11-20 松本さん：白いカード3枚。左上に小さい番号、上から絵・見出し・説明
     cards_html = ''.join(f'<li><span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span>'
                          f'<div class="cm-bd"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
                          f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></div></li>'
@@ -523,22 +523,21 @@ def page_index():
 </section>
 
 <section class="ab-band" aria-labelledby="h-about">
-<div class="wrap ab-in">
+<div class="wrap"><div class="ab-in">
 <h2 class="ab-ttl" id="h-about">対応する解体工事</h2>
-<p class="ab-tx">建物の種類を問わず、解体工事に対応しています。</p>
-<div class="ab-kd"><ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
-<p class="ab-more"><a class="tlink t-link" href="about.html#h-svc">対応する工事を詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
-</div>
+<ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
+<p class="ab-more"><a class="tlink t-link" href="about.html#h-svc" aria-label="対応する工事を詳しく見る">詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+</div></div>
 </section>
 
 <section class="sec cm-sec has-wm" data-wm="COMMITMENT" aria-labelledby="h-torikumi">
-<div class="wrap cm-in">
+<div class="wrap cm-cards">
 <div class="cm-head">
 <div><p class="cm-en" lang="en">OUR COMMITMENT</p>
 <h2 class="cm-ttl" id="h-torikumi">丸信のこだわり</h2></div>
 </div>
 <ol class="cm">{cards_html}</ol>
-<p class="cm-more"><a class="btn btn-navy cm-btn" href="about.html">丸信について詳しく見る{ic("chev")}</a></p>
+<p class="center cm-more"><a class="btn btn-navy cm-btn" href="about.html">丸信について詳しく見る{ic("chev")}</a></p>
 </div>
 </section>
 
