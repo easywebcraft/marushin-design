@@ -1708,3 +1708,8 @@ html,body{overflow-x:clip}
 .ewl.is-full .ewl-p1::after{animation:none;opacity:0}
 /* 2026-11-21 松本さん「冒頭演出の波紋は削除して」：広がる輪を出さない（輪の光と社名の筋は残す） */
 .ewl-p1::before,.ewl-p1::after{display:none}
+/* 2026-11-21 松本さん「冒頭演出の左上にいく動きを削除」：社名は中央のまま、幕が透けるのと一緒にふっと消す（白く変えない） */
+html.js .ewl.is-absorb .logo{opacity:0;transition:opacity .6s ease .1s}
+@media (min-width:1024px){
+  html.js .ewl.is-absorb .logo{color:inherit;-webkit-text-fill-color:transparent;transition:opacity .6s ease .1s}
+}

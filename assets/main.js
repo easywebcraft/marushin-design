@@ -100,13 +100,7 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') end(); });
     var absorb = function () {
       if (ended) return;
-      if (real && copy) {
-        // 中央に拡大して置いた社名を、ヘッダーの社名にぴったり重なる位置・大きさ（1倍）へ動かす
-        var a = copy.getBoundingClientRect(), u = real.getBoundingClientRect();
-        var dx = u.left - (a.left + a.width / 2 - copy.offsetWidth / 2);
-        var dy = u.top - (a.top + a.height / 2 - copy.offsetHeight / 2);
-        copy.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1)';
-      }
+      // 2026-11-21 松本さん「左上にいく動きを削除」：社名は中央のまま、幕と一緒に消す
       r.classList.add('ewl-go');          // 幕の下で止めていた写真の動きを、ここから流す
       L.classList.add('is-absorb');
       setTimeout(function () { if (real) real.style.opacity = '1'; }, 950);
