@@ -1428,3 +1428,4 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ck-ask{margin-top:4px;padding:6px 10px;border-radius:4px;background:var(--pale2);color:var(--navy);font-size:13.5px}
 .ck-who{margin-top:2px;color:var(--mute);font-size:13px}
 .ck-0 .ck-i{border-left:4px solid #B3261E;padding-left:14px}
+.ck-due{margin-top:16px;padding:12px 18px;border-left:4px solid #B3261E;border-radius:4px;background:#FFF6F5;color:var(--navy)}
