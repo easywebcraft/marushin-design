@@ -1356,3 +1356,14 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ol-map{display:block;width:100%;aspect-ratio:16/7;border:0;border-radius:8px;box-shadow:0 1px 2px rgba(23,53,75,.06),0 8px 22px rgba(23,53,75,.10)}
 @media (max-width:767px){.ol-map{aspect-ratio:4/3}}
 .ab-sd .nw{display:inline-block}
+/* 2026-11-20 松本さん「バナーはブログの表示より上に」：開いた札の写真を、下の札より手前に出す */
+.rq:hover,.rq.is-open,.rq:focus-within{z-index:2}
+/* 2026-11-20 狭いPC（1024〜1180px）で、相談の帯の電話番号と一番下のメニューが途中で折れていたのを直す */
+.cta-tel a,.ft-nav a{white-space:nowrap}
+@media (min-width:1024px) and (max-width:1180px){
+  .cta-box{gap:24px}
+  .cta-tel a{font-size:30px}
+  .ft-in{gap:28px}
+  .ft-nav{padding-left:28px}
+  .ft-nav ul{gap:0 22px}
+}
