@@ -476,16 +476,16 @@ def page_index():
                          f'<span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span></div>'
                          f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
-    # 施工事例（2026-11-17 松本さんのデザイン案）：番号・施工前後の写真・構造の札・場所・題。トップだけの見せ方（施工事例のページは work_card のまま）
+    # 施工事例（2026-11-17 松本さんのデザイン案 → 2026-11-20 松本さん「施工前を大きく、施工後を小さく添える」）：
+    # 施工前を大きく、施工後を右下に小さく重ねる。下に「構造｜場所」の1行と題。前後を同じ大きさで比べるのは施工事例のページ（work_card ではなく page_case）
     def wk(n, w):
         title = f'{esc(w["place"])} {esc(w["name"])}'
-        kind = f'<span class="wk-kind">{esc(w["type"])}</span>' if w['type'] else ''
+        meta = '｜'.join(f'<span class="nw">{esc(x)}</span>' for x in (w['type'], w['place']) if x)   # スマホで場所の途中で折り返さないように
         note = f'<p class="wk-note">{esc(w["note"])}</p>' if w['note'] else ''
         return (f'<li><div class="wk-ph">'
-                f'<figure><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="208" height="156" loading="lazy" decoding="async"><figcaption>施工前</figcaption></figure>'
-                f'<span class="wk-arw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v13M6.5 12.5 12 18l5.5-5.5"/></svg></span>'
-                f'<figure><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="268" height="201" loading="lazy" decoding="async"><figcaption class="after">施工後</figcaption></figure>'
-                f'</div>{kind}<p class="wk-place">{esc(w["place"])}</p><h3 class="wk-ttl">{esc(w["name"])} 解体工事</h3>{note}</li>')
+                f'<figure class="wk-bf"><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="1448" height="976" loading="lazy" decoding="async"><figcaption>施工前</figcaption></figure>'
+                f'<figure class="wk-af"><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="1448" height="976" loading="lazy" decoding="async"><figcaption class="after">施工後</figcaption></figure>'
+                f'</div><div class="wk-info"><p class="wk-meta">{meta}</p><h3 class="wk-ttl">{esc(w["name"])} 解体工事</h3>{note}</div></li>')
     works_html = ''.join(wk(n, w) for n, w in enumerate(works[:3], 1))
     # 施工の流れ（2026-11-17 松本さんのデザイン案）：10段階を4つのまとまりで。中身は施工の流れのページ（data/flow.json）のとおり
     fl = [
