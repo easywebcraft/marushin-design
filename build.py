@@ -133,6 +133,7 @@ SPRITE = '''<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="
 <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h7"/></symbol>
 <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4.5-1L20 7.5 16.5 4 5 15.5z"/><path d="M14 6.5l3.5 3.5"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-calc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><rect x="8" y="6" width="8" height="3.5" rx=".5"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01"/></symbol>
 <symbol id="i-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="16" rx="2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h6"/></symbol>
 <symbol id="i-excavator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="17" width="12" height="4" rx="2"/><path d="M4 17v-6h5.5l2 6"/><path d="M9 11l4.5-7 5.5 4-1.5 5"/><path d="M17.5 13l4 1-1 4h-4z"/></symbol>
 <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v9H2z"/><path d="M13 10h4l4 3v3h-8z"/><circle cx="6.5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
@@ -816,20 +817,43 @@ def page_voice():
 
 
 def page_faq():
+    """よくある質問。2026-11-20 松本さんのデザイン案の構成に（左に番号と分類、右に質問の一覧。ほかの下層ページと同じ帯で終える）。
+    見出しは「。」「、」なし（決まり）。答えの中身は faq.json のまま"""
     faq = load('faq.json')
-    pills = ''.join(f'<li><a href="#{c["id"]}">{esc(c["name"])}</a></li>' for c in faq['categories'])
+    en = {'cost': 'COST', 'work': 'WORK', 'prep': 'PREPARATION', 'area': 'AREA'}
+    icon = {'cost': 'calc', 'work': 'excavator', 'prep': 'doc', 'area': 'pin'}
+    down = '<svg class="fq-dn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    jump = ''.join(f'<li><a href="#{c["id"]}">{ic(icon.get(c["id"], "chat"))}<span>{esc(c["name"])}</span>{down}</a></li>' for c in faq['categories'])
     secs = []
-    for c in faq['categories']:
+    for i, c in enumerate(faq['categories'], 1):
         qs = ''.join(qa_html(it, n) for n, it in enumerate(faq['items'], 1) if it['cat'] == c['id'])
-        secs.append(f'<section class="faq-cat" id="{c["id"]}" aria-labelledby="h-{c["id"]}"><h2 class="h2l" id="h-{c["id"]}">{esc(c["name"])}</h2>\n<div class="qas">{qs}</div></section>')
+        if i == 1:
+            qs = qs.replace('<details class="qa"', '<details class="qa" open', 1)   # 最初の1問は開いておき、押すと開くことが伝わるように
+        secs.append(f'''<section class="fq-cat" id="{c["id"]}" aria-labelledby="h-{c["id"]}">
+<div class="fq-cat-h"><p class="fq-no" lang="en">{i:02d}</p><p class="fq-en" lang="en">{en.get(c["id"], "")}</p><h2 id="h-{c["id"]}">{esc(c["name"])}</h2></div>
+<div class="qas fq">{qs}</div>
+</section>''')
     return f'''{page_head('faq.html')}
-<section class="sec">
-<div class="wrap wrap-s">
-<p class="lead">解体工事について、よくいただくご質問をまとめました。質問を押すと、回答が開きます。</p>
-<nav aria-label="質問の分類"><ul class="pills">{pills}</ul></nav>
-{''.join(secs)}
+<section class="sec fq-page">
+<div class="wrap">
+<div class="fq-intro">
+<p class="cm-en fq-intro-en" lang="en">QUESTIONS &amp; ANSWERS</p>
+<h2 class="t-ttl">解体工事の疑問にお答えします</h2>
+<p class="fq-lead">解体工事について、よくいただくご質問をまとめました。</p>
+<p class="fq-hint">質問を押すと回答が開きます。</p>
 </div>
-</section>'''
+<nav class="fq-jump" aria-label="質問の分類"><ul>{jump}</ul></nav>
+{''.join(secs)}
+<div class="fq-more">
+{ic("chat", "ic fq-more-ic")}
+<div class="fq-more-tx"><p class="fq-more-h">解決しない疑問はお気軽にご相談ください</p><p>工事の内容やお見積もりについて、個別にご案内いたします。</p></div>
+<a class="tlink t-link" href="flow.html">施工の流れを見る{arw}</a>
+</div>
+</div>
+</section>
+
+{ct_band()}'''
 
 
 def page_outline():
@@ -1101,7 +1125,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html', 'flow.html', 'outline.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html', 'flow.html', 'outline.html', 'faq.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
