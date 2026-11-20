@@ -1716,3 +1716,12 @@ html.js .ewl.is-absorb .logo{opacity:0;transition:opacity .6s ease .1s}
 /* 2026-11-21 松本さん「施工後が出るタイミングをもう少し早く」：0.55秒→0.25秒後（札も合わせて早める） */
 .wk>li.rv.in .wk-ph .wk-af{transition:opacity .6s ease calc(var(--d,0s) + .25s),transform .7s cubic-bezier(.2,.7,.3,1) calc(var(--d,0s) + .25s)}
 .wk>li.rv.in .wk-af figcaption{transition-delay:calc(var(--d,0s) + .65s)}
+/* 2026-11-21 松本さん：こだわりのカードの絵を写真に（カードの上半分に写真、左上に番号、下に見出しと説明） */
+.cm-cards .cm>li,.cm-cards .cm>li:first-child,.cm-cards .cm>li:last-child{padding:0 0 32px;overflow:hidden}
+.cm-ph{display:block;overflow:hidden;aspect-ratio:3/2;background:var(--pale)}
+.cm-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% 55%}
+.cm-cards .cm-n{left:0;top:0;padding:8px 14px;background:#fff;border-radius:0 0 4px 0;color:var(--teal-d)}
+.cm-cards .cm-bd{padding:0 30px}
+.cm-cards .cm h3{margin-top:24px}
+@media (max-width:1023px){.cm-cards .cm-bd{padding:0 20px}.cm-cards .cm>li,.cm-cards .cm>li:first-child,.cm-cards .cm>li:last-child{padding:0 0 26px}}
+@media (max-width:767px){.cm-cards .cm-bd{padding:0 20px}.cm-cards .cm h3{margin-top:18px}}

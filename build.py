@@ -487,7 +487,8 @@ def page_index():
     # 番号の右に絵（2026-11-20 松本さんにいただいた絵を images/top/cm-ic-1〜3.png に切り出し、白地を透明にしたもの）。
     # 色は絵の形で切り抜いてサイトの色を流し込むので、色の切り替えにも合う
     # 2026-11-20 松本さん：白いカード3枚。左上に小さい番号、上から絵・見出し・説明
-    cards_html = ''.join(f'<li><span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span>'
+    # 2026-11-21 松本さん：絵の代わりに、絵を立体にしたような写真（images/top/cm-ph-1〜3.jpg・いただいた画像）をカードの上に
+    cards_html = ''.join(f'<li><span class="cm-ph"><img src="images/top/cm-ph-{n}.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async"></span>'
                          f'<div class="cm-bd"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
                          f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></div></li>'
                          for n, (t, p) in enumerate(cards, 1))
