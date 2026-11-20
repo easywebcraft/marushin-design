@@ -994,6 +994,8 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 /* ヘッダーのメニューの「採用情報」（外部サイト）の小さな印 */
 .gnav-ext{width:12px;height:12px;margin-left:4px;opacity:.7}
 @media (min-width:1024px) and (max-width:1180px){.gnav{padding-left:16px}.gnav a{padding:0 9px;font-size:14px}.gnav a::after{left:9px;right:9px}.hd-in{gap:18px}}
+/* よくある質問を足して7項目になったので、狭いPCではさらに詰める（2026-11-20） */
+@media (min-width:1024px) and (max-width:1120px){.gnav{padding-left:10px}.gnav a{padding:0 6px;font-size:13.5px}.gnav a::after{left:6px;right:6px}.hd-in{gap:12px}.hd-cta{padding-left:16px;padding-right:16px}.hd-cta .ic{display:none}}
 
 /* ========== 丸信について（2026-11-17 松本さんのデザイン案）：トップと同じ部品（英字の小見出し・薄い英字・紺のボタン・相談の帯）で ==========
    背景は 白（想い）→ 薄い青（取り組み）→ 白（対応する工事）→ 薄い青（エリア）→ 白（方針）→ 薄い青（注意）→ 白（土地活用）→ 紺（相談） */
