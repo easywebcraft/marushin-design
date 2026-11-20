@@ -1045,7 +1045,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .au-note p{font-size:15px;line-height:1.9}
 /* 土地活用：2枚の写真と題と説明 */
 .au-land{display:grid;grid-template-columns:1fr 1fr;gap:32px 48px;margin-top:28px}
-.au-land .au-ph .phf,.au-land .au-ph img{aspect-ratio:16/7}
+.au-land .au-ph .phf,.au-land .au-ph img{aspect-ratio:3/2}  /* 2026-11-20 写真の上が切れていたので、写真と同じ形（3:2）にして全体を見せる */
 .au-land h3{margin-top:14px;font-family:var(--serif);font-weight:700;font-size:22px;letter-spacing:.04em}
 .au-land p{margin-top:6px;font-size:15px;line-height:1.9}
 @media (max-width:1023px){
