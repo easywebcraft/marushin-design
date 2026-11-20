@@ -636,11 +636,11 @@ def page_about():
     ]
     pol_html = ''.join(f'<li><span class="au-pn" aria-hidden="true">{n:02d}</span><div><h3>{t}</h3><p>{d}</p></div></li>' for n, (t, d) in enumerate(pol, 1))
 
-    land = [
-        ('駐車場運営', '使わなくなった土地の、駐車場としての活用をご提案します。', '駐車場の写真'),
-        ('土木工事・外構整備', 'フェンス・門扉・カーポートなど、土地活用に伴う工事もご相談ください。', '外構（フェンス・カーポートなど）の写真'),
+    land = [   # 写真は 2026-11-20 松本さんにいただいたイメージ写真
+        ('駐車場運営', '使わなくなった土地の、駐車場としての活用をご提案します。', 'images/about/parking.jpg'),
+        ('土木工事・外構整備', 'フェンス・門扉・カーポートなど、土地活用に伴う工事もご相談ください。', 'images/about/gaikou.jpg'),
     ]
-    land_html = ''.join(f'<li>{photo(None, lb)}<h3>{t}</h3><p>{d}</p></li>' for t, d, lb in land)
+    land_html = ''.join(f'<li>{photo(src, t)}<h3>{t}</h3><p>{d}</p></li>' for t, d, src in land)
 
     return f'''{page_head('about.html')}
 <section class="sec au-mind has-wm" data-wm="MIND" aria-labelledby="h-mind">
@@ -1176,8 +1176,7 @@ def page_check():
 <section class="sec"><div class="wrap wrap-m">
 <p>新しいホームページの公開の前に、丸信様にご確認いただきたいところです。優先度の高い順に並べています。各ページでは黄色の「要確認」の印が付いています（項目を押すとその場所へ移ります）。</p>
 {''.join(groups)}
-<h2 class="h2l mt-xl">写真の仮枠が残っているところ（優先度 低：公開用では枠を出しません）</h2>
-<ul class="dots">{fr_html}</ul>
+{f'<h2 class="h2l mt-xl">写真の仮枠が残っているところ（優先度 低：公開用では枠を出しません）</h2><ul class="dots">{fr_html}</ul>' if fr_html else ''}
 <h2 class="h2l mt-xl">お知らせ（ご確認のみ）</h2>
 <ul class="dots">{gen}</ul>
 </div></section>'''
