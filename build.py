@@ -1120,17 +1120,50 @@ GENERAL = [
 ]
 
 
+# 確認事項の優先度（2026-11-20 松本さん「優先度がわかるように」）。label に含まれる言葉で決める。
+# 高＝公開すると実害がある（問い合わせが届かない・法律に触れる・揉めごとになる）、中＝公開前に直したい、低＝公開後でもよい
+PRIO = [
+    ('お問い合わせフォームの送り先', '高', 'フォームから送られた相談がどこにも届かず、依頼を逃す', 'EWC・丸信さん（届け先のアドレス）'),
+    ('料金の金額', '高', '今の値段と違うと「サイトと違う」と揉めごとになる。表示と実際が違うと景品表示法の問題になるおそれ', '丸信さん'),
+    ('税込・税別', '高', '一般のお客様向けの値段は税込みの総額で表示する決まり（総額表示の義務）がある', '丸信さん'),
+    ('産業廃棄物の許可番号', '高', '期限切れの番号を載せると、間違った許可の表示になる（許可は5年ごとの更新）', '丸信さん（許可証の写し）'),
+    ('プライバシーポリシーの内容', '高', 'フォームで個人情報を集めるので、使い道などの公表が法律で求められる（案はEWCが作成済み）', '丸信さん（案の確認）'),
+    ('改定日', '中', '公開する日を入れるだけ', 'EWC'),
+    ('銀行名', '中', '古い銀行名のままだと、振り込む人が迷う', '丸信さん（支店名も）'),
+    ('懲役', '中', '2025年6月から法律の言葉が変わっている。古いままだと信用を下げる', 'EWC（書き換えるだけ）'),
+    ('年末年始', '中', '休みの日でも「ただいま電話受付中」と出てしまう', '丸信さん（休みの日）'),
+    ('社長あいさつ', '低', '古いが、間違いではない', '丸信さん'),
+    ('求人の案内', '低', 'あれば足す程度', '丸信さん'),
+    ('確実に安くなります', '低', 'すでに外してあるので、このまま公開しても問題ない', '丸信さん'),
+]
+PRIO_ORDER = {'高': 0, '中': 1, '低': 2}
+
+
+def prio_of(label):
+    for key, lv, why, who in PRIO:
+        if key in label:
+            return lv, why, who
+    return '低', '', ''
+
+
 def page_check():
-    """要確認の一覧（確認用にだけ作る）。"""
-    by = {}
+    """要確認の一覧（確認用にだけ作る）。優先度の高い順に、どのページのどこかと理由・誰が決めるかを並べる"""
+    rows = []
     for f, n, label in TODOS:
-        by.setdefault(f, []).append((n, label))
-    secs = []
-    for f, name, _en, _h, _d in PAGES:
-        if f not in by:
+        lv, why, who = prio_of(label)
+        rows.append((PRIO_ORDER[lv], f, n, label, lv, why, who))
+    order = lambda label: next((i for i, x in enumerate(PRIO) if x[0] in label), len(PRIO))   # 同じ優先度の中は PRIO に書いた順（実害の大きい順）
+    rows.sort(key=lambda r: (r[0], order(r[3])))
+    groups = []
+    for lv, ttl, lead in (('高', '優先度 高', '公開の前に必ず片づける（公開すると実害がある）'),
+                          ('中', '優先度 中', '公開の前に直したい'),
+                          ('低', '優先度 低', '公開してから直しても困らない')):
+        items = [r for r in rows if r[4] == lv]
+        if not items:
             continue
-        lis = ''.join(f'<li><a href="{href(f)}{"#todo-%d" % n if n else ""}">{esc(label)}</a></li>' for n, label in by[f])
-        secs.append(f'<h2 class="h2l">{name}</h2><ul class="dots">{lis}</ul>')
+        lis = ''.join(f'''<li class="ck-i"><a class="ck-l" href="{href(f)}{"#todo-%d" % n if n else ""}"><span class="ck-pg">{PAGE[f][1]}</span>{esc(label)}</a>
+{f'<p class="ck-why">{esc(why)}</p>' if why else ''}{f'<p class="ck-who">決める人：{esc(who)}</p>' if who else ''}</li>''' for _o, f, n, label, _lv, why, who in items)
+        groups.append(f'<section class="ck-g ck-{PRIO_ORDER[lv]}"><h2 class="ck-h"><span class="ck-badge">{ttl}</span><span>{lead}</span><span class="ck-n">{len(items)}件</span></h2><ul class="ck-list">{lis}</ul></section>')
     fr = {}
     for f, label in FRAMES:
         fr.setdefault(f, []).append(label)
@@ -1138,9 +1171,9 @@ def page_check():
     gen = ''.join(f'<li>{esc(g)}</li>' for g in GENERAL)
     body = f'''<div class="ph ph-plain"><div class="ph-in"><div class="ph-ttl"><h1>確認が必要なところの一覧</h1><p class="ph-en">制作中の確認用ページ（公開しません）</p></div></div></div>
 <section class="sec"><div class="wrap wrap-m">
-<p>今のサイトから移した内容のうち、公開の前に丸信さんに確かめたいところです。各ページでは黄色の「要確認」の印が付いています。</p>
-{''.join(secs)}
-<h2 class="h2l mt-xl">写真の仮枠が残っているところ</h2>
+<p>今のサイトから移した内容のうち、公開の前に丸信さんに確かめたいところです。優先度の高い順に並べています。各ページでは黄色の「要確認」の印が付いています（項目を押すとその場所へ移ります）。</p>
+{''.join(groups)}
+<h2 class="h2l mt-xl">写真の仮枠が残っているところ（優先度 低：公開用では枠を出しません）</h2>
 <ul class="dots">{fr_html}</ul>
 <h2 class="h2l mt-xl">全体にかかわること</h2>
 <ul class="dots">{gen}</ul>

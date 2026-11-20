@@ -1419,3 +1419,17 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 /* 題は写真の手前までに収める（長い題は言葉の切れ目で折れる） */
 .ph-au .ph-ttl{max-width:42%}
 @media (max-width:767px){.ph-au .ph-ttl{max-width:50%}.ph-au .ph-in{min-height:186px;display:flex;align-items:center}}  /* 2行の題でも帯の高さ（＝写真の見え方）が変わらないよう、高さをそろえる */
+/* 確認一覧の優先度（2026-11-20） */
+.ck-g{margin-top:36px}
+.ck-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding-bottom:10px;border-bottom:2px solid var(--line);font-size:16px;color:var(--navy)}
+.ck-badge{display:inline-block;padding:4px 14px;border-radius:999px;color:#fff;font-size:15px;font-weight:700}
+.ck-0 .ck-badge{background:#B3261E}.ck-1 .ck-badge{background:#C77700}.ck-2 .ck-badge{background:#5F6F7B}
+.ck-n{margin-left:auto;color:var(--mute);font-size:14px;font-weight:400}
+.ck-list{margin:0;padding:0;list-style:none}
+.ck-i{padding:14px 4px;border-bottom:1px solid var(--line)}
+.ck-l{display:block;color:var(--navy);font-weight:700;text-decoration:none}
+.ck-l:hover{text-decoration:underline}
+.ck-pg{display:inline-block;margin-right:10px;padding:1px 10px;border:1px solid var(--line);border-radius:4px;background:var(--pale2);color:var(--mute);font-size:13px;font-weight:700}
+.ck-why{margin-top:6px;font-size:14px}
+.ck-who{margin-top:2px;color:var(--mute);font-size:13px}
+.ck-0 .ck-i{border-left:4px solid #B3261E;padding-left:14px}
