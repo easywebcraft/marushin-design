@@ -1435,3 +1435,15 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ck-dl{padding:2px 10px;border:1px solid #E7C3B9;border-radius:4px;background:#FFF6F5;color:#B3261E;font-size:13px;font-weight:700}
 @media (min-width:1024px) and (max-width:1240px){.logo-en{display:none}}  /* 狭いPCはメニューが1行に収まらなくなるので英字を出さない */
 @media (min-width:1241px) and (max-width:1440px){.gnav{padding-left:18px}.gnav a{padding:0 10px}.gnav a::after{left:10px;right:10px}.hd-in{gap:18px}}  /* 英字を足した分、メニューの間隔を少し詰める */
+/* 採用バナーを文字と写真で組み直した（2026-11-20 松本さん「色の案に合わせてバナーの色も変えたい」）。
+   見出しの帯＝濃い色、「採用情報を見る」＝差し色の薄い色。写真は元のバナー画像の写真の部分だけを見せる（上から 26.7%〜89.7%） */
+.rq-card{background:var(--navy);text-decoration:none}
+.rq-top{display:block;padding:0 0 6cqw;border-top:1.2cqw solid var(--teal);background:var(--navy);color:#fff;text-align:center}
+.rq-card .rq-tk{position:static;height:auto;padding:3.4cqw 0 2.6cqw;background:none}
+.rq-card .rq-tk>span>span{color:var(--teal)}
+.rq-ttl{display:block;font-family:var(--serif);font-weight:700;font-size:8.6cqw;line-height:1.3;letter-spacing:.04em}
+.rq-co{display:block;margin-top:2.4cqw;font-size:4.4cqw;font-weight:700;letter-spacing:.2em}
+.rq-ph{display:block;overflow:hidden;aspect-ratio:1122/883}
+.rq-ph img{width:100%;height:auto;margin-top:-33.42%}
+.rq-go{display:flex;align-items:center;justify-content:center;gap:2cqw;padding:3.6cqw 0;background:color-mix(in srgb,var(--teal),#fff 72%);color:var(--navy);font-size:7.2cqw;font-weight:700;letter-spacing:.1em;line-height:1.2}
+.rq-card:hover .rq-go{background:color-mix(in srgb,var(--teal),#fff 55%)}

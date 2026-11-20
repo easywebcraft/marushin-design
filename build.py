@@ -575,7 +575,7 @@ def page_index():
 <aside class="rq" id="rq" aria-label="従業員募集のお知らせ">
 <button class="rq-tab" type="button" aria-expanded="false" aria-controls="rq-pop"><span class="rq-tab-new">募集中</span><span class="rq-tab-en" lang="en">RECRUIT</span><span class="rq-tab-ja">採用情報</span></button>
 <div class="rq-pop" id="rq-pop">
-<a class="rq-in" href="{RECRUIT_URL}" target="_blank" rel="noopener"><img src="images/top/recruit-banner.jpg" alt="RECRUIT 街の次の一歩をともにつくる 株式会社 丸信 採用情報を見る（外部サイト）" width="1122" height="1402" loading="lazy" decoding="async"><span class="rq-tk" aria-hidden="true"><span>{"<span>RECRUIT</span>" * 8}</span></span></a>
+<a class="rq-in rq-card" href="{RECRUIT_URL}" target="_blank" rel="noopener" aria-label="RECRUIT 街の次の一歩をともにつくる 株式会社 丸信 採用情報を見る（外部サイト）"><span class="rq-top" aria-hidden="true"><span class="rq-tk"><span>{"<span>RECRUIT</span>" * 8}</span></span><span class="rq-ttl">街の次の一歩を<br>ともにつくる</span><span class="rq-co">株式会社 丸信</span></span><span class="rq-ph" aria-hidden="true"><img src="images/top/recruit-banner.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async"></span><span class="rq-go" aria-hidden="true">採用情報を見る<span class="rq-go-ar">↗</span></span></a>
 </div>
 </aside>
 <aside class="rq rq-blog" id="rq-blog" aria-label="ブログのお知らせ">
