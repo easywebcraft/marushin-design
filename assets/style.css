@@ -1320,7 +1320,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 }
 
 /* ========== 会社の強みと、法令と環境への取り組み（2026-11-18 松本さん「しっかりした会社という印象に」） ========== */
-.ab-st{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);margin:30px 0 0;padding:26px 0 0;list-style:none;border-top:1px solid var(--line)}
+.ab-st{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,1fr);margin:30px 0 0;padding:26px 0 0;list-style:none;border-top:1px solid var(--line)}
 .ab-st li{padding:0 20px;text-align:center;border-left:1px solid var(--line)}
 .ab-st li:first-child{border-left:0}
 .ab-sn{margin:0;color:var(--navy);font-size:14px;font-weight:700;letter-spacing:.06em}
@@ -1448,3 +1448,42 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .rq-go{display:flex;align-items:center;justify-content:center;gap:2cqw;padding:3.6cqw 0;background:color-mix(in srgb,var(--teal),#fff 72%);color:var(--navy);font-size:7.2cqw;font-weight:700;letter-spacing:.1em;line-height:1.2}
 .rq-card:hover .rq-go{background:color-mix(in srgb,var(--teal),#fff 55%)}
 .todo-at{display:block;scroll-margin-top:110px}
+
+/* ========== 2026-11-20 営業との打ち合わせ：求人は左下にいつも出す（「従業員募集中」を大きく）、ブログは右側の札 ==========
+   どちらも最初の画面では隠し、下へ進むと出す。フッターが見えたら隠す（main.js） */
+.rqs,.rqs.is-wait{position:static;transform:none;display:block;opacity:1;visibility:visible;transition:none}
+.rqb{position:fixed;left:16px;bottom:16px;z-index:58;width:190px;transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
+.rq-blog{position:fixed;right:0;top:50%;z-index:58;transform:translateY(-50%);transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s}
+.rqs.is-wait .rqb{opacity:0;visibility:hidden;transform:translate3d(-110%,0,0);transition:transform .35s,opacity .25s,visibility 0s .35s}
+.rqs.is-wait .rq-blog{opacity:0;visibility:hidden;transform:translate3d(100%,-50%,0);transition:transform .35s,opacity .25s,visibility 0s .35s}
+@media (prefers-reduced-motion:reduce){.rqb,.rq-blog,.rqs.is-wait .rqb,.rqs.is-wait .rq-blog{transition:none}}
+.rq-ttl{font-size:14.5cqw;line-height:1.25;letter-spacing:.08em}
+.rq-blog .rq-tab{border-radius:6px 0 0 6px}
+.rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{padding-left:7px;padding-right:10px}
+.rq-blog .rq-pop{left:auto;right:calc(100% + 14px);transform:translate3d(12px,-50%,0)}
+@media print{.rqb,.rq-blog{display:none!important}}
+@media (max-width:767px){
+  /* スマホは下の電話・相談の帯の上に、横長の小さな札で（写真は出さない） */
+  .rqb{left:10px;bottom:78px;width:auto}
+  .rqb .rq-card{display:flex;align-items:stretch;container-type:normal;border-width:2px;border-radius:999px;box-shadow:0 4px 14px rgba(23,53,75,.28)}
+  .rqb .rq-tk,.rqb .rq-ph,.rqb .rq-co,.rqb .rq-br{display:none}
+  .rqb .rq-top{display:flex;align-items:center;padding:0 12px 0 16px;border-top:0}
+  .rqb .rq-ttl{font-size:15px;letter-spacing:.06em;white-space:nowrap}
+  .rqb .rq-go{gap:4px;padding:9px 14px 9px 12px;font-size:12.5px;letter-spacing:.04em;white-space:nowrap}
+  .rq-blog .rq-tab{border-radius:5px 0 0 5px}
+  .rq-blog .rq-tab:hover,.rq-blog.is-open .rq-tab{padding-left:3px;padding-right:5px}
+  .rq-blog .rq-pop{right:calc(100% + 10px)}
+}
+
+/* 2026-11-20 営業との打ち合わせ「スマホで縦に長すぎる」：上下の間隔を詰める */
+@media (max-width:767px){
+  .sec{padding:40px 0}
+  .sec-tight{padding:28px 0 34px}
+  .ab-in{padding-top:24px;padding-bottom:24px}
+  .ab-st{margin-top:16px;padding-top:16px}
+  .pr-band{padding:24px 0}
+  .ct-band{padding:36px 0}
+  .cm>li,.cm>li:first-child,.cm>li:last-child{padding:20px 0}
+  .fl>li{padding:18px 0}
+  .cm-more,.t-more{margin-top:20px}
+}

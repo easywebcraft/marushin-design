@@ -179,6 +179,13 @@ THEMES = [
                                                   'pale': '#F5F1EA', 'pale2': '#FAF8F4', 'line': '#E4DDD2', 'tint': '#FBE3C4', 'bg1': '#F9F6F1', 'bg2': '#ECE5DA'}),
     ('green', '深緑×緑', '#1E3A2F', '#2F7A4A', {'navy': '#1E3A2F', 'navy-d': '#142820', 'teal': '#5E9C6E', 'teal-d': '#2F7A4A', 'teal-dd': '#22603A',
                                           'pale': '#E9F2EC', 'pale2': '#F4F9F5', 'line': '#D3E3D8', 'tint': '#D4EBDC', 'bg1': '#F0F6F2', 'bg2': '#DCE9E0'}),
+    # 2026-11-20 営業との打ち合わせで7種類に。派手さを抑えた落ち着いた色を足した
+    ('brown', '焦げ茶×黄土', '#3A2A1E', '#8C6A33', {'navy': '#3A2A1E', 'navy-d': '#271C13', 'teal': '#B08A4E', 'teal-d': '#8C6A33', 'teal-dd': '#6E5226',
+                                         'pale': '#F3EEE6', 'pale2': '#FAF7F2', 'line': '#E3D9CB', 'tint': '#EADFC9', 'bg1': '#F7F3EC', 'bg2': '#E9E0D2'}),
+    ('gold', '濃紺×金茶', '#142640', '#8E7034', {'navy': '#142640', 'navy-d': '#0C1A2E', 'teal': '#B8975A', 'teal-d': '#8E7034', 'teal-dd': '#715929',
+                                       'pale': '#F1EEE6', 'pale2': '#F9F7F2', 'line': '#E1DACB', 'tint': '#EDE3CC', 'bg1': '#F6F3EC', 'bg2': '#E7E0D1'}),
+    ('gray', '墨×グレー', '#2B2F33', '#56616B', {'navy': '#2B2F33', 'navy-d': '#1C1F22', 'teal': '#7A8590', 'teal-d': '#56616B', 'teal-dd': '#434C54',
+                                      'pale': '#EEF0F2', 'pale2': '#F7F8F9', 'line': '#DADEE2', 'tint': '#DDE2E7', 'bg1': '#F3F5F6', 'bg2': '#E3E7EA'}),
 ]
 
 
@@ -198,13 +205,12 @@ def theme_head():
             '.tsw-sw{flex:none;width:34px;height:22px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}'
             '.tsw-list p.tsw-h{margin:8px 8px 2px;color:#22313C;font-weight:700;font-size:12px}'
             '.tsw-bi{flex:none;display:grid;place-items:center;width:34px;height:22px;border-radius:4px;background:#22313C;color:#fff;font-weight:700;font-size:12px}'
-            '@media (max-width:767px){.tsw{right:10px;bottom:84px}}'
+            '@media (max-width:767px){.tsw{right:10px;bottom:136px}}'
             '@media print{.tsw{display:none}}')
     keys = [k for k, *_ in THEMES]
     js = ('(function(){var k=null;try{var m=location.search.match(/[?&]color=([a-z]+)/);if(m){k=m[1];localStorage.setItem("mstheme",k)}else{k=localStorage.getItem("mstheme")}}catch(e){}'
           f'if(k&&{keys!r}.indexOf(k)>0)document.documentElement.setAttribute("data-theme",k);'
-          'var bn=null;try{if(/[?&]banner=open(&|$)/.test(location.search)){bn="open";localStorage.setItem("msbanner",bn)}else if(/[?&]banner=tab(&|$)/.test(location.search)){bn="tab";localStorage.setItem("msbanner",bn)}else{bn=localStorage.getItem("msbanner")}}catch(e){}'
-          'if(bn==="open")document.documentElement.setAttribute("data-banner","open")})();')
+          '})();')
     return f'<style>{css}</style>\n<script>{js}</script>\n'
 
 
@@ -212,22 +218,15 @@ def theme_body():
     """右下の「色を選ぶ」ボタン。選んだ色はこの端末に覚え、ほかのページでも同じ色にする"""
     items = ''.join(f'<li><button type="button" data-k="{k}" aria-pressed="false"><span class="tsw-sw" style="background:linear-gradient(135deg,{a} 50%,{c} 50%)"></span>{esc(n)}</button></li>'
                     for k, n, a, c, _v in THEMES)
-    banners = ('<li><p class="tsw-h">採用バナーの見せ方</p></li>'
-               '<li><button type="button" data-b="tab" aria-pressed="false"><span class="tsw-bi">A</span>札を押すとバナーが開く（今の形）</button></li>'
-               '<li><button type="button" data-b="open" aria-pressed="false"><span class="tsw-bi">B</span>バナーをいつも出しておく</button></li>')
     js = ('(function(){var w=document.getElementById("tsw");if(!w)return;var b=w.querySelector(".tsw-btn"),l=w.querySelector(".tsw-list"),r=document.documentElement;'
-          'var mark=function(){var k=r.getAttribute("data-theme")||"base",bn=r.getAttribute("data-banner")==="open"?"open":"tab";'
-          'Array.prototype.forEach.call(l.querySelectorAll("button[data-k]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")});'
-          'Array.prototype.forEach.call(l.querySelectorAll("button[data-b]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-b")===bn?"true":"false")})};'
+          'var mark=function(){var k=r.getAttribute("data-theme")||"base";'
+          'Array.prototype.forEach.call(l.querySelectorAll("button[data-k]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")})};'
           'b.addEventListener("click",function(){var o=l.hidden;l.hidden=!o;b.setAttribute("aria-expanded",o?"true":"false")});'
-          'l.addEventListener("click",function(e){var y=e.target.closest("button[data-b]");if(y){var bn=y.getAttribute("data-b");'
-          'if(bn==="open")r.setAttribute("data-banner","open");else r.removeAttribute("data-banner");try{localStorage.setItem("msbanner",bn)}catch(e){}'
-          'if(window.msBannerMode)window.msBannerMode();mark();return}'
-          'var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
+          'l.addEventListener("click",function(e){var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
           'if(k==="base")r.removeAttribute("data-theme");else r.setAttribute("data-theme",k);try{localStorage.setItem("mstheme",k)}catch(e){}mark()});'
           'document.addEventListener("click",function(e){if(!w.contains(e.target)){l.hidden=true;b.setAttribute("aria-expanded","false")}});mark()})();')
-    return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p class="tsw-h">色の案</p></li>{items}{banners}<li><p>選ぶとすぐにサイト全体が切り替わります。採用バナーはトップページを少し下へ進めると出ます</p></li></ul>'
-            f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色・表示を選ぶ</button></div>\n<script>{js}</script>\n')
+    return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p class="tsw-h">色の案</p></li>{items}<li><p>選ぶとすぐにサイト全体が切り替わります</p></li></ul>'
+            f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色を選ぶ</button></div>\n<script>{js}</script>\n')
 
 
 def head(fname, title, desc):
@@ -428,20 +427,15 @@ def page_index():
     ]
     cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
-    # 会社の強み（2026-11-18 松本さん「しっかりした会社という印象に」）。数字・許可は company.json から取り、変われば一緒に変わる
-    prof = {r['k']: r['v'] for r in company['profile']}
+    # 会社の強み（2026-11-18 松本さん「しっかりした会社という印象に」）。許可は company.json から取り、変われば一緒に変わる
     perm = {r['k']: r['v'] for r in company['permits']}
-    m = re.match(r'平成(\d+)年', prof['創業'][0])
-    founded = 1988 + int(m.group(1))
-    cap = re.match(r'(\d+)万円', prof['資本金'][0])
     sanpai = [x.split()[0] for x in perm['産業廃棄物収集運搬業許可']]
-    st = [(f'{founded}', '年', '創業', prof['創業'][0]),
-          (f'{int(cap.group(1)):,}', '万円', '資本金', ''),
-          # 2026-11-18 国の建設業者検索で確認：令和8年10月に更新（特-8）、解体工事業ととび・土工工事業がともに特定
+    # 2026-11-20 営業との打ち合わせ：創業年・資本金の数字はトップに出さない（許可の2つだけ残す）
+    st = [# 2026-11-18 国の建設業者検索で確認：令和8年10月に更新（特-8）、解体工事業ととび・土工工事業がともに特定
           ('特定', '', '建設業許可', '、'.join(next(r for r in company['permits'] if r['k'] == '建設業許可').get('kinds', [])) or '愛知県知事許可'),
           (f'{len(sanpai)}', '県', '産業廃棄物収集運搬業許可', '・'.join(p.replace('県', '') for p in sanpai))]
     if '特-' not in perm['建設業許可'][0]:
-        st[2] = ('許可', '', '建設業許可', '愛知県知事許可')
+        st[0] = ('許可', '', '建設業許可', '愛知県知事許可')
     # 説明は「、」の区切りで折り返す（「土工工／事業」のように語の途中で切れないよう、区切りごとにまとめる）
     nw = lambda d: '、'.join(f'<span class="nw">{x}</span>' for x in d.split('、'))
     st_html = ''.join(f'<li><p class="ab-sn"><b>{a}</b>{u}</p><p class="ab-sl">{l}</p><p class="ab-sd">{nw(d)}</p></li>' for a, u, l, d in st)
@@ -498,14 +492,6 @@ def page_index():
 <span class="hero-scroll" aria-hidden="true">scroll</span>
 </section>
 
-<section class="ab-band" aria-labelledby="h-about">
-<div class="wrap ab-in">
-<h2 class="ab-ttl" id="h-about">丸信の解体工事について</h2>
-<p class="ab-tx">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、<br>建築様式を問わず解体工事が可能です。</p>
-<ul class="ab-st" aria-label="会社の概要">{st_html}</ul>
-</div>
-</section>
-
 <section class="sec cm-sec has-wm" data-wm="COMMITMENT" aria-labelledby="h-torikumi">
 <div class="wrap">
 <div class="cm-head">
@@ -515,6 +501,14 @@ def page_index():
 <ol class="cm">{cards_html}</ol>
 <div class="eco"><h3 class="eco-ttl">法令と環境への取り組み</h3><ul class="eco-l">{eco_html}</ul></div>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="outline.html">丸信の会社案内を見る{ic("chev")}</a></p>
+</div>
+</section>
+
+<section class="ab-band" aria-labelledby="h-about">
+<div class="wrap ab-in">
+<h2 class="ab-ttl" id="h-about">丸信の解体工事について</h2>
+<p class="ab-tx">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、<br>建築様式を問わず解体工事が可能です。</p>
+<ul class="ab-st" aria-label="会社の概要">{st_html}</ul>
 </div>
 </section>
 
@@ -573,11 +567,8 @@ def page_index():
 {ct_band()}
 
 <div class="rqs" id="rqs">
-<aside class="rq" id="rq" aria-label="従業員募集のお知らせ">
-<button class="rq-tab" type="button" aria-expanded="false" aria-controls="rq-pop"><span class="rq-tab-new">募集中</span><span class="rq-tab-en" lang="en">RECRUIT</span><span class="rq-tab-ja">採用情報</span></button>
-<div class="rq-pop" id="rq-pop">
-<a class="rq-in rq-card" href="{RECRUIT_URL}" target="_blank" rel="noopener" aria-label="RECRUIT 街の次の一歩をともにつくる 株式会社 丸信 採用情報を見る（外部サイト）"><span class="rq-top" aria-hidden="true"><span class="rq-tk"><span>{"<span>RECRUIT</span>" * 8}</span></span><span class="rq-ttl">街の次の一歩を<br>ともにつくる</span><span class="rq-co">株式会社 丸信</span></span><span class="rq-ph" aria-hidden="true"><img src="images/top/recruit-banner.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async"></span><span class="rq-go" aria-hidden="true">採用情報を見る<span class="rq-go-ar">↗</span></span></a>
-</div>
+<aside class="rqb" id="rq" aria-label="従業員募集のお知らせ">
+<a class="rq-in rq-card" href="{RECRUIT_URL}" target="_blank" rel="noopener" aria-label="従業員募集中 株式会社 丸信 採用情報を見る（外部サイト）"><span class="rq-top" aria-hidden="true"><span class="rq-tk"><span>{"<span>RECRUIT</span>" * 8}</span></span><span class="rq-ttl">従業員<br class="rq-br">募集中</span><span class="rq-co">株式会社 丸信</span></span><span class="rq-ph" aria-hidden="true"><img src="images/top/recruit-banner.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async"></span><span class="rq-go" aria-hidden="true">採用情報を見る<span class="rq-go-ar">↗</span></span></a>
 </aside>
 <aside class="rq rq-blog" id="rq-blog" aria-label="ブログのお知らせ">
 <button class="rq-tab" type="button" aria-expanded="false" aria-controls="rq-blog-pop"><span class="rq-tab-new">準備中</span><span class="rq-tab-en" lang="en">BLOG</span><span class="rq-tab-ja">ブログ</span></button>
@@ -585,7 +576,7 @@ def page_index():
 <div class="rq-in rq-soon"><p class="rq-soon-en" lang="en">BLOG</p><p class="rq-soon-ttl">ブログ</p><p class="rq-soon-st">ただいま準備中です</p><p class="rq-soon-tx"><span>公開まで</span><span>今しばらくお待ちください</span></p></div>
 </div>
 </aside>
-</div>{todo('求人の案内：載せたい言葉（未経験者歓迎など）があれば')}'''
+</div>'''
 
 
 def page_about():
