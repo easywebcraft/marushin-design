@@ -88,7 +88,8 @@ def todo(label):
     TODOS.append((CUR, n, label))
     if RELEASE:
         return ''
-    return f'<span class="todo" id="todo-{n}"><span class="todo-tag">要確認</span>{esc(label)}</span>'
+    # 2026-11-20 松本さん「ページ内の要確認は削除して」：黄色の印は出さず、一覧から飛べるよう見えない目印だけ置く
+    return f'<span class="todo-at" id="todo-{n}"></span>'
 
 
 def frame(label, cls=''):
@@ -1169,7 +1170,7 @@ def page_check():
     gen = ''.join(f'<li>{esc(g)}</li>' for g in GENERAL)
     body = f'''<div class="ph ph-plain"><div class="ph-in"><div class="ph-ttl"><h1>確認が必要なところの一覧</h1><p class="ph-en">制作中の確認用ページ（公開しません）</p></div></div></div>
 <section class="sec"><div class="wrap wrap-m">
-<p>新しいホームページの公開の前に、丸信様にご確認いただきたいところです。優先度の高い順に並べています。各ページでは黄色の「要確認」の印が付いています（項目を押すとその場所へ移ります）。</p>
+<p>新しいホームページの公開の前に、丸信様にご確認いただきたいところです。優先度の高い順に並べています。項目を押すと、そのページの該当する場所へ移ります。</p>
 <p class="ck-due"><b>優先度 高・中</b>の項目は、<b>11月25日（水）ごろまで</b>にご回答いただけますと幸いです。新しいホームページの公開（11月30日の週の予定）に間に合わせるためです。分かるところからで構いません。優先度 低の項目は、公開のあとでも大丈夫です。</p>
 {''.join(groups)}
 {f'<h2 class="h2l mt-xl">写真の仮枠が残っているところ（優先度 低：公開用では枠を出しません）</h2><ul class="dots">{fr_html}</ul>' if fr_html else ''}
