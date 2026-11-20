@@ -170,6 +170,55 @@ def href(f):
     return './' if f == 'index.html' else f
 
 
+# ---- 色の切り替え（確認用だけ。2026-11-20 松本さん「ボタンでお客様に切り替えてもらい、好みの色を選んでもらいたい」）----
+# 主に使う色（--navy＝濃い色、--teal 系＝差し色、--pale 系＝薄い地の色）だけを入れ替える。公開用には入らない。
+THEMES = [
+    ('base', '紺×青緑（今の色）', '#17354B', '#147F8D', {}),
+    ('brick', '紺×赤茶', '#1E2B3C', '#A9502A', {'navy': '#1E2B3C', 'navy-d': '#141E2B', 'teal': '#D0784F', 'teal-d': '#A9502A', 'teal-dd': '#8A3E1F',
+                                           'pale': '#F4ECE6', 'pale2': '#FAF6F2', 'line': '#E5D8CE', 'tint': '#F2DCCF', 'bg1': '#F8F2EE', 'bg2': '#EBDFD6'}),
+    ('orange', '黒×オレンジ（重機の色）', '#24282D', '#C66A0A', {'navy': '#24282D', 'navy-d': '#17191C', 'teal': '#F29A2E', 'teal-d': '#C66A0A', 'teal-dd': '#A3560A',
+                                                  'pale': '#F5F1EA', 'pale2': '#FAF8F4', 'line': '#E4DDD2', 'tint': '#FBE3C4', 'bg1': '#F9F6F1', 'bg2': '#ECE5DA'}),
+    ('green', '深緑×緑', '#1E3A2F', '#2F7A4A', {'navy': '#1E3A2F', 'navy-d': '#142820', 'teal': '#5E9C6E', 'teal-d': '#2F7A4A', 'teal-dd': '#22603A',
+                                          'pale': '#E9F2EC', 'pale2': '#F4F9F5', 'line': '#D3E3D8', 'tint': '#D4EBDC', 'bg1': '#F0F6F2', 'bg2': '#DCE9E0'}),
+]
+
+
+def theme_head():
+    """色の切り替えの見た目と、ページを開いた直後に選んだ色を当てる短い処理（ちらつかないよう head に置く）"""
+    css = ''.join(f':root[data-theme="{k}"]{{' + ''.join(f'--{n}:{v};' for n, v in vs.items()) + '}' for k, _n, _a, _b, vs in THEMES if vs)
+    css += ('.tsw{position:fixed;right:14px;bottom:14px;z-index:80;font-size:13px}'
+            '.tsw-btn{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#fff;color:#22313C;font:inherit;font-weight:700;'
+            'box-shadow:0 6px 18px rgba(0,0,0,.18);cursor:pointer}'
+            '.tsw-dot{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--navy) 50%,var(--teal-d) 50%)}'
+            '.tsw-list{position:absolute;right:0;bottom:calc(100% + 8px);width:250px;margin:0;padding:8px;list-style:none;background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.2)}'
+            '.tsw-list[hidden]{display:none}'
+            '.tsw-list p{margin:4px 8px 6px;color:#566874;font-size:12px}'
+            '.tsw-list button{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:4px 8px;border:0;border-radius:6px;background:none;color:#22313C;font:inherit;text-align:left;cursor:pointer}'
+            '.tsw-list button:hover{background:#F3F5F7}'
+            '.tsw-list button[aria-pressed="true"]{background:#EEF3F6;font-weight:700}'
+            '.tsw-sw{flex:none;width:34px;height:22px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}'
+            '@media (max-width:767px){.tsw{right:10px;bottom:84px}}'
+            '@media print{.tsw{display:none}}')
+    keys = [k for k, *_ in THEMES]
+    js = ('(function(){var k=null;try{var m=location.search.match(/[?&]color=([a-z]+)/);if(m){k=m[1];localStorage.setItem("mstheme",k)}else{k=localStorage.getItem("mstheme")}}catch(e){}'
+          f'if(k&&{keys!r}.indexOf(k)>0)document.documentElement.setAttribute("data-theme",k)}})();')
+    return f'<style>{css}</style>\n<script>{js}</script>\n'
+
+
+def theme_body():
+    """右下の「色を選ぶ」ボタン。選んだ色はこの端末に覚え、ほかのページでも同じ色にする"""
+    items = ''.join(f'<li><button type="button" data-k="{k}" aria-pressed="false"><span class="tsw-sw" style="background:linear-gradient(135deg,{a} 50%,{c} 50%)"></span>{esc(n)}</button></li>'
+                    for k, n, a, c, _v in THEMES)
+    js = ('(function(){var w=document.getElementById("tsw");if(!w)return;var b=w.querySelector(".tsw-btn"),l=w.querySelector(".tsw-list"),r=document.documentElement;'
+          'var mark=function(){var k=r.getAttribute("data-theme")||"base";Array.prototype.forEach.call(l.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")})};'
+          'b.addEventListener("click",function(){var o=l.hidden;l.hidden=!o;b.setAttribute("aria-expanded",o?"true":"false")});'
+          'l.addEventListener("click",function(e){var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
+          'if(k==="base")r.removeAttribute("data-theme");else r.setAttribute("data-theme",k);try{localStorage.setItem("mstheme",k)}catch(e){}mark()});'
+          'document.addEventListener("click",function(e){if(!w.contains(e.target)){l.hidden=true;b.setAttribute("aria-expanded","false")}});mark()})();')
+    return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p>色の案を選ぶと、すぐにサイト全体の色が変わります</p></li>{items}</ul>'
+            f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色を選ぶ</button></div>\n<script>{js}</script>\n')
+
+
 def head(fname, title, desc):
     robots = '' if RELEASE else '<meta name="robots" content="noindex,nofollow">\n'
     canonical = ''
@@ -194,7 +243,7 @@ def head(fname, title, desc):
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 {ogimg}<link rel="stylesheet" href="assets/style.css?v={ASSET_V}">
-{EWL_HEAD if fname == 'index.html' else ''}</head>'''
+{EWL_HEAD if fname == 'index.html' else ''}{'' if RELEASE else theme_head()}</head>'''
 
 
 def header(fname):
@@ -273,7 +322,7 @@ def footer(fname):
 <a class="btn btn-white-line" href="{TEL_HREF}">{ic("phone")}電話で相談</a>
 <a class="btn btn-teal" href="contact.html">{ic("mail")}お問い合わせ</a>
 </div>
-{script}
+{'' if RELEASE else theme_body()}{script}
 </body>
 </html>
 '''

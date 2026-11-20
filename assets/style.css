@@ -5,6 +5,7 @@
   --navy:#17354B; --navy-d:#102838;
   --teal:#38A8B8; --teal-d:#147F8D; --teal-dd:#0E6773;
   --pale:#E6F1F6; --pale2:#F3F8FB; --line:#D3E0E8;
+  --tint:#D5ECEE; --bg1:#eef5f9; --bg2:#dde9f0;   /* 札・表の見出しの地と、帯の上下の色（2026-11-20 色の切り替えのため変数に） */
   --text:#22313C; --mute:#566874; --white:#fff;
   --todo:#FFF1A8; --todo-line:#D9B200;
   --w:1240px; --gut:24px; --wide:1400px;   /* 2026-11-12「もっとワイドに」で 1100→1440・ヘッダー等 1240→1600。2026-11-17「左右に広がっている、もう少しだけ中央に」で 1440→1240・1600→1400 */
@@ -187,7 +188,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
 .wk-arw{position:absolute;left:50%;top:50%;z-index:1;display:grid;place-items:center;width:40px;height:40px;margin:-20px 0 0 -20px;
   border-radius:50%;background:#fff;color:var(--teal-d);box-shadow:0 2px 8px rgba(23,53,75,.18)}
 .wk-arw svg{width:20px;height:20px}
-.wk-kind{display:inline-block;margin-top:20px;padding:2px 22px;background:#D5ECEE;color:var(--teal-dd);font-size:15px;font-weight:700;letter-spacing:.06em;line-height:1.8}
+.wk-kind{display:inline-block;margin-top:20px;padding:2px 22px;background:var(--tint);color:var(--teal-dd);font-size:15px;font-weight:700;letter-spacing:.06em;line-height:1.8}
 .wk-place{margin-top:10px;color:var(--mute);font-size:15px;letter-spacing:.06em}
 .wk-ttl{margin-top:2px;font-family:var(--serif);font-size:clamp(20px,2vw,26px);line-height:1.45;font-weight:700;letter-spacing:.04em}
 .wk-note{margin-top:4px;color:var(--mute);font-size:14px}
@@ -771,7 +772,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ar-sec{background:var(--pale2)}
 .ar{border-top:1px solid var(--line)}
 .ar>div{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.ar dt{padding:3px 0;background:#D5ECEE;color:var(--teal-dd);font-weight:700;font-size:15px;text-align:center;letter-spacing:.08em}
+.ar dt{padding:3px 0;background:var(--tint);color:var(--teal-dd);font-weight:700;font-size:15px;text-align:center;letter-spacing:.08em}
 .ar dd{margin:0;font-size:15px;line-height:1.8}
 .ar-note{margin-top:14px;font-size:14px;color:var(--mute);line-height:1.9}
 .fq-sec{background:#fff}
@@ -910,7 +911,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
    2. 薄い青の部分は、上が明るく下が少し濃いグラデーションで、くぼんだ面に
    3. 大きな薄い英字は、下へ進むと本文よりゆっくり動く（JS。動きを減らす設定では動かない） */
 .ab-band,.cm-sec,.wk-sec,.pr-band,.fl-sec,.vc-sec,.ar-sec,.fq-sec{position:relative}
-.cm-sec,.pr-band,.vc-sec,.fq-sec{background:linear-gradient(180deg,#eef5f9 0%,var(--pale) 55%,#dde9f0 100%)}
+.cm-sec,.pr-band,.vc-sec,.fq-sec{background:linear-gradient(180deg,var(--bg1) 0%,var(--pale) 55%,var(--bg2) 100%)}
 .wk-sec,.fl-sec,.ar-sec{background:linear-gradient(180deg,#fff 0%,#fff 70%,#f7fafc 100%)}
 .has-wm::before{transform:translate3d(0,var(--wmy,0px),0);will-change:transform;
   text-shadow:0 1px 0 rgba(255,255,255,.6)}
@@ -1000,7 +1001,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 /* ========== 丸信について（2026-11-17 松本さんのデザイン案）：トップと同じ部品（英字の小見出し・薄い英字・紺のボタン・相談の帯）で ==========
    背景は 白（想い）→ 薄い青（取り組み）→ 白（対応する工事）→ 薄い青（エリア）→ 白（方針）→ 薄い青（注意）→ 白（土地活用）→ 紺（相談） */
 .au-mind,.au-svc-sec,.au-pol-sec,.au-land-sec{background:#fff}
-.au-cm-sec,.au-ar,.au-note-sec{background:linear-gradient(180deg,#eef5f9 0%,var(--pale) 55%,#dde9f0 100%)}
+.au-cm-sec,.au-ar,.au-note-sec{background:linear-gradient(180deg,var(--bg1) 0%,var(--pale) 55%,var(--bg2) 100%)}
 .au-sub{margin-top:4px;color:var(--navy);font-weight:700;font-size:15px;letter-spacing:.06em}
 .au-ph{margin:0}
 .au-ph img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border:4px solid #fff;border-radius:3px;
@@ -1081,7 +1082,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (max-width:767px){.au-kinds li{font-size:13px;letter-spacing:0}.au-kinds svg{width:26px;height:26px}}
 
 /* ========== 丸信についての上の帯（2026-11-17 松本さんのデザイン案）：左に英字と大きな明朝の題、右に斜めに切った写真 ========== */
-.ph-au{background:linear-gradient(180deg,#eef5f9,var(--pale));box-shadow:none}
+.ph-au{background:linear-gradient(180deg,var(--bg1),var(--pale));box-shadow:none}
 .ph-au .ph-img{inset:0 0 0 40%;clip-path:polygon(9% 0,100% 0,100% 100%,0 100%)}
 .ph-au .ph-img::after{display:none}
 .ph-au .ph-in{padding:64px var(--gut) 68px}
@@ -1103,7 +1104,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .pr-jump{display:flex;flex-wrap:wrap;gap:12px 36px;margin-top:22px}
 .pr-jump a{display:inline-flex;align-items:center;gap:8px;padding-bottom:4px;border-bottom:2px solid var(--teal-d);color:var(--teal-dd);font-weight:700;text-decoration:none}
 .pr-jump .t-arw{width:16px;height:16px}
-.pr-dm{background:linear-gradient(180deg,#eef5f9 0%,var(--pale) 55%,#dde9f0 100%)}
+.pr-dm{background:linear-gradient(180deg,var(--bg1) 0%,var(--pale) 55%,var(--bg2) 100%)}
 .pr-dm-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}
 .pr-unit{font-size:14px;color:var(--mute)}
 .pr-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px}
@@ -1111,13 +1112,13 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .pr-cards h3{display:flex;align-items:center;gap:14px;padding:18px 22px;font-family:var(--serif);font-weight:700;font-size:22px;letter-spacing:.04em}
 .pr-cards h3 svg{width:42px;height:42px;color:var(--teal-d);flex:none}
 .pr-t{width:100%;border-collapse:collapse;font-size:15px}
-.pr-t thead th{padding:8px 14px;background:#D5ECEE;color:var(--navy);font-size:13px;font-weight:700;text-align:center}
+.pr-t thead th{padding:8px 14px;background:var(--tint);color:var(--navy);font-size:13px;font-weight:700;text-align:center}
 .pr-t tbody th,.pr-t tbody td{padding:12px 18px;border-top:1px solid var(--line)}
 .pr-t tbody th{font-weight:400;text-align:left;white-space:nowrap}
 .pr-t tbody td{text-align:right;white-space:nowrap}
 .pr-t b,.pr-ot-t b{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:21px;font-weight:700;color:var(--navy);letter-spacing:.01em}
 .pr-t small,.pr-ot-t small{margin-left:2px;font-size:13px;font-weight:700;color:var(--navy)}
-.pr-incl{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px 32px;margin-top:24px;padding:18px 28px;background:#D5ECEE;border-radius:4px}
+.pr-incl{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px 32px;margin-top:24px;padding:18px 28px;background:var(--tint);border-radius:4px}
 .pr-incl>p{padding-right:32px;border-right:1.5px solid #9DB0BB;color:var(--teal-dd);font-weight:700;font-size:18px}
 .pr-incl ul{display:flex;flex-wrap:wrap;justify-content:space-around;gap:8px 24px}
 .pr-incl li{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--navy)}
@@ -1125,7 +1126,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .pr-ot{background:#fff}
 .pr-tw{margin-top:28px;overflow-x:auto}
 .pr-ot-t{width:100%;min-width:640px;border-collapse:collapse;font-size:15px}
-.pr-ot-t thead th{padding:12px 16px;background:#D5ECEE;color:var(--navy);font-weight:700;text-align:left}
+.pr-ot-t thead th{padding:12px 16px;background:var(--tint);color:var(--navy);font-weight:700;text-align:left}
 .pr-ot-t th,.pr-ot-t td{padding:11px 16px;border-bottom:1px solid var(--line)}
 .pr-ot-t tbody tr:nth-child(odd){background:var(--pale2)}
 .pr-ot-t tbody th{font-weight:400;text-align:left}
@@ -1200,7 +1201,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .fw-catch{margin-top:6px;font-size:clamp(26px,3vw,38px)}
 .fw-lead{margin-top:12px;font-size:16px}
 .fw-small{margin-top:4px;font-size:13px;color:var(--mute)}
-.fw-nav{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;padding:16px 8px;background:#D5ECEE;border-radius:4px}
+.fw-nav{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;padding:16px 8px;background:var(--tint);border-radius:4px}
 .fw-nav li{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--navy)}
 .fw-nav li+li::before{content:"→";position:absolute;left:-10px;top:50%;margin-top:-12px;font-size:22px;line-height:1;color:var(--navy)}
 .fw-nav b{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:26px;line-height:1.1;color:var(--teal-d)}
@@ -1253,7 +1254,7 @@ html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 .ol-jump a:hover{color:var(--teal-dd)}
 .ol-jump .t-arw{width:16px;height:16px;color:var(--teal-d)}
 .ol-msg,.ol-lic-sec,.ol-ar{background:#fff}
-.ol-prof,.ol-phil-sec,.ol-acc{background:linear-gradient(180deg,#eef5f9 0%,var(--pale) 60%,#dde9f0 100%)}
+.ol-prof,.ol-phil-sec,.ol-acc{background:linear-gradient(180deg,var(--bg1) 0%,var(--pale) 60%,var(--bg2) 100%)}
 .ol-msg-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px 56px;align-items:start}
 .ol-msg-h{padding-right:48px;border-right:1.5px solid #9DB0BB}
 .ol-msg-h .t-ttl:not(.ol-big)::after{content:"";display:block;width:56px;height:3px;margin-top:18px;background:var(--teal-d)}
