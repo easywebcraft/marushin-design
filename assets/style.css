@@ -1531,3 +1531,17 @@ html,body{overflow-x:clip}
 .ab-kd .au-kinds{margin-top:0}
 .ab-more{margin-top:14px;text-align:right}
 @media (max-width:767px){.ab-kd{margin-top:18px;padding-top:14px}.ab-more{text-align:center}}
+
+/* 2026-11-20 松本さん「お客様の声：全体的に各余白を減らして」 */
+.vc-sec.sec{padding:52px 0 48px}
+.vc-sec .vc{gap:16px 28px;margin-top:20px}
+.vc-sec .vc>li{column-gap:10px;padding:18px 22px 16px}
+.vc-sec .vc-q{font-size:44px}
+.vc-sec .vc-t{font-size:18px;line-height:1.45}
+.vc-sec .vc-w{margin-top:4px;font-size:13px}
+.vc-sec .t-more{margin-top:20px}
+@media (max-width:767px){
+  .vc-sec.sec{padding:36px 0 34px}
+  .vc-sec .vc{gap:12px;margin-top:16px}
+  .vc-sec .vc>li{padding:14px 16px 12px}
+}
