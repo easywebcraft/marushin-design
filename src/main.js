@@ -260,31 +260,43 @@
   update();
 })();
 
-// ---- 求人の案内とブログの札（2026-11-20 営業との打ち合わせで作り直し）：求人は左下にいつも出し、ブログは右側の札を押すと開く（PC は触れても開く）。
-// 札をもう一度押す・Esc・外を押すと閉じる。最初の画面とフッターが見えている間は両方とも隠す ----
+// ---- 求人の案内とブログの札：下へ進むと左端に札を出し、押すとバナーを開く（PC は触れても開く）。札をもう一度押す・Esc・外を押すと閉じる（×は 2026-11-18 松本さんの希望で外した）。
+// ブログの札（準備中）は 2026-11-19 に足した。開くのは押した札の分だけ ----
 (function () {
   var box = document.getElementById('rqs');
   if (!box) return;
   var shown = null;
-  var ft = document.querySelector('.ft');
-  var blog = document.getElementById('rq-blog');
-  var set = function (open) {
-    if (!blog) return;
-    blog.classList.toggle('is-open', open);
-    blog.querySelector('.rq-tab').setAttribute('aria-expanded', open ? 'true' : 'false');
+  var all = Array.prototype.slice.call(box.querySelectorAll('.rq'));
+  var set = function (rq, open) {
+    rq.classList.toggle('is-open', open);
+    rq.querySelector('.rq-tab').setAttribute('aria-expanded', open ? 'true' : 'false');
   };
-  if (blog) {
-    blog.querySelector('.rq-tab').addEventListener('click', function () { set(!blog.classList.contains('is-open')); });
-    document.addEventListener('click', function (ev) { if (!blog.contains(ev.target)) set(false); });
-    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') set(false); });
-  }
+  // 2026-11-20 お客様に見比べてもらう用：<html data-banner="open"> のときは、札が出ている間は求人のバナーを開いたままにする
+  // （ブログの札を押している間だけブログを出す）。data-banner は確認用だけにある「色を選ぶ」の部品が付け外しする（?banner=open でも付く）
+  var always = function () { return document.documentElement.getAttribute('data-banner') === 'open'; };
+  var main = document.getElementById('rq');
+  var closeAll = function (except) {
+    all.forEach(function (rq) { if (rq !== except) set(rq, false); });
+    if (always() && shown && !except && main) set(main, true);
+  };
+  window.msBannerMode = function () { closeAll(); };
+  all.forEach(function (rq) {
+    rq.querySelector('.rq-tab').addEventListener('click', function () {
+      var open = !rq.classList.contains('is-open');
+      closeAll(rq);
+      set(rq, open);
+      if (!open) closeAll();
+    });
+  });
+  document.addEventListener('click', function (ev) { if (!box.contains(ev.target)) closeAll(); });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeAll(); });
+  // 最初の画面では隠し、画面の高さの半分ほど下へ進んだら出す。上へ戻ると隠す（2026-11-18 松本さん）
   var check = function () {
-    var h = window.innerHeight;
-    var on = (window.scrollY || window.pageYOffset) > h * 0.5 && !(ft && ft.getBoundingClientRect().top < h - 40);
+    var on = (window.scrollY || window.pageYOffset) > window.innerHeight * 0.5;
     if (on === shown) return;
     shown = on;
     box.classList.toggle('is-wait', !on);
-    if (!on) set(false);
+    if (!on) { all.forEach(function (rq) { set(rq, false); }); } else closeAll();
   };
   window.addEventListener('scroll', check, { passive: true });
   window.addEventListener('resize', check);

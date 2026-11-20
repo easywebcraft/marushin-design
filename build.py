@@ -205,12 +205,13 @@ def theme_head():
             '.tsw-sw{flex:none;width:34px;height:22px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}'
             '.tsw-list p.tsw-h{margin:8px 8px 2px;color:#22313C;font-weight:700;font-size:12px}'
             '.tsw-bi{flex:none;display:grid;place-items:center;width:34px;height:22px;border-radius:4px;background:#22313C;color:#fff;font-weight:700;font-size:12px}'
-            '@media (max-width:767px){.tsw{right:10px;bottom:136px}}'
+            '@media (max-width:767px){.tsw{right:10px;bottom:84px}}'
             '@media print{.tsw{display:none}}')
     keys = [k for k, *_ in THEMES]
     js = ('(function(){var k=null;try{var m=location.search.match(/[?&]color=([a-z]+)/);if(m){k=m[1];localStorage.setItem("mstheme",k)}else{k=localStorage.getItem("mstheme")}}catch(e){}'
           f'if(k&&{keys!r}.indexOf(k)>0)document.documentElement.setAttribute("data-theme",k);'
-          '})();')
+          'var bn=null;try{if(/[?&]banner=open(&|$)/.test(location.search)){bn="open";localStorage.setItem("msbanner",bn)}else if(/[?&]banner=tab(&|$)/.test(location.search)){bn="tab";localStorage.setItem("msbanner",bn)}else{bn=localStorage.getItem("msbanner")}}catch(e){}'
+          'if(bn==="open")document.documentElement.setAttribute("data-banner","open")})();')
     return f'<style>{css}</style>\n<script>{js}</script>\n'
 
 
@@ -218,15 +219,22 @@ def theme_body():
     """右下の「色を選ぶ」ボタン。選んだ色はこの端末に覚え、ほかのページでも同じ色にする"""
     items = ''.join(f'<li><button type="button" data-k="{k}" aria-pressed="false"><span class="tsw-sw" style="background:linear-gradient(135deg,{a} 50%,{c} 50%)"></span>{esc(n)}</button></li>'
                     for k, n, a, c, _v in THEMES)
+    banners = ('<li><p class="tsw-h">採用バナーの見せ方</p></li>'
+               '<li><button type="button" data-b="tab" aria-pressed="false"><span class="tsw-bi">A</span>札を押すとバナーが開く（今の形）</button></li>'
+               '<li><button type="button" data-b="open" aria-pressed="false"><span class="tsw-bi">B</span>バナーをいつも出しておく</button></li>')
     js = ('(function(){var w=document.getElementById("tsw");if(!w)return;var b=w.querySelector(".tsw-btn"),l=w.querySelector(".tsw-list"),r=document.documentElement;'
-          'var mark=function(){var k=r.getAttribute("data-theme")||"base";'
-          'Array.prototype.forEach.call(l.querySelectorAll("button[data-k]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")})};'
+          'var mark=function(){var k=r.getAttribute("data-theme")||"base",bn=r.getAttribute("data-banner")==="open"?"open":"tab";'
+          'Array.prototype.forEach.call(l.querySelectorAll("button[data-k]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")});'
+          'Array.prototype.forEach.call(l.querySelectorAll("button[data-b]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-b")===bn?"true":"false")})};'
           'b.addEventListener("click",function(){var o=l.hidden;l.hidden=!o;b.setAttribute("aria-expanded",o?"true":"false")});'
-          'l.addEventListener("click",function(e){var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
+          'l.addEventListener("click",function(e){var y=e.target.closest("button[data-b]");if(y){var bn=y.getAttribute("data-b");'
+          'if(bn==="open")r.setAttribute("data-banner","open");else r.removeAttribute("data-banner");try{localStorage.setItem("msbanner",bn)}catch(e){}'
+          'if(window.msBannerMode)window.msBannerMode();mark();return}'
+          'var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
           'if(k==="base")r.removeAttribute("data-theme");else r.setAttribute("data-theme",k);try{localStorage.setItem("mstheme",k)}catch(e){}mark()});'
           'document.addEventListener("click",function(e){if(!w.contains(e.target)){l.hidden=true;b.setAttribute("aria-expanded","false")}});mark()})();')
-    return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p class="tsw-h">色の案</p></li>{items}<li><p>選ぶとすぐにサイト全体が切り替わります</p></li></ul>'
-            f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色を選ぶ</button></div>\n<script>{js}</script>\n')
+    return (f'<div class="tsw" id="tsw"><ul class="tsw-list" hidden><li><p class="tsw-h">色の案</p></li>{items}{banners}<li><p>選ぶとすぐにサイト全体が切り替わります。採用バナーはトップページを少し下へ進めると出ます</p></li></ul>'
+            f'<button class="tsw-btn" type="button" aria-expanded="false"><span class="tsw-dot"></span>色・表示を選ぶ</button></div>\n<script>{js}</script>\n')
 
 
 def head(fname, title, desc):
@@ -567,8 +575,11 @@ def page_index():
 {ct_band()}
 
 <div class="rqs" id="rqs">
-<aside class="rqb" id="rq" aria-label="従業員募集のお知らせ">
-<a class="rq-in rq-card" href="{RECRUIT_URL}" target="_blank" rel="noopener" aria-label="従業員募集中 株式会社 丸信 採用情報を見る（外部サイト）"><span class="rq-top" aria-hidden="true"><span class="rq-tk"><span>{"<span>RECRUIT</span>" * 8}</span></span><span class="rq-ttl">従業員<br class="rq-br">募集中</span><span class="rq-co">株式会社 丸信</span></span><span class="rq-ph" aria-hidden="true"><img src="images/top/recruit-banner.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async"></span><span class="rq-go" aria-hidden="true">採用情報を見る<span class="rq-go-ar">↗</span></span></a>
+<aside class="rq" id="rq" aria-label="従業員募集のお知らせ">
+<button class="rq-tab" type="button" aria-expanded="false" aria-controls="rq-pop"><span class="rq-tab-new">募集中</span><span class="rq-tab-en" lang="en">RECRUIT</span><span class="rq-tab-ja">採用情報</span></button>
+<div class="rq-pop" id="rq-pop">
+<a class="rq-in rq-card" href="{RECRUIT_URL}" target="_blank" rel="noopener" aria-label="RECRUIT 従業員募集中 株式会社 丸信 採用情報を見る（外部サイト）"><span class="rq-top" aria-hidden="true"><span class="rq-tk"><span>{"<span>RECRUIT</span>" * 8}</span></span><span class="rq-ttl">従業員<br>募集中</span><span class="rq-co">株式会社 丸信</span></span><span class="rq-ph" aria-hidden="true"><img src="images/top/recruit-banner.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async"></span><span class="rq-go" aria-hidden="true">採用情報を見る<span class="rq-go-ar">↗</span></span></a>
+</div>
 </aside>
 <aside class="rq rq-blog" id="rq-blog" aria-label="ブログのお知らせ">
 <button class="rq-tab" type="button" aria-expanded="false" aria-controls="rq-blog-pop"><span class="rq-tab-new">準備中</span><span class="rq-tab-en" lang="en">BLOG</span><span class="rq-tab-ja">ブログ</span></button>
