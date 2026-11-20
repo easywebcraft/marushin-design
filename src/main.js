@@ -269,7 +269,9 @@
   var all = Array.prototype.slice.call(box.querySelectorAll('.rq'));
   var set = function (rq, open) {
     rq.classList.toggle('is-open', open);
-    rq.querySelector('.rq-tab').setAttribute('aria-expanded', open ? 'true' : 'false');
+    var tab = rq.querySelector('.rq-tab');
+    tab.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (!open && document.activeElement === tab) tab.blur();   // iPhone で押した状態が残らないように（2026-11-20）
   };
   // 2026-11-20 お客様に見比べてもらう用：<html data-banner="open"> のときは、札が出ている間は求人のバナーを開いたままにする
   // （ブログの札を押している間だけブログを出す）。data-banner は確認用だけにある「色を選ぶ」の部品が付け外しする（?banner=open でも付く）
