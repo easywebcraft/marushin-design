@@ -454,7 +454,11 @@ def page_index():
         ('廃棄物の処理まで<br>責任を持って', '解体で出た廃棄物は正しく分けて処分し、リサイクルを進めます。産業廃棄物収集運搬業の許可（{}）を持っています。'),
     ]
     sanpai = sanpai_prefs(company)
-    cards_html = ''.join(f'<li><span class="cm-n" aria-hidden="true">{n:02d}</span><h3>{t}</h3><p>{p.format("・".join(sanpai))}</p></li>'
+    # 番号の右に絵（2026-11-20 松本さんにいただいた絵を images/top/cm-ic-1〜3.png に切り出し、白地を透明にしたもの）。
+    # 色は絵の形で切り抜いてサイトの色を流し込むので、色の切り替えにも合う
+    cards_html = ''.join(f'<li><div class="cm-top"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
+                         f'<span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span></div>'
+                         f'<h3>{t}</h3><p>{p.format("・".join(sanpai))}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
     # 会社の強み（2026-11-18 松本さん「しっかりした会社という印象に」）。許可は company.json から取り、変われば一緒に変わる
     perm = {r['k']: r['v'] for r in company['permits']}

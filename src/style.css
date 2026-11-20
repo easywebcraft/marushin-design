@@ -1517,3 +1517,10 @@ html,body{overflow-x:clip}
   .au-card .au-n{font-size:38px}
   .au-card .au-tx{margin-top:8px}
 }
+
+/* 2026-11-20 丸信のこだわり：番号の右に絵。絵の形でサイトの濃い色を切り抜く（色の切り替えにも合う） */
+.cm-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.cm-ic{flex:none;width:104px;aspect-ratio:620/560;background:var(--navy);
+  -webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}   /* 絵の場所はページ側（build.py）に書く */
+@media (max-width:1023px){.cm-ic{width:84px}}
+@media (max-width:767px){.cm-ic{width:76px}}
