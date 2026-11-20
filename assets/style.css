@@ -1756,3 +1756,7 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
   .wk-bf img{transition:transform .8s var(--mo-ease)}
   .tlink:hover .t-arw,.t-link:hover .t-arw{transform:translateX(4px)}
 }
+/* 2026-11-21「施工事例の出だしが遅い」：施工後・札が出るまでの間を短く */
+.wk>li.rv.in .wk-ph figcaption{transition:clip-path .6s var(--mo-ease) calc(var(--d,0s) + .2s)}
+.wk>li.rv.in .wk-af figcaption{transition-delay:calc(var(--d,0s) + .45s)}
+.wk>li.rv.in .wk-ph .wk-af{transition:opacity var(--mo-dur) var(--mo-ease) calc(var(--d,0s) + .12s),transform var(--mo-dur) var(--mo-ease) calc(var(--d,0s) + .12s)}
