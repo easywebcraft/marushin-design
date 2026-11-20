@@ -466,15 +466,15 @@ def page_index():
     cards = [
         ('解体専門の会社に<br>直接相談', '地域に根付いた解体専門の会社です。下請業者への発注による中間マージンが発生しません。'),
         # 2026-11-20 松本さん：前の②（着工前の挨拶）と③（完了後の挨拶）を1つにまとめ、3つ目を廃棄物の処理に
-        ('着工前から完了後まで<br>近隣に配慮', '工事前のご挨拶から、完了後にご迷惑がなかったかの確認まで。近隣の皆様への配慮を大切にし、万が一のトラブルにも速やかに対応いたします。'),
-        ('廃棄物の処理まで<br>責任を持って', '解体で出た廃棄物は正しく分けて処分し、リサイクルを進めます。産業廃棄物収集運搬業の許可（{}）を持っています。'),
+        ('着工前から完了後まで<br>近隣に配慮', '着工前のご挨拶から完了後の確認まで、近隣の皆様に配慮します。万が一のトラブルにも速やかに対応いたします。'),
+        ('廃棄物の処理まで<br>責任を持って', '廃棄物は分別して適正に処分し、リサイクルを進めます。産業廃棄物収集運搬業の許可を{}で持っています。'),
     ]
     sanpai = sanpai_prefs(company)
     # 番号の右に絵（2026-11-20 松本さんにいただいた絵を images/top/cm-ic-1〜3.png に切り出し、白地を透明にしたもの）。
     # 色は絵の形で切り抜いてサイトの色を流し込むので、色の切り替えにも合う
     cards_html = ''.join(f'<li><div class="cm-top"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
                          f'<span class="cm-ic" style="-webkit-mask-image:url(images/top/cm-ic-{n}.png);mask-image:url(images/top/cm-ic-{n}.png)" aria-hidden="true"></span></div>'
-                         f'<h3>{t}</h3><p>{p.format("・".join(sanpai))}</p></li>'
+                         f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></li>'
                          for n, (t, p) in enumerate(cards, 1))
     # 施工事例（2026-11-17 松本さんのデザイン案）：番号・施工前後の写真・構造の札・場所・題。トップだけの見せ方（施工事例のページは work_card のまま）
     def wk(n, w):
@@ -512,7 +512,7 @@ def page_index():
 <div class="hero-in">
 <p class="hero-label">解体から次の一歩へ</p>
 <h1>建物の解体は<br><em>丸信へ</em></h1>
-<p class="hero-sub">愛知県（春日井市・小牧市・尾張旭市・瀬戸市・名古屋市等）の解体のご相談は、株式会社丸信にお任せください。</p>
+<p class="hero-sub">春日井市を中心に、<span class="nw">愛知・岐阜・三重の解体工事を承ります。</span></p>
 <div class="hero-btns">
 <a class="btn btn-teal btn-lg" href="contact.html">{ic("mail")}無料相談</a>
 <a class="btn btn-ghost btn-lg" href="case.html">施工事例を見る{ic("chev")}</a>
@@ -535,7 +535,7 @@ def page_index():
 <section class="ab-band" aria-labelledby="h-about">
 <div class="wrap ab-in">
 <h2 class="ab-ttl" id="h-about">対応する解体工事</h2>
-<p class="ab-tx">当社は愛知県春日井市を中心に解体工事を承っています。<br>木造住宅、鉄骨建築、鉄筋コンクリート造や、テナント事務所・店舗など、<br>建築様式を問わず解体工事が可能です。</p>
+<p class="ab-tx">建物の種類を問わず、解体工事に対応しています。</p>
 <div class="ab-kd"><ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
 <p class="ab-more"><a class="tlink t-link" href="about.html#h-svc">対応する工事を詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
 </div>
@@ -545,7 +545,7 @@ def page_index():
 <div class="wrap">
 <div class="wk-head">
 <div><p class="cm-en" lang="en">WORKS</p><h2 class="wk-ttl-h" id="h-works">施工事例</h2></div>
-<p class="wk-lead">これまでに手がけた解体工事の一例をご紹介します。<br>木造・鉄骨造・鉄筋コンクリート造など、さまざまな建物に対応しています。</p>
+<p class="wk-lead">これまでに手がけた解体工事の一例です。</p>
 </div>
 <ol class="wk">{works_html}</ol>
 <p class="center cm-more"><a class="btn btn-navy cm-btn" href="case.html">施工事例をもっと見る{ic("chev")}</a></p>
@@ -563,7 +563,7 @@ def page_index():
 <section class="pr-band has-wm" data-wm="PRICE" aria-labelledby="h-price">
 <div class="wrap pr-in">
 <div class="pr-h"><p class="cm-en" lang="en">PRICE</p><h2 class="t-ttl" id="h-price">料金案内</h2></div>
-<p class="pr-tx">木造・鉄骨造・鉄筋コンクリート造の解体工事と、<br>庭木伐採・ブロック塀などその他の料金表を掲載しています。</p>
+<p class="pr-tx">建物の種類別の料金と、<br>庭木伐採・ブロック塀などの料金をご覧いただけます。</p>
 <a class="btn btn-navy t-btn" href="price.html">料金案内を見る{ic("chev")}</a>
 </div>
 </section>
@@ -581,7 +581,7 @@ def page_index():
 <div class="wrap t-two">
 <div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に近隣エリアへ</p></div>
 <div><dl class="ar">{area_rows}</dl>
-<p class="ar-note">{esc(company["area_note"])}。上記の対応エリア以外にも柔軟に対応させていただきます。まずはお気軽にお問い合わせください。</p></div>
+<p class="ar-note">{esc(company["area_note"])}。その他の地域もお気軽にご相談ください。</p></div>
 </div>
 </section>
 

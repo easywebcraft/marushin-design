@@ -1545,3 +1545,6 @@ html,body{overflow-x:clip}
   .vc-sec .vc{gap:12px;margin-top:16px}
   .vc-sec .vc>li{padding:14px 16px 12px}
 }
+
+/* FVの説明文は「、」の後で折り返す（「岐阜・／三重」のように途中で切れないよう。2026-11-20） */
+.hero-sub .nw{display:inline-block}
