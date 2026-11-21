@@ -255,7 +255,8 @@ def head(fname, title, desc):
     canonical = ''
     if RELEASE and SITE_URL:
         path = '' if fname == 'index.html' else fname
-        canonical = f'<link rel="canonical" href="{SITE_URL}/{path}">\n'
+        canonical = (f'<link rel="canonical" href="{SITE_URL}/{path}">\n'
+                     f'<meta property="og:url" content="{SITE_URL}/{path}">\n')
     # LINE などに URL を貼ったときの写真（ogp.py で作る）。場所はアドレスの頭から書く決まり。公開用で URL が未定なら出さない
     img_base = SITE_URL if RELEASE else PREVIEW_URL
     ogv = hashlib.md5((BASE / 'images' / 'ogp.jpg').read_bytes()).hexdigest()[:8]  # 撮り直したら LINE などが新しい写真を取り直すように
@@ -273,7 +274,10 @@ def head(fname, title, desc):
 <meta property="og:site_name" content="{esc(COMPANY)}">
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
-{ogimg}<link rel="stylesheet" href="assets/style.css?v={ASSET_V}">
+{ogimg}<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="images/icon/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="images/icon/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/style.css?v={ASSET_V}">
 {EWL_HEAD if fname == 'index.html' else ''}{'' if RELEASE else theme_head()}</head>'''
 
 
@@ -466,10 +470,49 @@ def work_card(w, h='h3', lazy=True):
     note = f'<p class="wk-note">{esc(w["note"])}</p>' if w['note'] else ''
     lz = ' loading="lazy" decoding="async"' if lazy else ''
     name = esc(w['name']) if w['name'].endswith('工事') else f'{esc(w["name"])} 解体工事'   # 「店舗内装撤去工事」に「解体工事」を重ねない
+    if w['name'].endswith('工事') and len(w['name']) > 6:   # 長いひとつながりの名前は「店舗内装／撤去工事」で折り返す（最後の1文字だけ落ちないように。2026-11-21）
+        name = f'{esc(w["name"][:-4])}<wbr>{esc(w["name"][-4:])}'
     return (f'<li><div class="wk-ph">'
             f'<figure class="wk-bf"><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="1448" height="976"{lz}><figcaption>施工前</figcaption></figure>'
             f'<figure class="wk-af"><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="1448" height="976"{lz}><figcaption class="after">施工後</figcaption></figure>'
             f'</div><div class="wk-info"><p class="wk-meta">{meta}</p><{h} class="wk-ttl">{name}</{h}>{note}</div></li>')
+
+
+# 古いURL（今のサイト）から新しいページへの転送。公開用の .htaccess に書く（README の「古いURLからの転送」と同じ。2026-11-21）
+OLD_FAQ = [
+    ('見積もり依頼は無料ですか？', 'q1'), ('対応エリアを教えてください。', 'q2'),
+    ('植木や庭石・石垣等も処分してもらえるのですか', 'q3'), ('樹木のみの撤去や駐車場のアスファルトのみの撤', 'q4'),
+    ('店舗やビル・マンションなどの解体もお願いでき', 'q5'), ('店舗や事務所の原状回復（内装解体・スケルトン', 'q6'),
+    ('屋内に不用品が残っていた場合はどうしたらいい', 'q7'), ('解体工事の期間はどのくらいですか？', 'q8'),
+    ('解体工事着工までに準備することはありますか？', 'q9'), ('近隣へのご挨拶はした方が良いでしょうか？', 'q10'),
+    ('解体工事前の近所への挨拶は同行してもらえます', 'q11'), ('解体後に手続きなどが必要なんですか？', 'q12'),
+    ('安すぎる業者は違法業者の可能性が高いですか？', 'q13'),
+]
+
+
+def htaccess():
+    """公開用の .htaccess。https と www の統一は、SSL が使えるようになってから「#」を外す"""
+    faq = '\n'.join(f'RewriteRule ^faq/{re.escape(t)}\\.html$ /faq.html#{q} [R=301,L,NE]' for t, q in OLD_FAQ)
+    return f'''# 株式会社 丸信（build.py --release が作る。直接書き換えない）
+AddDefaultCharset UTF-8
+RewriteEngine On
+
+# --- https と www の統一（無料SSLが使えるようになってから「#」を外す。www を付けない形に決めたら 2行目を書き換える） ---
+# RewriteCond %{{HTTPS}} off [OR]
+# RewriteCond %{{HTTP_HOST}} !^www\\. [NC]
+# RewriteRule ^(.*)$ https://www.marushin-kaitai.com/$1 [R=301,L]
+
+# --- 古いURLからの転送 ---
+{faq}
+RewriteRule ^faq/解体用語集.*\\.html$ /faq.html [R=301,L]
+RewriteRule ^(faq|category/faq|category/words)/?$ /faq.html [R=301,L]
+RewriteRule ^sitemap\\.html$ / [R=301,L]
+RewriteRule ^.+\\.html/trackback/?$ / [R=301,L]
+RewriteRule ^(feed|feed/atom)/?$ / [R=301,L]
+RewriteRule ^(wp-atom|xmlrpc)\\.php$ / [R=301,L]
+RewriteCond %{{QUERY_STRING}} (^|&)p=[0-9]+
+RewriteRule ^(index\\.php)?$ /? [R=301,L]
+'''
 
 
 # ---------- 各ページ ----------
@@ -1231,6 +1274,8 @@ def main():
         if (SITE / 'images').exists():
             shutil.rmtree(SITE / 'images')
         shutil.copytree(BASE / 'images', SITE / 'images')
+        shutil.copy2(BASE / 'favicon.ico', SITE / 'favicon.ico')
+        (SITE / '.htaccess').write_text(htaccess(), encoding='utf-8')   # ブラウザはサイトの一番上の favicon.ico も見に行く（2026-11-21 公開前の点検で追加）
         print(f'公開用を {SITE} に書き出しました。')
         if TODOS or FRAMES:
             print('\n公開の前に確かめることが残っています：')

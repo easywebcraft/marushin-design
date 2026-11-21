@@ -1563,7 +1563,7 @@ html,body{overflow-x:clip}
 .wk-ph figcaption,.wk-ph .wk-af figcaption{top:0;left:0;padding:1px 10px;font-size:12px;letter-spacing:.06em;line-height:1.8}
 .wk-info{margin-top:6px}
 .wk-meta{color:var(--teal-dd);font-size:14px;font-weight:700;letter-spacing:.06em}
-.wk-info .wk-ttl{margin-top:4px;font-size:clamp(19px,1.8vw,23px)}
+.wk-info .wk-ttl{margin-top:4px;font-size:clamp(19px,1.8vw,23px);text-wrap:balance;word-break:auto-phrase}  /* 最後の1文字だけ次の行に落ちないように（2026-11-21） */
 @media (max-width:767px){
   .wk>li{display:grid;grid-template-columns:44% 1fr;grid-template-areas:"bf bf" "af info";gap:12px 14px;align-items:center}
   .wk-ph{display:contents}
