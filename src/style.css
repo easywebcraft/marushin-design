@@ -1811,5 +1811,15 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
 .hero h1{font-weight:700}
 @media (min-width:768px){
   .hero-in::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:calc(50% - 50vw);width:calc(50vw - 50% + min(980px,78%));pointer-events:none;   /* 画面の左端から（途中に境目が出ないように） */
-    background:radial-gradient(ellipse 58% 48% at 42% 52%,rgba(12,30,44,.46) 0%,rgba(12,30,44,.3) 42%,rgba(12,30,44,.1) 70%,rgba(12,30,44,0) 100%)}
+    background:radial-gradient(ellipse 58% 48% at 42% var(--cp-y,52%),rgba(12,30,44,.46) 0%,rgba(12,30,44,.3) 42%,rgba(12,30,44,.1) 70%,rgba(12,30,44,0) 100%)}
+}
+/* 2026-11-21 松本さん「メインコピーの位置」→「左下に寄せる」：PC・タブレットでは、コピーとボタンを写真の左下にまとめ、上の空や重機を広く見せる。
+   文字の後ろの影も下へ寄せる。scroll の印は、ボタンと重ならないよう写真のいちばん下へ */
+@media (min-width:768px){
+  .hero{justify-content:flex-end}
+  .hero-in{padding-bottom:84px;--cp-y:66%}
+  .hero-scroll{bottom:18px}
+}
+@media (min-width:1024px){
+  html.js .hero-in{padding-bottom:92px}
 }
