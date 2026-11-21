@@ -1172,7 +1172,7 @@ def page_check():
             continue
         lis = ''.join(f'''<li class="ck-i"><a class="ck-l" href="{href(f)}{"#todo-%d" % n if n else ""}"><span class="ck-pg">{PAGE[f][1]}</span>{esc(label)}</a>
 {f'<p class="ck-why">{esc(why)}</p>' if why else ''}{f'<p class="ck-ask">お願い：{esc(ask)}</p>' if ask else ''}</li>''' for _o, f, n, label, _lv, why, ask in items)
-        groups.append(f'<section class="ck-g ck-{PRIO_ORDER[lv]}"><h2 class="ck-h"><span class="ck-badge">{ttl}</span><span>{lead}</span>{'<span class="ck-dl">ご回答：11月25日（水）ごろまで</span>' if lv in ('高', '中') else ''}<span class="ck-n">{len(items)}件</span></h2><ul class="ck-list">{lis}</ul></section>')
+        groups.append(f'<section class="ck-g ck-{PRIO_ORDER[lv]}"><h2 class="ck-h"><span class="ck-badge">{ttl}</span><span>{lead}</span>{'<span class="ck-dl">ご回答：11月26日（木）ごろまで</span>' if lv in ('高', '中') else ''}<span class="ck-n">{len(items)}件</span></h2><ul class="ck-list">{lis}</ul></section>')
     fr = {}
     for f, label in FRAMES:
         fr.setdefault(f, []).append(label)
@@ -1181,7 +1181,7 @@ def page_check():
     body = f'''<div class="ph ph-plain"><div class="ph-in"><div class="ph-ttl"><h1>確認が必要なところの一覧</h1><p class="ph-en">制作中の確認用ページ（公開しません）</p></div></div></div>
 <section class="sec"><div class="wrap wrap-m">
 <p>新しいホームページの公開の前に、丸信様にご確認いただきたいところです。優先度の高い順に並べています。項目を押すと、そのページの該当する場所へ移ります。</p>
-<p class="ck-due"><b>優先度 高・中</b>の項目は、<b>11月25日（水）ごろまで</b>にご回答いただけますと幸いです。新しいホームページの公開（11月30日の週の予定）に間に合わせるためです。分かるところからで構いません。優先度 低の項目は、公開のあとでも大丈夫です。</p>
+<p class="ck-due"><b>優先度 高・中</b>の項目は、<b>11月26日（木）ごろまで</b>にご回答いただけますと幸いです。新しいホームページの公開（11月30日の週の予定）に間に合わせるためです。分かるところからで構いません。優先度 低の項目は、公開のあとでも大丈夫です。</p>
 {''.join(groups)}
 {f'<h2 class="h2l mt-xl">写真の仮枠が残っているところ（優先度 低：公開用では枠を出しません）</h2><ul class="dots">{fr_html}</ul>' if fr_html else ''}
 <h2 class="h2l mt-xl">お知らせ（ご確認のみ）</h2>
