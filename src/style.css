@@ -1839,3 +1839,11 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
 .t-ar{background:linear-gradient(180deg,var(--bg1) 0%,var(--pale) 55%,var(--bg2) 100%)}
 .fq-sec{background:linear-gradient(180deg,#fff 0%,#fff 70%,#f7fafc 100%)}
 .t-sub{text-wrap:balance;word-break:auto-phrase}  /* 「です。」だけが次の行に落ちないように */
+/* 2026-11-21 松本さん「冒頭演出とFVの切り替わりに違和感」：
+   幕が透けていく間、中央の社名が写真の上に半透明で残って見えたので、社名を先にすっと消してから幕を透かす。
+   幕は .25秒待たずに透け始め、.7秒で消える（前は .25秒待って .9秒） */
+html.js .ewl.is-absorb .logo{opacity:0;transition:opacity .28s ease}
+@media (min-width:1024px){
+  html.js .ewl.is-absorb .logo{transition:opacity .28s ease}
+}
+html.ewl-on .ewl{transition:background-color .7s ease .22s,opacity .4s ease}

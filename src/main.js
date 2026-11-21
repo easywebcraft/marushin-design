@@ -104,9 +104,11 @@
       // 2026-11-21 松本さん「左上にいく動きを削除」：社名は中央のまま、幕と一緒に消す
       r.classList.add('ewl-go');          // 幕の下で止めていた写真の動きを、ここから流す
       L.classList.add('is-absorb');
-      setTimeout(function () { if (real) real.style.opacity = '1'; }, 950);
-      setTimeout(function () { r.classList.add('ewl-txt'); }, 850);   // 幕がほぼ透けたところで文字を出し始める
-      setTimeout(end, 1200);
+      // 2026-11-21 松本さん「冒頭演出とFVの切り替わりに違和感」：写真だけで文字がない間ができていたので、
+      // 幕が透け始めたらすぐ文字とヘッダーの社名を出す（850→300ms・950→350ms）。幕を外すのも早める（1200→1000ms）
+      setTimeout(function () { if (real) real.style.opacity = '1'; }, 350);
+      setTimeout(function () { r.classList.add('ewl-txt'); }, 300);
+      setTimeout(end, 1000);
     };
     // 輪は社名が収まる大きさにし、画面の短い辺の8割に収める
     var m = Math.min(innerWidth, innerHeight) * 0.82, k = 1.9;
@@ -136,7 +138,8 @@
       if (p < 1) { requestAnimationFrame(tick); return; }
       // 輪が満ちたら「きらっ」と光らせ、そのあと輪と数字だけ消し、社名はもう少し見せてからヘッダーへ
       L.classList.add('is-full');
-      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 500); }, 950);   // 2026-11-20「きらっをもっと強調」で 700→950（光が見える間をのばす）
+      // 2026-11-21「切り替わりに違和感」：満ちてから写真が出るまで社名だけの白い画面が長かったので詰める（950+500 → 700+250ms）
+      setTimeout(function () { if (ended) return; L.classList.add('is-p2'); setTimeout(absorb, 250); }, 700);   // 2026-11-20「きらっをもっと強調」で 700→950（光が見える間をのばす）
     };
     requestAnimationFrame(tick);
   })();
