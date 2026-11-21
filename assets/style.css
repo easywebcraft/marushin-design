@@ -1805,3 +1805,11 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
 @media (min-width:1024px){
   html.js .hd-ovl:not(.is-solid) .gnav a::after{background:var(--teal)}
 }
+/* 2026-11-21 松本さん「メインコピーをもう少し読みやすく」→「文字を太くする」「文字の後ろだけ影を置く」：
+   ①明朝を太く（游明朝の Demibold・ヒラギノ明朝の W6 になる）。②写真の上（PC・タブレット）では、コピーのまわりだけにぼかした紺の影を敷く。
+   写真全体の膜（.hero-ph::after）は明るいまま */
+.hero h1{font-weight:700}
+@media (min-width:768px){
+  .hero-in::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:calc(50% - 50vw);width:calc(50vw - 50% + min(980px,78%));pointer-events:none;   /* 画面の左端から（途中に境目が出ないように） */
+    background:radial-gradient(ellipse 58% 48% at 42% 52%,rgba(12,30,44,.46) 0%,rgba(12,30,44,.3) 42%,rgba(12,30,44,.1) 70%,rgba(12,30,44,0) 100%)}
+}
