@@ -630,19 +630,22 @@ def page_index():
 </div>
 </section>
 
-<section class="sec ar-sec has-wm" data-wm="AREA" aria-labelledby="h-area">
+<section class="sec ar-sec t-ar has-wm" data-wm="AREA" aria-labelledby="h-area">
 <div class="wrap t-two">
-<div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に近隣エリアへ</p></div>
+<div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2><p class="t-sub">春日井市を中心に近隣エリアへ</p>
+<p class="ar-note t-l">{esc(company["area_note"])}。その他の地域もお気軽にご相談ください。</p></div>
 <div><dl class="ar">{area_rows}</dl>
-<p class="ar-note">{esc(company["area_note"])}。その他の地域もお気軽にご相談ください。</p></div>
+<p class="ar-note t-r">{esc(company["area_note"])}。その他の地域もお気軽にご相談ください。</p></div>
 </div>
 </section>
 
 <section class="sec fq-sec has-wm" data-wm="FAQ" aria-labelledby="h-faq">
 <div class="wrap t-two">
-<div><p class="cm-en" lang="en">FAQ</p><h2 class="t-ttl" id="h-faq">よくある質問</h2></div>
+<div><p class="cm-en" lang="en">FAQ</p><h2 class="t-ttl" id="h-faq">よくある質問</h2>
+<p class="t-sub">解体工事のご依頼前に、よくいただくご質問です。</p>
+<p class="t-more t-l"><a class="tlink t-link" href="faq.html">よくある質問をすべて見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
 <div><div class="qas fq">{faq_html}</div>
-<p class="center t-more"><a class="tlink t-link" href="faq.html">よくある質問をすべて見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
+<p class="center t-more t-r"><a class="tlink t-link" href="faq.html">よくある質問をすべて見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p></div>
 </div>
 </section>
 

@@ -1823,3 +1823,19 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
 @media (min-width:1024px){
   html.js .hero-in{padding-bottom:92px}
 }
+/* 2026-11-21 松本さん「各パートの間の余白が多い」→ おすすめ3つ：
+   ①「もっと見る」ボタンで終わる部分は、下の余白を少し詰める（ボタンの下＋次の部分の上で間が広く見えるため）
+   ②対応エリア・よくある質問は、左の見出しの下にも説明とリンクを置いて、左だけ空かないように（PC。1列になる幅では右の下に出す）
+   ③同じ色の部分が続かないように：施工の流れ（白）→ 対応エリア（生成り）→ よくある質問（白）→ ご相談（紺） */
+.cm-sec.sec,.wk-sec.sec,.fl-sec.sec{padding-bottom:52px}
+@media (max-width:767px){.cm-sec.sec,.wk-sec.sec,.fl-sec.sec{padding-bottom:32px}}
+.t-two .t-l{display:none}
+@media (min-width:1024px){
+  .t-two .t-l{display:block}
+  .t-two .t-r{display:none}
+  .t-two .t-more.t-l{margin-top:28px}
+  .t-two .ar-note.t-l{margin-top:20px;max-width:22em}
+}
+.t-ar{background:linear-gradient(180deg,var(--bg1) 0%,var(--pale) 55%,var(--bg2) 100%)}
+.fq-sec{background:linear-gradient(180deg,#fff 0%,#fff 70%,#f7fafc 100%)}
+.t-sub{text-wrap:balance;word-break:auto-phrase}  /* 「です。」だけが次の行に落ちないように */
