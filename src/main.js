@@ -305,3 +305,66 @@
   window.addEventListener('resize', check);
   check();
 })();
+
+// ---- 施工事例：つまみを左右に動かして、施工前と施工後を見比べる（2026-11-21 松本さん「施工事例を見比べやすくする」）。
+// 写真のどこを押しても、その位置へ境目が動く。縦に指を動かしたときはページがふつうに進む（CSS の touch-action:pan-y）。
+// 画面に出てきたとき、一度だけ境目を少し左右に動かして「動かせる」ことを知らせる（動きを減らす設定では動かさない） ----
+(function () {
+  var boxes = document.querySelectorAll('.wk-ph');
+  if (!boxes.length) return;
+  var stacked = function () { return document.documentElement.getAttribute('data-wk') === 'stack'; };
+  var still = window.matchMedia('(prefers-reduced-motion:reduce)');
+  Array.prototype.forEach.call(boxes, function (box) {
+    var rng = box.querySelector('.wk-rng');
+    if (!rng) return;
+    var set = function (v) {
+      v = Math.max(0, Math.min(100, v));
+      box.style.setProperty('--pos', v + '%');
+      rng.value = Math.round(v);
+    };
+    var at = function (e) {
+      var r = box.getBoundingClientRect();
+      set((e.clientX - r.left) / r.width * 100);
+    };
+    var dragging = false;
+    box.addEventListener('pointerdown', function (e) {
+      if (stacked() || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      dragging = true;
+      box.hint = false;
+      at(e);
+      if (box.setPointerCapture) box.setPointerCapture(e.pointerId);
+    });
+    box.addEventListener('pointermove', function (e) { if (dragging) at(e); });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (t) {
+      box.addEventListener(t, function () { dragging = false; });
+    });
+    rng.addEventListener('input', function () { box.hint = false; set(+rng.value); });
+  });
+
+  if (!('IntersectionObserver' in window)) return;
+  var hint = function (box) {
+    if (stacked() || still.matches) return;
+    // 50% → 30% → 70% → 50%（約1.6秒）。途中で触られたらやめる
+    var keys = [[0, 50], [450, 30], [1150, 70], [1600, 50]], t0 = null;
+    box.hint = true;
+    var step = function (t) {
+      if (!box.hint) return;
+      if (t0 === null) t0 = t;
+      var e = t - t0, i = 1;
+      while (i < keys.length - 1 && e > keys[i][0]) i++;
+      var a = keys[i - 1], b = keys[i], k = Math.min(1, (e - a[0]) / (b[0] - a[0]));
+      k = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      box.style.setProperty('--pos', (a[1] + (b[1] - a[1]) * k) + '%');
+      if (e < keys[keys.length - 1][0]) requestAnimationFrame(step); else box.hint = false;
+    };
+    requestAnimationFrame(step);
+  };
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      setTimeout(function () { hint(e.target); }, 500 + (parseFloat(e.target.closest('li').style.getPropertyValue('--d')) || 0) * 1000);
+    });
+  }, { rootMargin: '0px 0px -25% 0px' });
+  Array.prototype.forEach.call(boxes, function (box) { io.observe(box); });
+})();
