@@ -1772,18 +1772,18 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
   .wk>li:hover .wk-af img{transform:scale(1.03)}
 }
 @media (prefers-reduced-motion:reduce){.wk-af img{transition:none}.wk>li:hover .wk-af img{transform:none}}
-/* ========== 施工事例：施工前と施工後を見比べる（2026-11-21 松本さん「施工事例を見比べやすくする」・トップと施工事例のページ） ==========
+/* ========== 施工事例のページ：施工前と施工後を見比べる（2026-11-21 松本さん「施工事例を見比べやすくする」） ==========
+   同日「TOPの施工事例は前の案に戻して、施工事例のページは今のままでOK」：トップは施工後を右下に重ねる形のまま。見比べは .cs-wk の中だけ
    施工前と施工後を同じ大きさで重ね、施工後は境目（--pos）より右だけを見せる。つまみ（.wk-hdl）を左右に動かすと境目が動く。
    動かすのは main.js（指・マウス・矢印キー）。JS なしでは真ん中で止まったまま。
-   確認用の「色・表示を選ぶ」で前の形（<html data-wk="stack">）に戻せる。そのときはつまみを出さない */
-:root[data-wk="stack"] .wk-rng,:root[data-wk="stack"] .wk-hdl{display:none}
-:root:not([data-wk="stack"]) .wk-ph{display:block;position:relative;padding-bottom:0;aspect-ratio:3/2;overflow:hidden;border-radius:2px;box-shadow:0 2px 8px rgba(23,53,75,.08);
+   */
+:root .cs-wk .wk-ph{display:block;position:relative;padding-bottom:0;aspect-ratio:3/2;overflow:hidden;border-radius:2px;box-shadow:0 2px 8px rgba(23,53,75,.08);
   touch-action:pan-y;cursor:ew-resize;-webkit-user-select:none;user-select:none}
-:root:not([data-wk="stack"]) .wk-ph figure,:root:not([data-wk="stack"]) .wk-ph .wk-af{position:absolute;inset:0;width:auto;margin:0;border:0;border-radius:0;box-shadow:none}
-:root:not([data-wk="stack"]) .wk-ph img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;-webkit-user-drag:none}
-:root:not([data-wk="stack"]) .wk-ph .wk-af{clip-path:inset(0 0 0 var(--pos,50%))}
-:root:not([data-wk="stack"]) .wk-ph .wk-af figcaption{left:auto;right:0}
-:root:not([data-wk="stack"]) .wk>li.rv .wk-ph .wk-af,:root:not([data-wk="stack"]) .wk>li.rv.in .wk-ph .wk-af{opacity:1;transform:none;transition:none}
+:root .cs-wk .wk-ph figure,:root .cs-wk .wk-ph .wk-af{position:absolute;inset:0;width:auto;margin:0;border:0;border-radius:0;box-shadow:none}
+:root .cs-wk .wk-ph img{width:100%;height:100%;aspect-ratio:auto;object-fit:cover;-webkit-user-drag:none}
+:root .cs-wk .wk-ph .wk-af{clip-path:inset(0 0 0 var(--pos,50%))}
+:root .cs-wk .wk-ph .wk-af figcaption{left:auto;right:0}
+:root .wk.cs-wk>li.rv .wk-ph .wk-af,:root .wk.cs-wk>li.rv.in .wk-ph .wk-af{opacity:1;transform:none;transition:none}
 /* 境目の白い線と、真ん中の丸いつまみ（左右の矢印） */
 .wk-hdl{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.35);pointer-events:none}
 .wk-hdl::after{content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.28);
@@ -1791,9 +1791,9 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
   background-repeat:no-repeat;background-position:center;background-size:24px}
 /* 矢印キー用のつまみ。見えないが、Tab で選ぶと写真のまわりに枠が出る */
 .wk-rng{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;opacity:0}
-:root:not([data-wk="stack"]) .wk-ph:has(.wk-rng:focus-visible){outline:3px solid var(--teal-d);outline-offset:3px}
+:root .cs-wk .wk-ph:has(.wk-rng:focus-visible){outline:3px solid var(--teal-d);outline-offset:3px}
 @media (max-width:767px){
-  :root:not([data-wk="stack"]) .wk>li{display:block}
-  :root:not([data-wk="stack"]) .wk-info{margin-top:10px}
+  :root .wk.cs-wk>li{display:block}
+  :root .cs-wk .wk-info{margin-top:10px}
   .wk-hdl::after{width:40px;height:40px;margin:-20px 0 0 -20px;background-size:22px}
 }

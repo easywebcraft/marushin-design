@@ -224,9 +224,7 @@ def theme_head():
     js = ('(function(){var k=null;try{var m=location.search.match(/[?&]color=([a-z]+)/);if(m){k=m[1];localStorage.setItem("mstheme",k)}else{k=localStorage.getItem("mstheme")}}catch(e){}'
           f'if(k&&{keys!r}.indexOf(k)>0)document.documentElement.setAttribute("data-theme",k);'
           'var bn=null;try{if(/[?&]banner=open(&|$)/.test(location.search)){bn="open";localStorage.setItem("msbanner",bn)}else if(/[?&]banner=tab(&|$)/.test(location.search)){bn="tab";localStorage.setItem("msbanner",bn)}else{bn=localStorage.getItem("msbanner")}}catch(e){}'
-          'if(bn==="open")document.documentElement.setAttribute("data-banner","open");'
-          'var wk=null;try{var mw=location.search.match(/[?&]works=(cmp|stack)/);if(mw){wk=mw[1];localStorage.setItem("mswk",wk)}else{wk=localStorage.getItem("mswk")}}catch(e){}'
-          'if(wk==="stack")document.documentElement.setAttribute("data-wk","stack")})();')
+          'if(bn==="open")document.documentElement.setAttribute("data-banner","open")})();')
     return f'<style>{css}</style>\n<script>{js}</script>\n'
 
 
@@ -236,21 +234,15 @@ def theme_body():
                     for k, n, a, c, _v in THEMES)
     banners = ('<li><p class="tsw-h">採用バナーの見せ方</p></li>'
                '<li><button type="button" data-b="tab" aria-pressed="false"><span class="tsw-bi">A</span>札を押すとバナーが開く（今の形）</button></li>'
-               '<li><button type="button" data-b="open" aria-pressed="false"><span class="tsw-bi">B</span>バナーをいつも出しておく</button></li>'
-               '<li><p class="tsw-h">施工事例の見せ方</p></li>'
-               '<li><button type="button" data-w="cmp" aria-pressed="false"><span class="tsw-bi">A</span>つまみを動かして見比べる（新しい形）</button></li>'
-               '<li><button type="button" data-w="stack" aria-pressed="false"><span class="tsw-bi">B</span>施工後を右下に重ねる（前の形）</button></li>')
+               '<li><button type="button" data-b="open" aria-pressed="false"><span class="tsw-bi">B</span>バナーをいつも出しておく</button></li>')
     js = ('(function(){var w=document.getElementById("tsw");if(!w)return;var b=w.querySelector(".tsw-btn"),l=w.querySelector(".tsw-list"),r=document.documentElement;'
-          'var mark=function(){var k=r.getAttribute("data-theme")||"' + THEMES[0][0] + '",bn=r.getAttribute("data-banner")==="open"?"open":"tab",wk=r.getAttribute("data-wk")==="stack"?"stack":"cmp";'
-          'Array.prototype.forEach.call(l.querySelectorAll("button[data-w]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-w")===wk?"true":"false")});'
+          'var mark=function(){var k=r.getAttribute("data-theme")||"' + THEMES[0][0] + '",bn=r.getAttribute("data-banner")==="open"?"open":"tab";'
           'Array.prototype.forEach.call(l.querySelectorAll("button[data-k]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-k")===k?"true":"false")});'
           'Array.prototype.forEach.call(l.querySelectorAll("button[data-b]"),function(x){x.setAttribute("aria-pressed",x.getAttribute("data-b")===bn?"true":"false")})};'
           'b.addEventListener("click",function(){var o=l.hidden;l.hidden=!o;b.setAttribute("aria-expanded",o?"true":"false")});'
           'l.addEventListener("click",function(e){var y=e.target.closest("button[data-b]");if(y){var bn=y.getAttribute("data-b");'
           'if(bn==="open")r.setAttribute("data-banner","open");else r.removeAttribute("data-banner");try{localStorage.setItem("msbanner",bn)}catch(e){}'
           'if(window.msBannerMode)window.msBannerMode();mark();return}'
-          'var z=e.target.closest("button[data-w]");if(z){var wk=z.getAttribute("data-w");'
-          'if(wk==="stack")r.setAttribute("data-wk","stack");else r.removeAttribute("data-wk");try{localStorage.setItem("mswk",wk)}catch(e){}mark();return}'
           'var x=e.target.closest("button[data-k]");if(!x)return;var k=x.getAttribute("data-k");'
           'if(k==="' + THEMES[0][0] + '")r.removeAttribute("data-theme");else r.setAttribute("data-theme",k);try{localStorage.setItem("mstheme",k)}catch(e){}mark()});'
           'document.addEventListener("click",function(e){if(!w.contains(e.target)){l.hidden=true;b.setAttribute("aria-expanded","false")}});mark()})();')
@@ -470,10 +462,10 @@ def kinds_list():
         for k, t in KINDS)
 
 
-def work_card(w, h='h3', lazy=True):
+def work_card(w, h='h3', lazy=True, cmp=False):
     """施工事例の1件（トップと施工事例のページで共通）。
-    2026-11-21 松本さん「施工事例を見比べやすくする」：施工前と施工後を同じ大きさで重ね、つまみを左右に動かして見比べる（.wk-rng・.wk-hdl）。
-    確認用では「色・表示を選ぶ」で前の形（施工後を右下に小さく重ねる。<html data-wk="stack">）に戻せる。以下は前の形の経緯：2026-11-17 松本さんのデザイン案 → 2026-11-20 松本さん「施工前を大きく、施工後を小さく添える」、
+    cmp=True（施工事例のページ）：施工前と施工後を同じ大きさで重ね、つまみを左右に動かして見比べる（.wk-rng・.wk-hdl。2026-11-21 松本さん
+    「施工事例を見比べやすくする」→ 同日「TOPは前の案に戻して、施工事例のページは今のままでOK」）。トップは下の経緯のとおり：2026-11-17 松本さんのデザイン案 → 2026-11-20 松本さん「施工前を大きく、施工後を小さく添える」、
     同日「施工事例ページの見せ方もTOPに合わせて」：施工前を大きく、施工後を右下に小さく重ねる。下に「構造｜場所」の1行と題"""
     title = f'{esc(w["place"])} {esc(w["name"])}'
     meta = '｜'.join(f'<span class="nw">{esc(x)}</span>' for x in (w['type'], w['place']) if x)   # スマホで場所の途中で折り返さないように
@@ -485,8 +477,8 @@ def work_card(w, h='h3', lazy=True):
     return (f'<li><div class="wk-ph">'
             f'<figure class="wk-bf"><img src="images/case/{w["id"]}-before.jpg" alt="施工前の写真：{title}" width="1448" height="976"{lz}><figcaption>施工前</figcaption></figure>'
             f'<figure class="wk-af"><img src="images/case/{w["id"]}-after.jpg" alt="施工後の写真：{title}" width="1448" height="976"{lz}><figcaption class="after">施工後</figcaption></figure>'
-            f'<input class="wk-rng" type="range" min="0" max="100" value="50" aria-label="施工前と施工後を見比べる：{title}">'
-            f'<span class="wk-hdl" aria-hidden="true"></span>'
+            + (f'<input class="wk-rng" type="range" min="0" max="100" value="50" aria-label="施工前と施工後を見比べる：{title}">'
+               f'<span class="wk-hdl" aria-hidden="true"></span>' if cmp else '') +
             f'</div><div class="wk-info"><p class="wk-meta">{meta}</p><{h} class="wk-ttl">{name}</{h}>{note}</div></li>')
 
 
@@ -543,9 +535,8 @@ def page_index():
     # 色は絵の形で切り抜いてサイトの色を流し込むので、色の切り替えにも合う
     # 2026-11-20 松本さん：白いカード3枚。左上に小さい番号、上から絵・見出し・説明
     # 2026-11-21 松本さん：絵の代わりに、絵を立体にしたような写真（images/top/cm-ph-1〜3.jpg・いただいた画像）をカードの上に
-    # 2026-11-21 松本さん「こだわりの画像を差し替える」：どこにでもある印象を消すため、実際の写真（社員・養生シート・がれき）から切り抜いたもの
-    #   images/top/cm-real-1〜3.jpg（staff.jpg・fv-2.jpg・fv-3.jpg の一部。cm-ph-1〜3.jpg は前の画像として残す）
-    cards_html = ''.join(f'<li><span class="cm-ph"><img src="images/top/cm-real-{n}.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"></span>'
+    # （2026-11-21 夜に実際の写真の切り抜き images/top/cm-real-1〜3.jpg に替えたが、松本さん「前の案に戻して」で元に戻した）
+    cards_html = ''.join(f'<li><span class="cm-ph"><img src="images/top/cm-ph-{n}.jpg" alt="" width="1000" height="667" loading="lazy" decoding="async"></span>'
                          f'<div class="cm-bd"><span class="cm-n" aria-hidden="true">{n:02d}</span>'
                          f'<h3>{t}</h3><p>{p.format("・".join(x.replace("県", "") for x in sanpai))}</p></div></li>'
                          for n, (t, p) in enumerate(cards, 1))
@@ -848,7 +839,7 @@ def page_case():
     """施工事例。2026-11-17 松本さんのデザイン案の構成に（丸信について・料金案内と同じ見せ方）。
     写真は丸信さんの事例写真（01〜03は届いた大きい写真、04は今のサイトの小さい写真）。見出しは句読点なし。"""
     works = load('works.json')
-    items = [work_card(w, 'h2', lazy=n > 2) for n, w in enumerate(works, 1)]
+    items = [work_card(w, 'h2', lazy=n > 2, cmp=True) for n, w in enumerate(works, 1)]
     return f'''{page_head('case.html')}
 <section class="sec cs-sec has-wm" data-wm="WORKS" aria-labelledby="h-cs">
 <div class="wrap">

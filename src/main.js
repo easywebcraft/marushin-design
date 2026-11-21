@@ -306,13 +306,12 @@
   check();
 })();
 
-// ---- 施工事例：つまみを左右に動かして、施工前と施工後を見比べる（2026-11-21 松本さん「施工事例を見比べやすくする」）。
+// ---- 施工事例のページ：つまみを左右に動かして、施工前と施工後を見比べる（2026-11-21 松本さん「施工事例を見比べやすくする」）。
 // 写真のどこを押しても、その位置へ境目が動く。縦に指を動かしたときはページがふつうに進む（CSS の touch-action:pan-y）。
 // 画面に出てきたとき、一度だけ境目を少し左右に動かして「動かせる」ことを知らせる（動きを減らす設定では動かさない） ----
 (function () {
-  var boxes = document.querySelectorAll('.wk-ph');
+  var boxes = document.querySelectorAll('.wk-ph');   // つまみ（.wk-rng）があるのは施工事例のページだけ
   if (!boxes.length) return;
-  var stacked = function () { return document.documentElement.getAttribute('data-wk') === 'stack'; };
   var still = window.matchMedia('(prefers-reduced-motion:reduce)');
   Array.prototype.forEach.call(boxes, function (box) {
     var rng = box.querySelector('.wk-rng');
@@ -328,7 +327,7 @@
     };
     var dragging = false;
     box.addEventListener('pointerdown', function (e) {
-      if (stacked() || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
       dragging = true;
       box.hint = false;
       at(e);
@@ -343,7 +342,7 @@
 
   if (!('IntersectionObserver' in window)) return;
   var hint = function (box) {
-    if (stacked() || still.matches) return;
+    if (still.matches) return;
     // 50% → 30% → 70% → 50%（約1.6秒）。途中で触られたらやめる
     var keys = [[0, 50], [450, 30], [1150, 70], [1600, 50]], t0 = null;
     box.hint = true;
@@ -366,5 +365,5 @@
       setTimeout(function () { hint(e.target); }, 500 + (parseFloat(e.target.closest('li').style.getPropertyValue('--d')) || 0) * 1000);
     });
   }, { rootMargin: '0px 0px -25% 0px' });
-  Array.prototype.forEach.call(boxes, function (box) { io.observe(box); });
+  Array.prototype.forEach.call(boxes, function (box) { if (box.querySelector('.wk-rng')) io.observe(box); });
 })();
