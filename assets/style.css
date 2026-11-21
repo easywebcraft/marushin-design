@@ -1797,3 +1797,11 @@ html.ewl-play .gnav li{animation:navIn var(--mo-dur) var(--mo-ease) both}
   :root .cs-wk .wk-info{margin-top:10px}
   .wk-hdl::after{width:40px;height:40px;margin:-20px 0 0 -20px;background-size:22px}
 }
+/* 2026-11-21 松本さん「ボタンの縁をテーマ色に・メニューの選択したときのアンダーラインもテーマ色に」：
+   写真の上のボタン2つの白い縁と、写真の上のメニューの白い下線を、色の案のアクセントの色（--teal）に。白地に戻ったあとの下線はもともと --teal */
+@media (min-width:768px){
+  .hero-btns .btn-teal,.hero-btns .btn-ghost{border-color:var(--teal)}
+}
+@media (min-width:1024px){
+  html.js .hd-ovl:not(.is-solid) .gnav a::after{background:var(--teal)}
+}
