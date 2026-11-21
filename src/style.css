@@ -109,14 +109,14 @@ small{font-size:.85em}
   min-height:max(520px,min(calc(100vh - 121px),760px));min-height:max(520px,min(calc(100svh - 121px),760px))}
 .hero-ph{position:absolute;inset:0;overflow:hidden}
 .hero-ph::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(16,40,56,.56) 0%,rgba(16,40,56,.32) 34%,rgba(16,40,56,0) 62%)}  /* 明るめに（2026-11-18 松本さん「FVが暗い」） */
+  background:linear-gradient(90deg,rgba(16,40,56,.34) 0%,rgba(16,40,56,.16) 34%,rgba(16,40,56,0) 58%)}  /* 明るめに（2026-11-18 松本さん「FVが暗い」→2026-11-21 もう一段薄く。読みやすさは文字の影で補う） */
 .hero-img,.hero-sl{filter:brightness(1.08) saturate(1.05)}  /* 写真そのものも少し明るく */
 .hero-img{display:block;width:100%;height:100%;object-fit:cover;object-position:70% 50%;
   animation:camDrift 26s ease-in-out 1.8s infinite alternate;will-change:transform}
 @keyframes camDrift{0%{transform:scale(1) translate3d(0,0,0)}
   50%{transform:scale(1.08) translate3d(-1.5%,-1%,0)}100%{transform:scale(1.05) translate3d(1.5%,.8%,0)}}
 .hero-in{position:relative;z-index:1;width:100%;max-width:calc(var(--w) + var(--gut)*2);margin:0 auto;padding:64px var(--gut) 104px;
-  text-shadow:0 1px 14px rgba(0,0,0,.45),0 0 2px rgba(0,0,0,.25)}
+  text-shadow:0 2px 18px rgba(0,0,0,.6),0 0 3px rgba(0,0,0,.4)}
 .hero-label{display:flex;align-items:center;gap:12px;font-weight:700;font-size:15px;line-height:1.5;letter-spacing:.1em}
 .hero-label::before{content:"";flex:none;width:28px;height:2px;background:var(--teal)}
 .hero h1{margin-top:16px;color:#fff;font-family:var(--serif);font-weight:500;font-size:clamp(42px,4.8vw,64px);line-height:1.4;letter-spacing:.06em}
@@ -449,7 +449,7 @@ ul.dots>li::before{content:"";position:absolute;left:.2em;top:.8em;width:7px;hei
   .ft-nav ul{grid-template-columns:repeat(3,auto)}
   .duo-col{padding:0 24px}
   /* 縦長の画面では文字が重機に重なるので、左側の暗さを広げる（スマホは写真と文字を分けるので下で消す） */
-  .hero-ph::after{background:linear-gradient(90deg,rgba(16,40,56,.66) 0%,rgba(16,40,56,.46) 48%,rgba(16,40,56,.04) 100%)}
+  .hero-ph::after{background:linear-gradient(90deg,rgba(16,40,56,.48) 0%,rgba(16,40,56,.3) 48%,rgba(16,40,56,.02) 100%)}
 }
 @media (min-width:1024px){
   :root{--gut:48px}
