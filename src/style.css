@@ -1921,3 +1921,8 @@ html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{min-height:44px;padding:0
 .drawer-foot{display:flex;justify-content:center;gap:24px;margin:12px 0 0;font-size:13px}
 .drawer-foot a{color:var(--navy)}
 .drawer-foot a[aria-current]{color:var(--teal-dd);font-weight:700}
+/* よくある質問を丸信さんの通し番号（Q01〜Q13）の1列に（2026-11-25 松本さん）。分類の見出しと分類のボタンはやめた */
+.fq-all{max-width:960px;margin:32px auto 0}
+.fq-all .qa-q{display:flex;align-items:baseline;min-width:2.6em}
+.fq .qa-q small{margin-left:2px;font-size:.8em;letter-spacing:.02em}
+.qa-ct .nw{display:inline-block}  /* 連絡先の行を「E-」「Mail」のように途中で折り返さない */

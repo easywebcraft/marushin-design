@@ -420,13 +420,15 @@ def area_html(company):
     return f'<dl class="area">{rows}</dl>\n<p class="note center">{esc(company["area_note"])}</p>'
 
 
-def qa_html(item, n):
+def qa_html(item, n, num=False):
+    """num=True で「Q01」のように通し番号を出す（よくある質問のページ。番号は丸信さんのエクセルの順）"""
     t = todo(item['todo']) if item.get('todo') else ''
+    q = f'Q<small>{n:02d}</small>' if num else 'Q'
     return f'''<details class="qa" id="q{n}">
-<summary><span class="qa-q" aria-hidden="true">Q</span><span class="qa-t">{esc(item["q"])}</span><span class="qa-ic" aria-hidden="true"></span></summary>
+<summary><span class="qa-q" aria-hidden="true">{q}</span><span class="qa-t">{esc(item["q"])}</span><span class="qa-ic" aria-hidden="true"></span></summary>
 <div class="qa-a"><span class="qa-m" aria-hidden="true">A</span><div class="qa-b">
 {body_html(item["a"])}{t}
-<p class="qa-ct">{COMPANY}　TEL：<a href="{TEL_HREF}">{TEL}</a>　E-Mail：<a href="mailto:{FORM_TO}">{FORM_TO}</a></p>
+<p class="qa-ct"><span class="nw">{COMPANY}</span>　<span class="nw">TEL：<a href="{TEL_HREF}">{TEL}</a></span>　<span class="nw">E-Mail：<a href="mailto:{FORM_TO}">{FORM_TO}</a></span></p>
 </div></div>
 </details>'''
 
@@ -907,8 +909,8 @@ def page_price():
 <tbody>{''.join(rows)}</tbody></table></div>
 {todo('土間コンクリートのはつり・ブロック塀の単位（いただいた表では m³、今のサイトでは m² です。面積の m² で載せています）')}
 <div class="pr-info"><span class="pr-i" aria-hidden="true">i</span>
-<div><h3>着工前のご準備・別途費用について</h3><p>解体工事着工までのご準備や、別途費用が発生する場合については、<a href="faq.html#prep">よくある質問</a>もご覧ください。</p></div>
-<a class="btn pr-info-btn" href="faq.html#prep">よくある質問を見る{arw}</a></div>
+<div><h3>着工前のご準備・別途費用について</h3><p>解体工事着工までのご準備や、別途費用が発生する場合については、<a href="faq.html#q9">よくある質問</a>もご覧ください。</p></div>
+<a class="btn pr-info-btn" href="faq.html#q9">よくある質問を見る{arw}</a></div>
 <p class="pr-note">{esc(price["note"]).replace("点がございましたら、", "点は")}</p>
 </div>
 </section>
@@ -1008,23 +1010,12 @@ def page_voice():
 
 
 def page_faq():
-    """よくある質問。2026-11-20 松本さんのデザイン案の構成に（左に番号と分類、右に質問の一覧。ほかの下層ページと同じ帯で終える）。
-    見出しは「。」「、」なし（決まり）。答えの中身は faq.json のまま"""
+    """よくある質問。丸信さんのエクセルの通し番号（Q01〜）の順に1列で並べる（2026-11-25 松本さん。13問なら分類は要らない）。
+    見出しは「。」「、」なし（決まり）。答えの中身は faq.json のまま。faq.json の cat は今は使っていない"""
     faq = load('faq.json')
-    en = {'cost': 'COST', 'work': 'WORK', 'prep': 'PREPARATION', 'area': 'AREA'}
-    icon = {'cost': 'calc', 'work': 'excavator', 'prep': 'doc', 'area': 'pin'}
-    down = '<svg class="fq-dn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-    jump = ''.join(f'<li><a href="#{c["id"]}">{ic(icon.get(c["id"], "chat"))}<span>{esc(c["name"])}</span>{down}</a></li>' for c in faq['categories'])
-    secs = []
-    for i, c in enumerate(faq['categories'], 1):
-        qs = ''.join(qa_html(it, n) for n, it in enumerate(faq['items'], 1) if it['cat'] == c['id'])
-        if i == 1:
-            qs = qs.replace('<details class="qa"', '<details class="qa" open', 1)   # 最初の1問は開いておき、押すと開くことが伝わるように
-        secs.append(f'''<section class="fq-cat" id="{c["id"]}" aria-labelledby="h-{c["id"]}">
-<div class="fq-cat-h"><p class="fq-no" lang="en">{i:02d}</p><p class="fq-en" lang="en">{en.get(c["id"], "")}</p><h2 id="h-{c["id"]}">{esc(c["name"])}</h2></div>
-<div class="qas fq">{qs}</div>
-</section>''')
+    qs = ''.join(qa_html(it, n, num=True) for n, it in enumerate(faq['items'], 1))
+    qs = qs.replace('<details class="qa"', '<details class="qa" open', 1)   # 最初の1問は開いておき、押すと開くことが伝わるように
     return f'''{page_head('faq.html')}
 <section class="sec fq-page">
 <div class="wrap">
@@ -1034,8 +1025,7 @@ def page_faq():
 <p class="fq-lead">解体工事について、よくいただくご質問をまとめました。</p>
 <p class="fq-hint">質問を押すと回答が開きます。</p>
 </div>
-<nav class="fq-jump" aria-label="質問の分類"><ul>{jump}</ul></nav>
-{''.join(secs)}
+<div class="qas fq fq-all">{qs}</div>
 <div class="fq-more">
 {ic("chat", "ic fq-more-ic")}
 <div class="fq-more-tx"><p class="fq-more-h">解決しない疑問はお気軽にご相談ください</p><p>工事の内容やお見積もりについて、個別にご案内いたします。</p></div>
