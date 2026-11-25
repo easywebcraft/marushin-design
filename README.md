@@ -20,12 +20,13 @@
 | --- | --- | --- |
 | `index.html` | トップ | 今のサイト全体 |
 | `about.html` | 丸信について | 今の about.html |
-| `price.html` | 料金案内 | 今の price.html |
+| `jigyo.html` | 事業内容 | 2026-11-25 丸信さんのエクセル（新しいページ） |
+| `price.html` | 料金表 | 今の price.html（2026-11-25 名前を「料金表」に） |
 | `case.html` | 施工事例 | 今の case.html（写真4組） |
-| `flow.html` | 施工の流れ | 今の flow.html（10段階） |
+| `flow.html` | 施工の流れ | 2026-11-25 丸信さんのエクセル（9段階） |
 | `voice.html` | お客様の声 | 今の voice.html（匿名・星の評価なし） |
-| `faq.html` | よくある質問 | 今の faq 以下の質問13件を1ページに |
-| `outline.html` | 会社案内 | 今の outline.html |
+| `faq.html` | よくある質問 | 2026-11-25 丸信さんのエクセル（13問。答えのあとに連絡先） |
+| `outline.html` | 会社案内 | 2026-11-25 丸信さんのエクセル（会社概要・社長あいさつ・経営方針） |
 | `contact.html` | お問い合わせ | 今の contact.html（送信は未接続） |
 | `policy.html` | プライバシーポリシー | 今の policy.html |
 | `check.html` | 確認が必要なところの一覧 | 確認用だけ。公開用には出ない |

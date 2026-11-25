@@ -43,17 +43,19 @@ FORM_ENDPOINT = ''
 # ページの一覧：(ファイル名, 名前, 英字, ヘッダーに出すか, 説明文)
 PAGES = [
     ('index.html', 'ホーム', '', False,
-     '解体のご相談なら、愛知県（春日井市・小牧市・尾張旭市・瀬戸市・名古屋市等）の株式会社丸信へ。施工事例・料金案内・施工の流れを掲載しています。'),
+     '解体のご相談なら、愛知県（春日井市・小牧市・尾張旭市・瀬戸市・名古屋市等）の株式会社丸信へ。事業内容・施工事例・料金表・施工の流れを掲載しています。'),
     ('about.html', '丸信について', 'ABOUT', True,
      '株式会社丸信の解体工事への考え方、近隣への配慮、対応する工事、対応エリアをご紹介します。'),
-    ('price.html', '料金案内', 'PRICE', True,
+    ('jigyo.html', '事業内容', 'SERVICE', True,
+     '株式会社丸信の事業内容です。木造から鉄骨造・RC造までの建物解体工事、アスベスト（石綿）の調査・除去工事、産業廃棄物の収集運搬・適正処理を行います。'),
+    ('price.html', '料金表', 'PRICE', True,
      '木造・鉄骨造・鉄筋コンクリート造の解体工事の料金表と、庭木伐採・ブロック塀などその他の料金を掲載しています。'),
     ('case.html', '施工事例', 'WORKS', True,
      '株式会社丸信が施工した解体工事の事例を、施工前・施工後の写真でご紹介します。'),
     ('flow.html', '施工の流れ', 'FLOW', True,
      'ご相談・お見積もりから、届出、近隣へのご挨拶、解体工事、整地、工事終了のご挨拶までの流れをご説明します。'),
     ('outline.html', '会社案内', 'COMPANY', True,
-     '株式会社丸信の会社概要、許可・登録、企業理念、所在地をご案内します。'),
+     '株式会社丸信の会社概要、社長あいさつ、経営方針、許可・保有資格、所在地をご案内します。'),
     ('voice.html', 'お客様の声', 'VOICE', False,
      '解体工事を施工させていただいたお客様からいただいたお言葉をご紹介します。'),
     ('faq.html', 'よくある質問', 'FAQ', True,
@@ -64,6 +66,16 @@ PAGES = [
      '株式会社丸信のプライバシーポリシー（個人情報の取り扱い）です。'),
 ]
 PAGE = {p[0]: p for p in PAGES}
+# 上のメニュー（2026-11-25 丸信さんのエクセル「メニュー」）。子の項目はプルダウンで出す
+NAV = [
+    ('about.html', '丸信について', []),
+    ('jigyo.html', '事業内容', [('jigyo.html', '事業内容'), ('case.html', '施工事例'), ('flow.html', '施工の流れ')]),
+    ('price.html', '料金表', [('price.html#demolition', '解体工事料金'), ('price.html#other', 'その他料金')]),
+    ('outline.html', '会社案内', [('outline.html#ol-prof', '会社概要'), ('outline.html#ol-msg', '社長あいさつ'), ('outline.html#ol-phil', '経営方針')]),
+    ('faq.html', 'よくある質問', []),
+]
+# お問い合わせフォームの送り先（2026-11-25 丸信さん回答）。フォームをつなぐときに使う
+FORM_TO = 'info@marushin-kaitai.com'
 # 下層ページの上の写真の見せる位置（同じ写真でも、ページごとに少し変える）
 PH_POS = '75% 58%'   # 下層ページ上の写真の切り取り位置。2026-11-20 松本さん「見え方を統一して」で全ページ同じに（重機の全体が入る位置）
 # ページごとの上の写真（2026-11-21 松本さんにいただいた4枚。1536×1024）。ここに無いページは重機の写真（images/hero.jpg・PH_POS）
@@ -74,6 +86,7 @@ PH_IMG = {
     'flow.html': ('images/ph/flow.jpg', '62% 55%'),      # 工程表とヘルメット
     'outline.html': ('images/ph/outline.jpg', '72% 60%'),  # 打ち合わせの部屋
     'faq.html': ('images/ph/faq.jpg', '58% 55%'),        # はてなマーク
+    'jigyo.html': ('images/top/fv-1.jpg', '62% 50%'),    # 重機（トップの最初の写真）
     'voice.html': ('images/ph/voice.jpg', '68% 58%'),    # 吹き出し
     'policy.html': ('images/ph/policy.jpg', '62% 60%'),  # 鍵を掛けたファイル
     'contact.html': ('images/ph/contact.jpg', '70% 42%'),  # 封筒とメモ
@@ -283,17 +296,24 @@ def head(fname, title, desc):
 
 def header(fname):
     items = []
-    for f, name, _en, in_head, _d in PAGES:
-        if not in_head:
+    for f, name, subs in NAV:
+        mine = fname == f or any(s.split('#')[0] == fname for s, _t in subs)
+        cur = ' aria-current="page"' if mine else ''
+        if not subs:
+            items.append(f'<li><a href="{f}"{cur}>{name}</a></li>')
             continue
-        cur = ' aria-current="page"' if f == fname else ''
-        items.append(f'<li><a href="{f}"{cur}>{name}</a></li>')
+        sub = ''.join(f'<li><a href="{s}">{t}</a></li>' for s, t in subs)
+        items.append(f'<li class="has-sub"><a href="{f}"{cur} aria-haspopup="true">{name}{ic("chev", "ic gnav-dn")}</a><ul class="gnav-sub">{sub}</ul></li>')
     # 採用情報は今の AirWORK へ（2026-11-17 松本さん。新しいタブで開く）
     items.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報{ic("ext", "ic gnav-ext")}<span class="vh">（外部サイト）</span></a></li>')
-    drawer = []
-    for f, name, _en, _h, _d in PAGES:
+    drawer = [f'<li><a href="./"{" aria-current=\"page\"" if fname == "index.html" else ""}>ホーム{ic("chev")}</a></li>']
+    for f, name, subs in NAV:
         cur = ' aria-current="page"' if f == fname else ''
-        drawer.append(f'<li><a href="{href(f)}"{cur}>{name}{ic("chev")}</a></li>')
+        sub = ''.join(f'<li><a href="{s}">{t}</a></li>' for s, t in subs if s != f)
+        drawer.append(f'<li><a href="{href(f)}"{cur}>{name}{ic("chev")}</a>' + (f'<ul class="drawer-sub">{sub}</ul>' if sub else '') + '</li>')
+    for f in ('voice.html', 'contact.html', 'policy.html'):
+        cur = ' aria-current="page"' if f == fname else ''
+        drawer.append(f'<li><a href="{f}"{cur}>{PAGE[f][1]}{ic("chev")}</a></li>')
     drawer.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報<span class="ext-note">（外部サイト）</span>{ic("ext")}</a></li>')
     draft = '' if RELEASE else ('<div class="draft"><span>制作中のページです（確認用）</span>'
                                 '<a href="check.html">確認が必要なところの一覧</a></div>\n')
@@ -408,6 +428,7 @@ def qa_html(item, n):
 <summary><span class="qa-q" aria-hidden="true">Q</span><span class="qa-t">{esc(item["q"])}</span><span class="qa-ic" aria-hidden="true"></span></summary>
 <div class="qa-a"><span class="qa-m" aria-hidden="true">A</span><div class="qa-b">
 {body_html(item["a"])}{t}
+<p class="qa-ct">{COMPANY}　TEL：<a href="{TEL_HREF}">{TEL}</a>　E-Mail：<a href="mailto:{FORM_TO}">{FORM_TO}</a></p>
 </div></div>
 </details>'''
 
@@ -485,11 +506,11 @@ def work_card(w, h='h3', lazy=True, cmp=False):
 # 古いURL（今のサイト）から新しいページへの転送。公開用の .htaccess に書く（README の「古いURLからの転送」と同じ。2026-11-21）
 OLD_FAQ = [
     ('見積もり依頼は無料ですか？', 'q1'), ('対応エリアを教えてください。', 'q2'),
-    ('植木や庭石・石垣等も処分してもらえるのですか', 'q3'), ('樹木のみの撤去や駐車場のアスファルトのみの撤', 'q4'),
-    ('店舗やビル・マンションなどの解体もお願いでき', 'q5'), ('店舗や事務所の原状回復（内装解体・スケルトン', 'q6'),
-    ('屋内に不用品が残っていた場合はどうしたらいい', 'q7'), ('解体工事の期間はどのくらいですか？', 'q8'),
+    ('植木や庭石・石垣等も処分してもらえるのですか', 'q4'), ('樹木のみの撤去や駐車場のアスファルトのみの撤', 'q5'),
+    ('店舗やビル・マンションなどの解体もお願いでき', 'q6'), ('店舗や事務所の原状回復（内装解体・スケルトン', 'q7'),
+    ('屋内に不用品が残っていた場合はどうしたらいい', 'q8'), ('解体工事の期間はどのくらいですか？', 'q11'),
     ('解体工事着工までに準備することはありますか？', 'q9'), ('近隣へのご挨拶はした方が良いでしょうか？', 'q10'),
-    ('解体工事前の近所への挨拶は同行してもらえます', 'q11'), ('解体後に手続きなどが必要なんですか？', 'q12'),
+    ('解体工事前の近所への挨拶は同行してもらえます', 'q10'), ('解体後に手続きなどが必要なんですか？', 'q12'),
     ('安すぎる業者は違法業者の可能性が高いですか？', 'q13'),
 ]
 
@@ -543,8 +564,8 @@ def page_index():
     works_html = ''.join(work_card(w) for w in works[:3])
     # 施工の流れ（2026-11-17 松本さんのデザイン案）：10段階を4つのまとまりで。中身は施工の流れのページ（data/flow.json）のとおり
     fl = [
-        ('chat', 'ご相談・お見積もり', 'ご相談・お見積もり依頼から、お見積もりのご提出まで。'),
-        ('doc', 'ご契約・着工準備', 'ご契約、アスベスト事前調査、届出、近隣へのご挨拶。'),
+        ('chat', 'ご相談・お見積もり', 'お問い合わせから、現地調査・お見積りのご説明まで。'),
+        ('doc', 'ご契約・着工準備', 'ご契約、アスベスト調査、届出、近隣へのご挨拶。'),
         ('excavator', '解体工事', '着工から、廃材の分別・搬出まで。'),
         ('ground', '整地・工事完了', '整地・完了後、近隣へ改めてご挨拶。'),
     ]
@@ -573,13 +594,14 @@ def page_index():
 </div>
 </div>
 <span class="hero-scroll" aria-hidden="true">scroll</span>
+{todo('トップの最初の画面に住宅の解体の写真を足す（お持ちの写真があればいただきたい）')}
 </section>
 
 <section class="ab-band" aria-labelledby="h-about">
 <div class="wrap"><div class="ab-in">
 <h2 class="ab-ttl" id="h-about">対応する解体工事</h2>
 <ul class="au-kinds" aria-label="対応する工事">{kinds_list()}</ul>
-<p class="ab-more"><a class="tlink t-link" href="about.html#h-svc" aria-label="対応する工事を詳しく見る">詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+<p class="ab-more"><a class="tlink t-link" href="jigyo.html" aria-label="事業内容を詳しく見る">詳しく見る<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
 </div></div>
 </section>
 
@@ -615,9 +637,9 @@ def page_index():
 
 <section class="pr-band has-wm" data-wm="PRICE" aria-labelledby="h-price">
 <div class="wrap pr-in">
-<div class="pr-h"><p class="cm-en" lang="en">PRICE</p><h2 class="t-ttl" id="h-price">料金案内</h2></div>
+<div class="pr-h"><p class="cm-en" lang="en">PRICE</p><h2 class="t-ttl" id="h-price">料金表</h2></div>
 <p class="pr-tx">建物の種類別の料金と、<br>庭木伐採・ブロック塀などの料金をご覧いただけます。</p>
-<a class="btn btn-navy t-btn" href="price.html">料金案内を見る{ic("chev")}</a>
+<a class="btn btn-navy t-btn" href="price.html">料金表を見る{ic("chev")}</a>
 </div>
 </section>
 
@@ -734,7 +756,7 @@ def page_about():
 <div class="au-hand">
 <div class="au-hand-h"><p class="au-sub">手壊しによる解体</p><h3 class="t-ttl">細かな場所こそ<br>手壊しで丁寧に</h3></div>
 <div class="au-hand-b"><p>道幅が狭く重機が入れない場所や、隣接する建物に注意が必要な箇所にも対応。機械ではできない細かな部分を、人の手で丁寧に解体します。</p>
-<a class="btn btn-navy cm-btn au-btn" href="price.html">料金案内を見る{arw}</a></div>
+<a class="btn btn-navy cm-btn au-btn" href="price.html">料金表を見る{arw}</a></div>
 </div>
 </div>
 </section>
@@ -772,6 +794,53 @@ def page_about():
 {ct_band()}'''
 
 
+def page_jigyo():
+    """事業内容（2026-11-25 丸信さんのエクセルで新しく作ったページ）。導入と3つの事業。文はいただいたまま。見出しは句読点なし（決まり）"""
+    biz = [
+        ('01', 'DEMOLITION', '建物解体工事', '', [
+            ('home', '木造解体工事', ['一般住宅やアパート、倉庫などの木造建築物の解体を行います。',
+                                    '住宅密集地や狭小地においても、防音・防じんシートの養生や散水を徹底し、近隣の皆様の生活環境に配慮した丁寧な作業を心がけています。']),
+            ('steel', '鉄骨造（S造）・RC造解体工事', ['店舗、事務所、工場、マンションなどの中・大型建築物の解体に対応しております。',
+                                                 '周辺環境や建物の構造に応じた適切な重機・工法を選定し、徹底した安全管理のもとで確実な施工を行います。']),
+            ('shop', '内装解体・スケルトン工事', ['店舗の退去やオフィスの移転、リフォームに伴う内装解体や原状回復工事を承ります。',
+                                              '建物の躯体を傷つけない精密な作業と、搬出時の養生・清掃まで細やかに対応いたします。']),
+            ('fence', '外構・部分解体工事', ['ブロック塀、カーポート、庭石・樹木の撤去など、敷地内の一部のみの部分解体にも柔軟に対応しております。']),
+        ]),
+        ('02', 'ASBESTOS', 'アスベスト（石綿）調査・除去工事', [
+            '解体・改修工事前に義務付けられているアスベスト（石綿）の事前調査から、行政への届出、飛散防止措置を徹底した除去作業、特別管理産業廃棄物としての適正処分まで一貫して対応いたします。',
+            '有資格者による正確な調査と、大気汚染防止法・石綿障害予防規則等の関係法令に基づいた厳格な施工管理により、作業員および近隣の皆様の健康と安全を確実に守ります。'], []),
+        ('03', 'WASTE', '産業廃棄物収集運搬・適正処理', [
+            '解体工事等に伴い発生する産業廃棄物を、建設リサイクル法および廃棄物処理法に基づき適切に分別・収集運搬いたします。',
+            '電子マニフェストにも対応し、最終処分まで透明性の高い適正処理を徹底することで、不法投棄の防止とリサイクル率の向上に努めております。'], []),
+    ]
+    svg = dict(KIND_SVG)
+    svg['fence'] = '<path d="M4 20V8l2-2 2 2v12M10 20V8l2-2 2 2v12M16 20V8l2-2 2 2v12"/><path d="M3 11h18M3 16h18"/>'
+    secs = []
+    for no, en, ttl, lead, subs in biz:
+        lead_html = ''.join(f'<p>{esc(x)}</p>' for x in lead) if lead else ''
+        sub_html = ''.join(
+            f'<li><h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{svg[k]}</svg>{esc(t)}</h4>'
+            + ''.join(f'<p>{esc(x)}</p>' for x in ps) + '</li>' for k, t, ps in subs)
+        secs.append(f'''<section class="jg-biz" aria-labelledby="h-jg{no}">
+<div class="jg-biz-h"><p class="jg-no" lang="en">{no}</p><p class="cm-en" lang="en">{en}</p><h3 class="jg-ttl" id="h-jg{no}">{esc(ttl)}</h3></div>
+<div class="jg-biz-b">{lead_html}{f'<ul class="jg-sub">{sub_html}</ul>' if sub_html else ''}</div>
+</section>''')
+    arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    return f'''{page_head('jigyo.html')}
+<section class="sec jg-intro has-wm" data-wm="SERVICE" aria-labelledby="h-jg">
+<div class="wrap">
+<p class="cm-en" lang="en">OUR SERVICE</p>
+<h2 class="t-ttl jg-catch" id="h-jg">安全・丁寧な施工と適正処理で<br>あらゆる建物の解体から<br>アスベスト除去・環境対策まで一貫対応</h2>
+<div class="jg-lead"><p>当社は木造住宅から鉄骨・RC造の大型建築物まで、構造や立地条件に合わせた最適な施工計画を立案し、近隣環境への配慮と法令遵守を徹底した解体工事を行っております。</p>
+<p>また、義務化されているアスベスト（石綿）の事前調査・除去工事をはじめ、産業廃棄物の収集運搬や土壌汚染対策など、解体に伴う環境業務にもワンストップで対応しております。</p></div>
+{''.join(secs)}
+<div class="jg-more"><a class="btn btn-navy cm-btn" href="case.html">施工事例を見る{arw}</a><a class="btn btn-navy cm-btn" href="flow.html">施工の流れを見る{arw}</a><a class="btn btn-navy cm-btn" href="price.html">料金表を見る{arw}</a></div>
+</div>
+</section>
+
+{ct_band()}'''
+
+
 def page_price():
     """料金案内。2026-11-17 松本さんのデザイン案の構成に（丸信について・トップと同じ見せ方）。
     金額と単位は data/price.json（今のサイトの料金表）のまま。デザイン案の数字は使わない（庭木・庭石の単位がデザイン案と違う）。"""
@@ -795,7 +864,7 @@ def page_price():
         f'<thead><tr><th scope="col">坪数</th><th scope="col">費用（坪単価）</th></tr></thead><tbody>'
         + ''.join(f'<tr><th scope="row">{esc(a)}</th><td>{cost_html(b)}</td></tr>' for a, b in st['rows'])
         + '</tbody></table></li>' for st in price['structures'])
-    incl = ['整地', '処分費用', '養生シート', 'コンクリート基礎']
+    incl = ['廃材処分費用', '養生シート', 'コンクリート基礎撤去', '整地']
     incl_html = ''.join(f'<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>{t}</li>' for t in incl)
     rows, n = [], 0
     for o in price['others']:
@@ -807,8 +876,9 @@ def page_price():
 <div class="wrap">
 <h2 class="t-ttl pr-lead-h">解体工事の費用をわかりやすく</h2>
 <p class="pr-lead">{esc(price["lead"]).replace("料金表です。", "料金をご案内します。")}</p>
-{todo('料金の金額（今のサイトの料金表は2013年ごろのものです。今もこの金額でよいか）')}
-{todo('税込・税別の表記（今のサイトの料金表には、どちらとも書かれていません）')}
+<p class="pr-tax">（{esc(price["tax"])}）</p>
+{todo('料金の金額（新しい金額をご確認中とのこと。いただいたら差し替えます）')}
+{todo('料金の税込みの表示（税別とのご回答でしたが、一般のお客様向けの料金は税込みの総額も出す決まりがあります。「3.5万円（税込3.85万円）」のように並べて出す形でよいか）')}
 <ul class="pr-jump"><li><a href="#demolition">建物の解体工事{down}</a></li><li><a href="#other">その他の工事・処分{down}</a></li></ul>
 </div>
 </section>
@@ -816,7 +886,7 @@ def page_price():
 <section class="sec pr-dm has-wm" data-wm="DEMOLITION" id="demolition" aria-labelledby="h-dm">
 <div class="wrap">
 <div class="pr-dm-h"><div><p class="cm-en" lang="en">DEMOLITION</p><h2 class="t-ttl" id="h-dm">建物の解体工事</h2></div>
-<p class="pr-unit">費用は坪単価です（1坪＝3.3m²）</p></div>
+<p class="pr-unit">費用は坪単価です（1坪＝3.3m²・{esc(price["tax"])}）</p></div>
 <ul class="pr-cards">{cards}</ul>
 <div class="pr-incl"><p>上記料金に含まれるもの</p><ul>{incl_html}</ul></div>
 </div>
@@ -828,6 +898,7 @@ def page_price():
 <div class="pr-tw"><table class="pr-ot-t"><caption class="vh">その他の工事・処分の料金</caption>
 <thead><tr><th scope="col" colspan="2">項目</th><th scope="col">内容</th><th scope="col" class="num">費用</th></tr></thead>
 <tbody>{''.join(rows)}</tbody></table></div>
+{todo('土間コンクリートのはつり・ブロック塀の単位（いただいた表では m³、今のサイトでは m² です。面積の m² で載せています）')}
 <div class="pr-info"><span class="pr-i" aria-hidden="true">i</span>
 <div><h3>着工前のご準備・別途費用について</h3><p>解体工事着工までのご準備や、別途費用が発生する場合については、<a href="faq.html#prep">よくある質問</a>もご覧ください。</p></div>
 <a class="btn pr-info-btn" href="faq.html#prep">よくある質問を見る{arw}</a></div>
@@ -858,25 +929,25 @@ def page_case():
 
 def page_flow():
     """施工の流れ。2026-11-17 松本さんのデザイン案の構成に（ほかの下層ページと同じ見せ方）。
-    10段階を4つのまとまり（トップの流れと同じ）に分け、左に写真・右に縦の線と STEP。説明は今のサイトの内容を短くしたもの。"""
+    9段階を4つのまとまり（トップの流れと同じ）に分け、左に写真・右に縦の線と STEP。説明は今のサイトの内容を短くしたもの。"""
     flow = load('flow.json')
     arw = '<svg class="t-arw" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    # 2026-11-25 丸信さんのエクセル「施工の流れ」で10段階→9段階に（ご相談と見積りの提出を「現地調査・お見積り」に）
     short = {
-        1: 'まずはご要望をお聞かせください。お問い合わせフォーム、またはお電話で承ります。',
-        2: '現地調査を行い、費用や解体方法を詳しくご説明します。',
-        3: 'お見積もりの内容にご納得いただいたうえで、ご契約となります。',
-        4: '有資格者が調査・申請を行い、調査内容をお客様にご説明します。',
-        5: '工事内容に応じて、必要な届出を行います。',
-        6: '近隣の皆様へ、工事の概要や作業工程を丁寧にご説明します。',
-        7: '現場の状況に合わせ、騒音・振動・粉塵・安全に配慮して施工します。',
-        8: '木材・コンクリート・鉄などを分別し、中間処理施設へ搬出。マニフェスト伝票で処理状況を管理します。',
-        9: '地盤面を平らに整え、工事完了後にお客様に現場をご確認いただきます。',
-        10: 'ご協力への感謝をお伝えするとともに、ご迷惑がなかったかを確認します。',
+        1: 'お電話またはメールフォームでお問い合わせください。現地調査のうえでお見積りし、お見積書は原則手渡しで内容をご説明します。建物・敷地の図面があると正確に見積もれます。',
+        2: 'お見積りにご納得いただけましたらご契約です。契約書をお持ちしますので、押印をお願いします。',
+        3: '有資格者（建築物石綿含有建材調査者）が調査します。アスベストが見つかった場合は、除去工事を追加でお見積りします。',
+        4: '延べ床面積80㎡以上の建物は、着工の7日前までに行政への届出が必要です。書類の作成・提出は当社で代行し、一部のご記入・ご捺印をお願いします。',
+        5: '近隣の皆様へご挨拶し、工事の概要や作業工程を丁寧にご説明します。',
+        6: '現場の作業環境や状況に合わせて、万全の対策で施工します。',
+        7: '廃材を分別して中間処理施設へ搬出します。マニフェスト伝票で処理を記録し、不法投棄を防ぎます。',
+        8: '地盤面を平らに整地します。ご要望により砕石を敷いて転圧します。完了後に現場をご確認いただきます。',
+        9: 'ご協力への感謝をお伝えするとともに、ご迷惑がなかったかを確認します。',
     }
-    title = {10: '近隣への工事終了のご挨拶', 6: '近隣への工事説明・ご挨拶', 2: 'お見積もりのご提出・ご説明', 1: 'ご相談・お見積もりのご依頼', 8: '廃材の分別・収集・搬出'}
-    tags = {7: ['騒音対策', '振動対策', '防塵対策', '安全対策']}
-    phases = [('ご相談・お見積もり', [1, 2], 'flow-1'), ('ご契約・着工準備', [3, 4, 5, 6], 'flow-2'),
-              ('解体工事', [7, 8], 'flow-3'), ('整地・工事完了', [9, 10], 'flow-4')]
+    title = {}
+    tags = {6: ['騒音対策', '振動対策', '粉塵対策', '安全対策', '環境美化対策']}
+    phases = [('ご相談・お見積もり', [1], 'flow-1'), ('ご契約・着工準備', [2, 3, 4, 5], 'flow-2'),
+              ('解体工事', [6, 7], 'flow-3'), ('整地・工事完了', [8, 9], 'flow-4')]
     nav = ''.join(f'<li><b>{n:02d}</b><span>{t}</span></li>' for n, (t, _s, _p) in enumerate(phases, 1))
     blocks = []
     for n, (t, steps, ph) in enumerate(phases, 1):
@@ -893,7 +964,8 @@ def page_flow():
 <section class="sec fw-sec has-wm" data-wm="PROCESS" aria-labelledby="h-fw">
 <div class="wrap">
 <p class="cm-en" lang="en">PROCESS</p><p class="t-ttl fw-catch" id="h-fw">ご相談から工事完了まで丁寧に</p>
-<p class="fw-lead">ご相談・お見積もりから、近隣へのご挨拶、解体工事、整地まで。丸信が行う施工の主な流れをご紹介します。</p>
+<p class="fw-lead">ご相談頂いてから工事完了までの流れを簡単にご紹介します。</p>
+{todo('施工の流れの届出の条件（いただいた文の「80㎡を超える」は、建設リサイクル法に合わせて「80㎡以上」にしています）')}
 <p class="fw-small">※解体内容によっては異なる場合がございます。詳しくは<a href="contact.html">お問い合わせ</a>ください。</p>
 <ol class="fw-nav">{nav}</ol>
 {''.join(blocks)}
@@ -924,6 +996,7 @@ def page_voice():
 <p class="lead">解体工事を施工させていただきましたお客様より、嬉しいお言葉をいただきましたので、ほんの一部ですがご紹介します。</p>
 <div class="voices">{cards}</div>
 <p class="note center mt-l">※お客様の声は今後、順次追加させていただきます。</p>
+{todo('お客様の声のページ（新しいメニューに入っていません。ページごと無くしてよいか）')}
 </div>
 </section>'''
 
@@ -987,7 +1060,7 @@ def page_outline():
             out.append(f'<div><dt>{esc(r["k"])}</dt><dd>{v}{t}</dd></div>')
         return ''.join(out)
 
-    jump = [('ol-msg', '社長あいさつ'), ('ol-prof', '会社概要'), ('ol-lic', '許可・登録'), ('ol-area', '対応エリア'), ('ol-acc', '所在地')]
+    jump = [('ol-prof', '会社概要'), ('ol-msg', '社長あいさつ'), ('ol-phil', '経営方針'), ('ol-lic', '許可・保有資格'), ('ol-area', '対応エリア'), ('ol-acc', '所在地')]
     jump_html = ''.join(f'<li><a href="#{i}">{t}{arw}</a></li>' for i, t in jump)
 
     pics = [('images/top/fv-3.jpg', '50% 60%'), ('images/top/fv-2.jpg', '50% 55%'), ('images/top/staff.jpg', '50% 40%')]
@@ -1008,16 +1081,16 @@ def page_outline():
         'recycle': '<path d="M8.5 6.5 10.6 3a1.6 1.6 0 0 1 2.8 0l2.3 4"/><path d="m15.7 4.5.1 2.6-2.5.6"/><path d="M19 11.5l2.1 3.6a1.6 1.6 0 0 1-1.4 2.4H15"/><path d="m17 19.5-2-2 1.7-1.9"/><path d="M8.5 17.5H4.3a1.6 1.6 0 0 1-1.4-2.4L5 11.4"/><path d="m3.4 12.2 1.6-.8 1.4 2.2"/>',
         'leaf': '<path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/>',
     }
-    phil = [
-        ('hand', '近隣への配慮', '工程や作業時間を丁寧にお伝えし<br>周辺の生活環境に配慮して施工します。'),
-        ('recycle', '適正処分とリサイクル', '廃棄物の分別と適正処分を徹底し<br>循環型社会を目指します。'),
-        ('leaf', '省エネルギー', '車両・重機の燃費向上に努め<br>環境負荷の低減に取り組みます。'),
-    ]
+    ph_svg['law'] = '<path d="M12 4v16M6 20h12M5 8h14"/><path d="M7 8l-3 6h6zM17 8l-3 6h6z"/>'
+    ph_svg['up'] = '<path d="M4 18l5-5 4 4 7-8"/><path d="M15 9h5v5"/>'
+    # 経営方針の5項目（2026-11-25 丸信さんのエクセル。文はいただいたまま）
+    icons = ['law', 'recycle', 'hand', 'leaf', 'up']
     phil_html = ''.join(
         f'<li><div class="ol-ph-h"><span class="ol-pn" aria-hidden="true">{n:02d}</span>'
         f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{ph_svg[k]}</svg></div>'
-        f'<h3>{t}</h3><p>{d}</p></li>'
-        for n, (k, t, d) in enumerate(phil, 1))
+        f'<h3>{esc(x["h"])}</h3><p>{esc(x["p"])}</p></li>'
+        for n, (k, x) in enumerate(zip(icons, c['policy']), 1))
+    qual_html = ''.join(f'<li>{esc(q)}</li>' for q in c['qualifications'])
     area_rows = ''.join(f'<div><dt>{esc(a["pref"])}</dt><dd>{esc(a["cities"])}</dd></div>' for a in c['area'])
     # 地図（2026-11-18 郵便番号が確かめられたので入れた）。Google マップの埋め込み（鍵は要らない）
     map_fr = (f'<iframe class="ol-map" src="https://maps.google.com/maps?q={quote(ADDRESS)}&amp;z=16&amp;output=embed" '
@@ -1026,21 +1099,6 @@ def page_outline():
     return f'''{page_head('outline.html')}
 <nav class="ol-jump" aria-label="このページの内容"><div class="wrap"><ul>{jump_html}</ul></div></nav>
 
-<section class="sec ol-msg has-wm" data-wm="MESSAGE" id="ol-msg" aria-labelledby="h-msg">
-<div class="wrap">
-<div class="ol-msg-in">
-<div class="ol-msg-h"><p class="cm-en" lang="en">MESSAGE</p><h2 class="t-ttl" id="h-msg">社長あいさつ</h2>
-<p class="t-ttl ol-big">解体のことは<br>解体の専門家へ</p></div>
-<div class="ol-msg-b">
-{''.join(f'<p>{esc(p)}</p>' for p in c['greeting'])}
-<p class="ol-sign">株式会社 丸信　代表取締役　灰崎 信吉</p>
-{todo('社長あいさつの文章（2013年ごろの文章です。このまま載せてよいか）')}
-</div>
-</div>
-<ul class="ol-pics">{pics_html}</ul>
-</div>
-</section>
-
 <section class="sec ol-prof has-wm" data-wm="PROFILE" id="ol-prof" aria-labelledby="h-prof">
 <div class="wrap t-two">
 <div><p class="cm-en" lang="en">PROFILE</p><h2 class="t-ttl" id="h-prof">会社概要</h2></div>
@@ -1048,26 +1106,42 @@ def page_outline():
 </div>
 </section>
 
-<section class="sec ol-lic-sec has-wm" data-wm="LICENSE" id="ol-lic" aria-labelledby="h-lic">
-<div class="wrap t-two">
-<div><p class="cm-en" lang="en">LICENSE</p><h2 class="t-ttl" id="h-lic">許可・登録</h2></div>
-<ul class="ol-lic">{lic_html}</ul>
+<section class="sec ol-msg has-wm" data-wm="MESSAGE" id="ol-msg" aria-labelledby="h-msg">
+<div class="wrap">
+<div class="ol-msg-in">
+<div class="ol-msg-h"><p class="cm-en" lang="en">MESSAGE</p><h2 class="t-ttl" id="h-msg">社長あいさつ</h2>
+<p class="t-ttl ol-big">近隣の皆様の暮らしと<br>健康を第一に</p></div>
+<div class="ol-msg-b">
+{''.join(f'<p>{esc(p)}</p>' for p in c['greeting'])}
+<p class="ol-sign">株式会社 丸信　代表取締役　灰崎 信吉</p>
+{todo('社長のお名前の字（会社概要は「灰崎」、あいさつの署名は「灰﨑」でした。今は「灰崎」にそろえています）')}
+</div>
+</div>
+<ul class="ol-pics">{pics_html}</ul>
 </div>
 </section>
 
-<section class="sec ol-phil-sec has-wm" data-wm="PHILOSOPHY" aria-labelledby="h-phil">
+<section class="sec ol-phil-sec has-wm" data-wm="POLICY" id="ol-phil" aria-labelledby="h-phil">
 <div class="wrap">
-<div class="ol-phil-h"><div><p class="cm-en" lang="en">PHILOSOPHY</p><h2 class="t-ttl" id="h-phil">企業理念・経営方針</h2></div>
-<p class="ol-phil-c">近隣の皆様への配慮と<br>環境に向き合う施工を</p></div>
+<div class="ol-phil-h"><div><p class="cm-en" lang="en">POLICY</p><h2 class="t-ttl" id="h-phil">経営方針</h2></div>
+<p class="ol-phil-c">法令遵守と安全施工を<br>徹底します</p></div>
 <ul class="ol-phil">{phil_html}</ul>
+</div>
+</section>
+
+<section class="sec ol-lic-sec has-wm" data-wm="LICENSE" id="ol-lic" aria-labelledby="h-lic">
+<div class="wrap t-two">
+<div><p class="cm-en" lang="en">LICENSE</p><h2 class="t-ttl" id="h-lic">許可・保有資格</h2></div>
+<div><ul class="ol-lic">{lic_html}</ul>
+<div class="ol-qual"><h3>保有資格</h3><ul>{qual_html}</ul><p>{esc(c["qualifications_note"])}</p></div></div>
 </div>
 </section>
 
 <section class="sec ar-sec ol-ar has-wm" data-wm="AREA" id="ol-area" aria-labelledby="h-area">
 <div class="wrap t-two">
 <div><p class="cm-en" lang="en">AREA</p><h2 class="t-ttl" id="h-area">対応エリア</h2></div>
-<div><p class="ol-c">春日井市を中心に<br>東海3県へ</p><dl class="ar">{area_rows}</dl>
-<p class="ar-note">{esc(c["area_note"])}。その他の地域もお気軽にご相談ください。</p></div>
+<div><p class="ol-c">春日井市を中心に<br>東海3県へ</p><p class="ol-area-l">{esc(c["area_lead"])}</p><dl class="ar">{area_rows}</dl>
+<p class="ar-note">※{esc(c["area_more"])}</p></div>
 </div>
 </section>
 
@@ -1087,7 +1161,7 @@ def page_contact():
     notice = '' if connected else ('<div class="unconnected" role="note"><b>このフォームの送信機能は未接続です。</b>'
                                    '「送信」を押しても、入力した内容はどこにも送られません。お急ぎの場合はお電話でご連絡ください。</div>')
     if not connected:
-        TODOS.append((CUR, 0, 'お問い合わせフォームの送り先（受け取るメールアドレス）'))
+        TODOS.append((CUR, 0, f'お問い合わせフォームの接続（送り先は {FORM_TO} に決定。2026-11-25 丸信さん回答）'))
 
     def field(fid, label, kind='text', required=False, hint='', attrs='', area=False):
         req = '<span class="req">必須</span>' if required else '<span class="opt">任意</span>'
@@ -1161,7 +1235,6 @@ def page_policy():
 <div class="wrap wrap-s">
 {secs}
 {'' if RELEASE else '<p class="pol-date">改定日：公開する日を入れます</p>'}
-{todo('プライバシーポリシーの内容（今の法律に合わせて書き直した案です。窓口のアドレス・委託先・書類の管理のしかたが実際と合っているか）')}
 </div>
 </section>'''
 
@@ -1178,20 +1251,22 @@ GENERAL = [
 PRIO = [
     # (label に含まれる言葉, 優先度, 公開した場合に困ること, 丸信さんにお願いしたいこと, EWCだけで片づくか)
     # EWCだけで片づくものは確認一覧（丸信さんに見てもらうページ）に出さない。README の「EWC側でやること」に残す（2026-11-20 松本さん）
-    ('お問い合わせフォームの送り先', '高', 'フォームから送られたご相談がどこにも届かず、お問い合わせを逃してしまいます',
-     'ホームページからのお問い合わせを受け取るメールアドレスを教えてください（今のサイトのフォームがどのアドレスに届いていたかでも構いません）', False),
+    ('お問い合わせフォームの接続', '高', '', '', True),
     ('料金の金額', '高', '今の料金と違うと「ホームページと違う」とお客様と行き違いになります。表示と実際が違うと景品表示法の問題になるおそれもあります',
-     '今もこの金額でよいか、変わっていれば今の金額を教えてください', False),
-    ('税込・税別', '高', '一般のお客様向けに料金を載せるときは、税込みの総額で表示する決まり（総額表示の義務）があります',
-     '料金表の金額が税込みか税別かを教えてください', False),
-    ('産業廃棄物の許可番号', '高', '期限の切れた番号を載せると、誤った許可の表示になります（許可は5年ごとの更新です）',
-     '今お持ちの許可証の番号と有効期限を教えてください（写しでも構いません）', False),
-    ('プライバシーポリシーの内容', '高', 'お問い合わせフォームで個人情報をお預かりするため、使い道などを公表することが法律で求められています',
-     'EWCで今の法律に合わせた案を作りました。窓口のメールアドレス（info）、書類やパソコンの管理のしかたが実際と合っているかをご確認ください', False),
+     '新しい金額が決まりましたらお送りください（今は今のサイトの金額のまま載せています）', False),
+    ('料金の税込みの表示', '高', '一般のお客様向けに料金を載せるときは、税込みの総額で表示する決まり（総額表示の義務）があります。税別の金額だけでは決まりに合いません',
+     '税別の金額に、税込みの金額を並べて出す形でよいかを教えてください', False),
+    ('はつり・ブロック塀の単位', '中', '単位が違うと、お見積りの金額と大きく食い違います',
+     'm³（体積）と m²（面積）のどちらが正しいかを教えてください', False),
+    ('社長のお名前の字', '中', '', '「灰崎」と「灰﨑」のどちらにそろえるかを教えてください', False),
+    ('E-MAIL と主要取引銀行の行', '中', '残す場合、銀行名は今の名前（あいち銀行・三菱ＵＦＪ銀行）に直す必要があります',
+     '消してよいか、残すかを教えてください', False),
+    ('施工の流れの届出の条件', '中', '', '「80㎡以上」で載せてよいかご確認ください', False),
+    ('よくある質問の罰則', '中', '', '「拘禁刑」で載せてよいかご確認ください', False),
     ('改定日', '中', '', '', True),
-    ('銀行名', '中', '古い銀行名のままだと、お振り込みの際に迷わせてしまいます', '今の銀行名と支店名を教えてください', False),
-    ('懲役', '中', '', '', True),
-    ('社長あいさつ', '低', '', 'このまま載せてよいか、書き直したいところがあれば教えてください', False),
+    ('建設業許可の業種', '低', '', 'このまま載せてよいか教えてください', False),
+    ('お客様の声のページ', '低', '', '無くすか、残すかを教えてください（残す場合は、メニューの下の段やフッターからつなぎます）', False),
+    ('住宅の解体の写真', '低', '', 'お持ちの写真があればお送りください。無い場合はイメージ写真で作ります', False),
     ('求人の案内', '低', '', '「未経験者歓迎」など、求人の案内に載せたい言葉があれば教えてください', False),
 ]
 PRIO_ORDER = {'高': 0, '中': 1, '低': 2}
@@ -1243,7 +1318,7 @@ def page_check():
 
 
 BUILDERS = {
-    'index.html': page_index, 'about.html': page_about, 'price.html': page_price, 'case.html': page_case,
+    'index.html': page_index, 'about.html': page_about, 'jigyo.html': page_jigyo, 'price.html': page_price, 'case.html': page_case,
     'flow.html': page_flow, 'outline.html': page_outline, 'voice.html': page_voice, 'faq.html': page_faq,
     'contact.html': page_contact, 'policy.html': page_policy,
 }
@@ -1276,7 +1351,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'price.html', 'case.html', 'flow.html', 'outline.html', 'faq.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'jigyo.html', 'price.html', 'case.html', 'flow.html', 'outline.html', 'faq.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
