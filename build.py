@@ -306,15 +306,12 @@ def header(fname):
         items.append(f'<li class="has-sub"><a href="{f}"{cur} aria-haspopup="true">{name}{ic("chev", "ic gnav-dn")}</a><ul class="gnav-sub">{sub}</ul></li>')
     # 採用情報は今の AirWORK へ（2026-11-17 松本さん。新しいタブで開く）
     items.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報{ic("ext", "ic gnav-ext")}<span class="vh">（外部サイト）</span></a></li>')
-    drawer = [f'<li><a href="./"{" aria-current=\"page\"" if fname == "index.html" else ""}>ホーム{ic("chev")}</a></li>']
-    for f, name, subs in NAV:
-        cur = ' aria-current="page"' if f == fname else ''
-        sub = ''.join(f'<li><a href="{s}">{t}</a></li>' for s, t in subs if s != f)
-        drawer.append(f'<li><a href="{href(f)}"{cur}>{name}{ic("chev")}</a>' + (f'<ul class="drawer-sub">{sub}</ul>' if sub else '') + '</li>')
-    for f in ('voice.html', 'contact.html', 'policy.html'):
+    # スマホのメニューは2列のボタンで1画面に収める（2026-11-25 松本さん「案2」）。ページの中の見出しへの飛び先は載せない
+    drawer = []
+    for f in ('about.html', 'jigyo.html', 'case.html', 'flow.html', 'price.html', 'outline.html', 'faq.html', 'voice.html', 'contact.html'):
         cur = ' aria-current="page"' if f == fname else ''
         drawer.append(f'<li><a href="{f}"{cur}>{PAGE[f][1]}{ic("chev")}</a></li>')
-    drawer.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報<span class="ext-note">（外部サイト）</span>{ic("ext")}</a></li>')
+    drawer.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報<span class="vh">（外部サイト）</span>{ic("ext")}</a></li>')
     draft = '' if RELEASE else ('<div class="draft"><span>制作中のページです（確認用）</span>'
                                 '<a href="check.html">確認が必要なところの一覧</a></div>\n')
     return f'''<body>
@@ -334,6 +331,7 @@ def header(fname):
 {''.join(drawer)}
 </ul>
 <a class="drawer-tel" href="{TEL_HREF}">{ic("phone")}<span><b>{TEL}</b><small>{HOURS}</small></span></a>
+<p class="drawer-foot"><a href="./"{' aria-current="page"' if fname == 'index.html' else ''}>ホーム</a><a href="policy.html"{' aria-current="page"' if fname == 'policy.html' else ''}>プライバシーポリシー</a></p>
 </nav>
 </header>
 <main id="main">'''
