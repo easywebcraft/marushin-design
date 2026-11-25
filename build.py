@@ -581,7 +581,7 @@ def page_index():
     return f'''<section class="hero">
 <div class="hero-ph">
 <picture><source media="(max-width:767px)" srcset="images/top/fv-1-sp.jpg"><img class="hero-img" src="images/top/fv-1.jpg" alt="" width="1536" height="1024" fetchpriority="high"></picture>
-<i class="hero-sl" style="background-image:url(images/top/fv-house.jpg);background-position:68% 50%;animation-delay:5s"></i>
+<i class="hero-sl" style="background-image:url(images/top/fv-house.jpg);background-position:52% 50%;animation-delay:5s"></i>
 <i class="hero-sl" style="background-image:url(images/top/fv-2.jpg);animation-delay:11s"></i>
 <i class="hero-sl" style="background-image:url(images/top/fv-3.jpg);animation-delay:17s"></i>
 </div>
