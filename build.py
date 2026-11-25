@@ -581,8 +581,9 @@ def page_index():
     return f'''<section class="hero">
 <div class="hero-ph">
 <picture><source media="(max-width:767px)" srcset="images/top/fv-1-sp.jpg"><img class="hero-img" src="images/top/fv-1.jpg" alt="" width="1536" height="1024" fetchpriority="high"></picture>
-<i class="hero-sl" style="background-image:url(images/top/fv-2.jpg);animation-delay:5s"></i>
-<i class="hero-sl" style="background-image:url(images/top/fv-3.jpg);animation-delay:11s"></i>
+<i class="hero-sl" style="background-image:url(images/top/fv-house.jpg);background-position:68% 50%;animation-delay:5s"></i>
+<i class="hero-sl" style="background-image:url(images/top/fv-2.jpg);animation-delay:11s"></i>
+<i class="hero-sl" style="background-image:url(images/top/fv-3.jpg);animation-delay:17s"></i>
 </div>
 <div class="hero-in">
 <p class="hero-label">解体から次の一歩へ</p>
@@ -594,7 +595,6 @@ def page_index():
 </div>
 </div>
 <span class="hero-scroll" aria-hidden="true">scroll</span>
-{todo('トップの最初の画面に住宅の解体の写真を足す（お持ちの写真があればいただきたい）')}
 </section>
 
 <section class="ab-band" aria-labelledby="h-about">
@@ -1269,7 +1269,6 @@ PRIO = [
      '消してよいか、残すかを教えてください', False),
     ('改定日', '中', '', '', True),
     ('お客様の声のページ', '低', '', '無くすか、残すかを教えてください（残す場合は、メニューの下の段やフッターからつなぎます）', False),
-    ('住宅の解体の写真', '低', '', 'お持ちの写真があればお送りください。無い場合はイメージ写真で作ります', False),
     ('求人の案内', '低', '', '「未経験者歓迎」など、求人の案内に載せたい言葉があれば教えてください', False),
 ]
 PRIO_ORDER = {'高': 0, '中': 1, '低': 2}

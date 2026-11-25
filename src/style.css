@@ -726,9 +726,10 @@ html.ewl-on:not(.ewl-txt) :is(.hero-in>*,.gnav li){animation-play-state:paused}
 }
 
 /* ---------- トップの写真の切り替え（営業用の見本と同じ：重機→道路→見積りの3枚を18秒で一巡） 2026-11-16 ----------
+   2026-11-25 丸信さん「住宅の解体もあるといい」：重機→住宅の解体→道路→見積りの4枚を24秒で一巡に（1枚6秒）
    道路と見積りの写真は見本の写真置き場（ewc-proposals/photos）のイメージ。冒頭の演出の幕が透けるまでは止めておく */
-.hero-sl{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;animation:heroSl 18s linear infinite}
-@keyframes heroSl{0%{opacity:0;transform:scale(1.08)}5.56%{opacity:1}38.89%{opacity:1}44.44%{opacity:0;transform:none}100%{opacity:0}}
+.hero-sl{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;animation:heroSl 24s linear infinite}
+@keyframes heroSl{0%{opacity:0;transform:scale(1.08)}4.17%{opacity:1}29.17%{opacity:1}33.33%{opacity:0;transform:none}100%{opacity:0}}
 html.ewl-on:not(.ewl-go) .hero-sl{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.hero-sl{display:none}}
 
