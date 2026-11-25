@@ -69,7 +69,7 @@ PAGE = {p[0]: p for p in PAGES}
 # 上のメニュー（2026-11-25 丸信さんのエクセル「メニュー」）。子の項目はプルダウンで出す
 NAV = [
     ('about.html', '丸信について', []),
-    ('jigyo.html', '事業内容', [('jigyo.html', '事業内容'), ('case.html', '施工事例'), ('flow.html', '施工の流れ')]),
+    ('jigyo.html', '事業内容', [('case.html', '施工事例'), ('flow.html', '施工の流れ')]),
     ('price.html', '料金表', [('price.html#demolition', '解体工事料金'), ('price.html#other', 'その他料金')]),
     ('outline.html', '会社案内', [('outline.html#ol-prof', '会社概要'), ('outline.html#ol-msg', '社長あいさつ'), ('outline.html#ol-phil', '経営方針')]),
     ('faq.html', 'よくある質問', []),
