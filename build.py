@@ -909,7 +909,7 @@ def page_price():
 <div class="pr-info"><span class="pr-i" aria-hidden="true">i</span>
 <div><h3>着工前のご準備・別途費用について</h3><p>解体工事着工までのご準備や、別途費用が発生する場合については、<a href="faq.html#prep">よくある質問</a>もご覧ください。</p></div>
 <a class="btn pr-info-btn" href="faq.html#prep">よくある質問を見る{arw}</a></div>
-<p class="pr-note">{esc(price["note"]).replace("ございましたら、", "は")}</p>
+<p class="pr-note">{esc(price["note"]).replace("点がございましたら、", "点は")}</p>
 </div>
 </section>
 
