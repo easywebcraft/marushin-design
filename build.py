@@ -857,7 +857,17 @@ def page_price():
         # 「3.5～4.5万円」の数字を大きく、単位（万円・円）を小さく
         import re as _re
         m = _re.match(r'^(.*?)(万円|円)(.*)$', c)
-        return f'<b>{esc(m.group(1))}</b><small>{esc(m.group(2))}{esc(m.group(3))}</small>' if m else f'<b>{esc(c)}</b>'
+        if not m:
+            return f'<b>{esc(c)}</b>'
+        # 税込みの総額を下に添える（総額表示の義務。2026-11-25 松本さん「決まりの通りでOK」）。税率10%・1円未満は切り捨て
+        def inc(x):
+            v = float(x.replace(',', '')) * 1.1
+            if m.group(2) == '万円':
+                return f'{round(v, 3):g}'
+            return f'{int(v + 1e-9):,}'
+        taxin = _re.sub(r'[0-9][0-9,]*(?:\.[0-9]+)?', lambda n: inc(n.group(0)), m.group(1))
+        return (f'<b>{esc(m.group(1))}</b><small>{esc(m.group(2))}{esc(m.group(3))}</small>'
+                f'<span class="pr-taxin">（税込{esc(taxin)}{esc(m.group(2))}{esc(m.group(3))}）</span>')
     cards = ''.join(
         f'<li><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{svg.get(st["name"], "")}</svg>{esc(st["name"])}</h3>'
         f'<table class="pr-t"><caption class="vh">{esc(st["name"])}の解体費用（坪単価）</caption>'
@@ -876,9 +886,8 @@ def page_price():
 <div class="wrap">
 <h2 class="t-ttl pr-lead-h">解体工事の費用をわかりやすく</h2>
 <p class="pr-lead">{esc(price["lead"]).replace("料金表です。", "料金をご案内します。")}</p>
-<p class="pr-tax">（{esc(price["tax"])}）</p>
+<p class="pr-tax">（{esc(price["tax"])}。税込みの金額も並べて載せています）</p>
 {todo('料金の金額（新しい金額をご確認中とのこと。いただいたら差し替えます）')}
-{todo('料金の税込みの表示（税別とのご回答でしたが、一般のお客様向けの料金は税込みの総額も出す決まりがあります。「3.5万円（税込3.85万円）」のように並べて出す形でよいか）')}
 <ul class="pr-jump"><li><a href="#demolition">建物の解体工事{down}</a></li><li><a href="#other">その他の工事・処分{down}</a></li></ul>
 </div>
 </section>
@@ -886,7 +895,7 @@ def page_price():
 <section class="sec pr-dm has-wm" data-wm="DEMOLITION" id="demolition" aria-labelledby="h-dm">
 <div class="wrap">
 <div class="pr-dm-h"><div><p class="cm-en" lang="en">DEMOLITION</p><h2 class="t-ttl" id="h-dm">建物の解体工事</h2></div>
-<p class="pr-unit">費用は坪単価です（1坪＝3.3m²・{esc(price["tax"])}）</p></div>
+<p class="pr-unit">費用は坪単価です（1坪＝3.3m²・税別。下の段は税込み）</p></div>
 <ul class="pr-cards">{cards}</ul>
 <div class="pr-incl"><p>上記料金に含まれるもの</p><ul>{incl_html}</ul></div>
 </div>
