@@ -308,7 +308,7 @@ def header(fname):
     items.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報{ic("ext", "ic gnav-ext")}<span class="vh">（外部サイト）</span></a></li>')
     # スマホのメニューは2列のボタンで1画面に収める（2026-11-25 松本さん「案2」）。ページの中の見出しへの飛び先は載せない
     drawer = []
-    for f in ('about.html', 'jigyo.html', 'case.html', 'flow.html', 'price.html', 'outline.html', 'faq.html', 'voice.html', 'contact.html'):
+    for f in ('about.html', 'jigyo.html', 'case.html', 'flow.html', 'price.html', 'outline.html', 'faq.html', 'contact.html'):
         cur = ' aria-current="page"' if f == fname else ''
         drawer.append(f'<li><a href="{f}"{cur}>{PAGE[f][1]}{ic("chev")}</a></li>')
     drawer.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報<span class="vh">（外部サイト）</span>{ic("ext")}</a></li>')

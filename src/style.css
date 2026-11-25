@@ -1914,6 +1914,7 @@ html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{min-height:44px;padding:0
 .drawer>ul>li{border:1px solid var(--line);border-radius:8px;background:var(--pale)}
 .drawer>ul>li>a{min-height:52px;padding:0 10px;font-size:14.5px}
 .drawer>ul>li>a[aria-current]{background:#fff;border-radius:8px}
+.drawer>ul>li:last-child:nth-child(odd){grid-column:1/-1}  /* お客様の声をメニューから外して9個に（2026-11-25）。最後の1個は横いっぱい */
 .drawer-tel{margin-top:12px}
 .drawer-foot{display:flex;justify-content:center;gap:24px;margin:12px 0 0;font-size:13px}
 .drawer-foot a{color:var(--navy)}
