@@ -36,7 +36,26 @@ FAX = '0568-29-7789'
 HOURS = '営業時間 9:00〜17:00（定休日：土日曜・祝日）'  # 今のサイトの会社概要「営業時間 9:00～17:00」「定休日 土日曜・祝日」
 POSTAL = '486-0932'  # 今のサイトには 480-0306 の表記もあったが、2026-11-18 松本さんが 486-0932 と確認
 ADDRESS = '愛知県春日井市松河戸町4133番2'
-RECRUIT_URL = 'https://arwrk.net/recruit/yr19dq6rh1okksq'  # 今のサイトの「リクルート」のリンク先（AirWORK）。2026-11-17 当面は AirWORK を続ける（松本さん）
+RECRUIT_URL = 'https://arwrk.net/recruit/yr19dq6rh1okksq'  # 今の採用サイト（AirWORK）。2026-11-26 から採用情報はサイトの中のページ（recruit.html）にし、求人の「詳細を見る」と応募だけ AirWORK へ
+# 求人（2026-11-26 AirWORK に載っている5件。給料などは各求人ページのとおり）
+JOBS = [
+    ('解体作業員', 'images/recruit/kaitai.jpg', 400, 300,
+     'ビル・工場・一般住宅などの解体作業をお任せします。年齢・学歴は問いません。',
+     [('日給 1万3000円〜1万5000円', '月給30万円も選べます', '1528501')],
+     ['残業ほぼなし', '寮あり', '前職の給与保証']),
+    ('重機オペレーター', 'images/recruit/juki.jpg', 400, 250,
+     '解体工事の現場で、重機を動かして建物を解体します。車両系建設機械の技能講習の修了が必要です。',
+     [('日給 1万7000円〜2万2000円', '月給36万円以上も選べます', '4627236')],
+     ['残業ほぼなし', '遠方での勤務なし', '前職の給与保証']),
+    ('ダンプドライバー（4t・10t）', 'images/recruit/dump.jpg', 400, 250,
+     'ダンプの運転と、廃材の選別・運搬、解体作業を行います。4tは中型免許、10tは大型免許が必要です。',
+     [('4t 日給 1万5000円〜2万円', '', '4627177'), ('10t 日給 1万6000円〜2万円', '月給35万円以上も選べます', '4627203')],
+     ['残業ほぼなし', '遠方での勤務なし', '前職の給与保証']),
+    ('監理技術者', 'images/recruit/kanri.jpg', 400, 250,
+     'お客様との打ち合わせ、施工計画書や官公庁への書類の作成、協力業者さんへの発注、工程の管理を担当します。',
+     [('月給 30万円〜45万円', '1級施工管理技士は45万円以上', '1528560')],
+     ['週休2日制', '営業車貸与（通勤にも可）', '前職の給与保証']),
+]
 # お問い合わせフォームの送り先。決まるまでは空（＝未接続。画面に「未接続」と出し、「送信しました」とは出さない）
 FORM_ENDPOINT = ''
 
@@ -62,6 +81,8 @@ PAGES = [
      'お見積もり、対応エリア、工事の内容、工事前後の準備や手続きなど、解体工事についてよくいただくご質問にお答えします。'),
     ('contact.html', 'お問い合わせ', 'CONTACT', False,
      '解体工事のご相談・お見積もりは、お電話またはお問い合わせフォームからご連絡ください。'),
+    ('recruit.html', '採用情報', 'RECRUIT', False,
+     '株式会社丸信の採用情報です。解体作業員・重機オペレーター・ダンプドライバー・監理技術者の求人、福利厚生、社員インタビューをご紹介します。'),
     ('policy.html', 'プライバシーポリシー', 'PRIVACY POLICY', False,
      '株式会社丸信のプライバシーポリシー（個人情報の取り扱い）です。'),
 ]
@@ -304,14 +325,14 @@ def header(fname):
             continue
         sub = ''.join(f'<li><a href="{s}">{t}</a></li>' for s, t in subs)
         items.append(f'<li class="has-sub"><a href="{f}"{cur} aria-haspopup="true">{name}{ic("chev", "ic gnav-dn")}</a><ul class="gnav-sub">{sub}</ul></li>')
-    # 採用情報は今の AirWORK へ（2026-11-17 松本さん。新しいタブで開く）
-    items.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報{ic("ext", "ic gnav-ext")}<span class="vh">（外部サイト）</span></a></li>')
+    # 採用情報はサイトの中のページへ（2026-11-26 丸信さんの作り変え案。それまでは AirWORK へ直接）
+    items.append(f'<li><a href="recruit.html"{" aria-current=\"page\"" if fname == "recruit.html" else ""}>採用情報</a></li>')
     # スマホのメニューは2列のボタンで1画面に収める（2026-11-25 松本さん「案2」）。ページの中の見出しへの飛び先は載せない
     drawer = []
     for f in ('about.html', 'jigyo.html', 'case.html', 'flow.html', 'price.html', 'outline.html', 'faq.html', 'contact.html'):
         cur = ' aria-current="page"' if f == fname else ''
         drawer.append(f'<li><a href="{f}"{cur}>{PAGE[f][1]}{ic("chev")}</a></li>')
-    drawer.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報<span class="vh">（外部サイト）</span>{ic("ext")}</a></li>')
+    drawer.append(f'<li><a href="recruit.html"{" aria-current=\"page\"" if fname == "recruit.html" else ""}>採用情報{ic("chev")}</a></li>')
     draft = '' if RELEASE else ('<div class="draft"><span>制作中のページです（確認用）</span>'
                                 '<a href="check.html">確認が必要なところの一覧</a></div>\n')
     return f'''<body>
@@ -356,7 +377,6 @@ def footer(fname):
         if f == 'index.html':
             continue
         links.append(f'<li><a href="{f}">{name}</a></li>')
-    links.append(f'<li><a href="{RECRUIT_URL}" target="_blank" rel="noopener">採用情報<span class="ext-note">（外部サイト）</span></a></li>')
     script = f'<script src="assets/main.js?v={ASSET_V}" defer></script>'
     return f'''</main>
 <footer class="ft">
@@ -677,7 +697,7 @@ def page_index():
 <aside class="rq" id="rq" aria-label="従業員募集のお知らせ">
 <button class="rq-tab" type="button" aria-expanded="false" aria-controls="rq-pop"><span class="rq-tab-new">募集中</span><span class="rq-tab-en" lang="en">RECRUIT</span><span class="rq-tab-ja">採用情報</span></button>
 <div class="rq-pop" id="rq-pop">
-<a class="rq-in rq-card" href="{RECRUIT_URL}" target="_blank" rel="noopener" aria-label="RECRUIT 従業員募集中 株式会社 丸信 採用情報を見る（外部サイト）"><span class="rq-top" aria-hidden="true"><span class="rq-tk"><span>{"<span>RECRUIT</span>" * 8}</span></span><span class="rq-ttl">従業員募集中</span><span class="rq-co">株式会社 丸信</span></span><span class="rq-ph" aria-hidden="true"><img src="images/top/recruit-banner.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async"></span><span class="rq-go" aria-hidden="true">採用情報を見る<span class="rq-go-ar">↗</span></span></a>
+<a class="rq-in rq-card" href="recruit.html" aria-label="RECRUIT 従業員募集中 株式会社 丸信 採用情報を見る"><span class="rq-top" aria-hidden="true"><span class="rq-tk"><span>{"<span>RECRUIT</span>" * 8}</span></span><span class="rq-ttl">従業員募集中</span><span class="rq-co">株式会社 丸信</span></span><span class="rq-ph" aria-hidden="true"><img src="images/top/recruit-banner.jpg" alt="" width="1122" height="1402" loading="lazy" decoding="async"></span><span class="rq-go" aria-hidden="true">採用情報を見る<span class="rq-go-ar">→</span></span></a>
 </div>
 </aside>
 <aside class="rq rq-blog" id="rq-blog" aria-label="ブログのお知らせ">
@@ -843,6 +863,7 @@ def page_jigyo():
 
 def page_price():
     """料金案内。2026-11-17 松本さんのデザイン案の構成に（丸信について・トップと同じ見せ方）。
+    2026-11-26 丸信さんの正式版：金額はそのまま。注意書き3行を表の上に・「税別」の表記はなし・生活ゴミの無料に但し書き。
     金額と単位は data/price.json（今のサイトの料金表）のまま。デザイン案の数字は使わない（庭木・庭石の単位がデザイン案と違う）。"""
     price = load('price.json')
     chev = ic('chev')
@@ -874,20 +895,18 @@ def page_price():
         f'<thead><tr><th scope="col">坪数</th><th scope="col">費用（坪単価）</th></tr></thead><tbody>'
         + ''.join(f'<tr><th scope="row">{esc(a)}</th><td>{cost_html(b)}</td></tr>' for a, b in st['rows'])
         + '</tbody></table></li>' for st in price['structures'])
-    incl = ['廃材処分費用', '養生シート', 'コンクリート基礎撤去', '整地']
-    incl_html = ''.join(f'<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>{t}</li>' for t in incl)
     rows, n = [], 0
     for o in price['others']:
         for what, cost in o['rows']:
             n += 1
-            rows.append(f'<tr><td class="pr-no">{n}.</td><th scope="row">{esc(o["name"])}</th><td>{esc(what) or "―"}</td><td class="num">{cost_html(cost)}</td></tr>')
+            # 生活ゴミの無料は解体工事に伴う処分だけ（2026-11-26 丸信さんの正式版）
+            only = '<span class="pr-only">（但し、解体工事に伴う処分に限る）</span>' if cost == '無料' else ''
+            rows.append(f'<tr><td class="pr-no">{n}.</td><th scope="row">{esc(o["name"])}</th><td>{esc(what) or "―"}</td><td class="num">{cost_html(cost)}{only}</td></tr>')
     return f'''{page_head('price.html')}
 <section class="sec pr-intro">
 <div class="wrap">
 <h2 class="t-ttl pr-lead-h">解体工事の費用をわかりやすく</h2>
 <p class="pr-lead">{esc(price["lead"]).replace("料金表です。", "料金をご案内します。")}</p>
-<p class="pr-tax">（{esc(price["tax"])}。税込みの金額も並べて載せています）</p>
-{todo('料金の金額（新しい金額をご確認中とのこと。いただいたら差し替えます）')}
 <ul class="pr-jump"><li><a href="#demolition">建物の解体工事{down}</a></li><li><a href="#other">その他の工事・処分{down}</a></li></ul>
 </div>
 </section>
@@ -895,9 +914,9 @@ def page_price():
 <section class="sec pr-dm has-wm" data-wm="DEMOLITION" id="demolition" aria-labelledby="h-dm">
 <div class="wrap">
 <div class="pr-dm-h"><div><p class="cm-en" lang="en">DEMOLITION</p><h2 class="t-ttl" id="h-dm">建物の解体工事</h2></div>
-<p class="pr-unit">費用は坪単価です（1坪＝3.3m²・税別。下の段は税込み）</p></div>
+</div>
+<ul class="pr-notes"><li>下記金額には、廃材処分費、養生シート張り、コンクリート基礎撤去、整地費用が含まれます。</li><li>金額は坪単価です。（1坪＝3.3m²）</li><li>形状や作業環境等によって変わることがあります。詳しくはご相談ください。</li></ul>
 <ul class="pr-cards">{cards}</ul>
-<div class="pr-incl"><p>上記料金に含まれるもの</p><ul>{incl_html}</ul></div>
 </div>
 </section>
 
@@ -1262,6 +1281,101 @@ PRIO = [
 PRIO_ORDER = {'高': 0, '中': 1, '低': 2}
 
 
+def page_recruit():
+    """採用情報。2026-11-26 丸信さんの作り変え案（PDF）の順：会社の紹介 → 福利厚生 → 求人（仕事紹介と1つに） → インタビュー。
+    見に来る人はまず募集の中身を見たいので、大きな写真・「25年」の事業紹介は載せない（丸信さん「ナシ」）。
+    文は今の採用サイト（AirWORK）とPDFのまま。「詳細を見る」と応募は AirWORK の各求人ページへ"""
+    ext = ic('ext')
+    jobs = []
+    for name, src, w, h, desc, pays, tags in JOBS:
+        nw = lambda t: '〜'.join(f'<span class="nw">{esc(x)}</span>' for x in t.split('〜'))   # 金額の途中で折り返さない
+        pay = ''.join(f'<p class="rc-pay"><b>{nw(a)}</b>{f"<small>{esc(b)}</small>" if b else ""}</p>' for a, b, _j in pays)
+        btn = ''.join(
+            f'<a class="btn rc-btn" href="{RECRUIT_URL}/{j}/" target="_blank" rel="noopener">'
+            f'{"詳細を見る" if len(pays) == 1 else esc(a.split(" ")[0]) + "の詳細を見る"}{ext}<span class="vh">（外部サイト）</span></a>'
+            for a, _b, j in pays)
+        jobs.append(f'''<li class="rc-job"><img src="{src}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">
+<div class="rc-job-tx"><h3>{esc(name)}</h3><p class="rc-desc">{esc(desc)}</p>{pay}
+<ul class="rc-tags">{"".join(f"<li>{esc(t)}</li>" for t in tags)}</ul>
+<div class="rc-btns">{btn}</div></div></li>''')
+    # 営業は「現在募集しておりません」（丸信さん）。押せる所は置かない
+    jobs.append('''<li class="rc-job rc-off"><img src="images/recruit/eigyo.jpg" alt="" width="400" height="250" loading="lazy" decoding="async">
+<div class="rc-job-tx"><h3>営業</h3><p class="rc-desc">ゼネコンや住宅メーカー、工務店などからのご依頼で、解体工事の見積もりから施工管理までを行います。</p>
+<p class="rc-closed">現在募集しておりません</p></div></li>''')
+    bens = [('昇給・賞与あり', '昇給 年1回・賞与 年2回'), ('社会保険完備', '厚生年金・健康保険・雇用保険・労災保険'),
+            ('退職金制度あり', '勤続2年以上が対象'), ('資格取得の支援', '業務に必要な資格の取得を支援')]
+    ben_html = ''.join(f'<li><b>{t}</b><span>{d}</span></li>' for t, d in bens)
+    qa = [   # 2026-11-26 丸信さんのPDFの文のまま（今の採用サイトの文を短くしたもの）
+        ('未経験でも大丈夫ですか？', [
+            '私は未経験で入社しました。以前は水道工事の会社に勤めていました。8年ぐらい働いて資格を取りましたが、何か違うと感じ、転職を決意。丸信に入社して、やっと自分に合った仕事を見つけることができたと実感しています。',
+            'まずは、解体工事の現場で水を撒いたり、細かい木切れや樹脂などを拾い集めて分別するなど、手元の作業から始めました。',
+            '作業中、現場の状況を見て「建物って、こうやって壊していくんだ！」「こういうことは危険だから気を付けよう」と少しずつ覚えてきました。',
+            'わからないことは先輩社員に教えてもらえるので、安心して働けます。']),
+        ('お仕事の中で大変なことはありますか？', [
+            '現場でいちばん重要なのは安全性への配慮です。',
+            '解体工事は、思いのままに建物を壊せばいいわけではありません。周囲の状況を見ながら、壊したものが飛ばないようにしたり、車の通行を止めるなどの気配りや頭を使う必要があります。',
+            'また、建物の工法や建材はどんどん進化しているので、この仕事は常に勉強をしなければなりません。']),
+        ('お仕事のやりがいはありますか？', [
+            'モノを壊してお金を貰えて喜ばれる仕事なんて、めったにありません。マジメな話、現在の建築は、まず古い建物を壊さないと始まらない。',
+            '社会に貢献できる仕事だと思います。']),
+        ('キャリアプランについて教えてください', [
+            '私の場合は入社2年目ぐらいから少しずつ1日や2日で終わる簡単な現場にアタマで入って、協力業者の職人さんに指示をする仕事も任せてもらえるようになりました。',
+            '解体工事は奥の深いプロの仕事、私は入社して3年になりますが、手元の仕事をしながら、最近は重機(パワーショベル)を動かせるよう練習しているところです。',
+            '業務に必要な免許取得はもちろん会社が支援してくれます。']),
+        ('丸信に入って良かった、と思うことは？', [
+            '解体工事はサイクルが早いので、色んな現場を経験できて飽きません。',
+            'そして、解体業はなくなることのない仕事なので、安定性も魅力です。']),
+    ]
+    qa_html = ''.join(f'<div class="rc-qa"><h3><span aria-hidden="true">Q.</span>{esc(q)}</h3>{"".join(f"<p>{esc(a)}</p>" for a in ans)}</div>' for q, ans in qa)
+    return f'''{page_head('recruit.html')}
+<section class="sec rc-about" aria-labelledby="h-rc-about">
+<div class="wrap rc-about-in">
+<div class="rc-about-tx">
+<p class="cm-en" lang="en">ABOUT</p>
+<h2 class="t-ttl" id="h-rc-about">現代の建設工事は<br>「解体工事」から始まります</h2>
+<p>株式会社丸信は、「壊す」ことのプロ集団として本拠地・春日井を中心に東海3県エリアに密着し、建物の「解体工事」を行う会社です。</p>
+<h3>解体について</h3>
+<p>現在の建築は、まっさらな土地に新しく建てるのではなく、既存の建物を壊してから建てるのが主流です。これまで人々の暮らしを支えてきた建物が、再開発により新しく建造され、よりもっと人々の暮らしを豊かにする。その前提には必ず解体工事があるのです。まさに、これは「創造的破壊」であり、再開発の過程に私たちの技術は必要不可欠です。</p>
+<h3>代表からのメッセージ</h3>
+<p>現在の建設工事のスタートは「解体工事」から始まります。その重要度の割に、建設現場の裏方的存在で脚光を浴びることはありませんでしたが、2016年6月に建設業許可の改定に伴い、解体工事業が新たに追加されました。これは解体工事が専門職として、行政から認められたと言う事です。</p>
+<p>公衆災害の防止、産業廃棄物の適正処理、密集地内での解体技術の向上等、やるべきことは多岐にわたります。着実に安定成長し続ける「解体業界」、そして「株式会社丸信」で、共により魅力的な創造的破壊に取り組んでいきましょう！</p>
+<h3>ご家族の方へ</h3>
+<p>平成15年に法人化して以来、丁寧な建物解体技術が評価され、お客様が着実に増えています。また、官公庁からの仕事も増え、地域社会にも貢献して参りました。</p>
+{todo('「平成15年に法人化して17年」は今の年と合わないため「法人化して以来」にしています')}
+<p>作業スタッフは能力次第で随時昇給し、資格取得も会社がバックアップするなど、長く勤められる環境の整備をしています。</p>
+<p>建築業界経験者も、全くの未経験者も大歓迎。ご入社される全ての方々を将来の幹部候補としてお迎えしております。</p>
+</div>
+<figure class="rc-staff"><img src="images/about-staff.jpg" alt="丸信の社員の集合写真" width="2000" height="1003" loading="lazy" decoding="async"></figure>
+</div>
+</section>
+
+<section class="sec rc-ben" aria-labelledby="h-rc-ben">
+<div class="wrap">
+<h2 class="rc-h" id="h-rc-ben">福利厚生</h2>
+<ul class="rc-ben-l">{ben_html}</ul>
+</div>
+</section>
+
+<section class="sec rc-jobs has-wm" data-wm="RECRUIT" id="jobs" aria-labelledby="h-rc-jobs">
+<div class="wrap">
+<p class="cm-en" lang="en">RECRUIT</p>
+<h2 class="t-ttl" id="h-rc-jobs">募集している仕事</h2>
+<p class="rc-common"><span class="ib">勤務地：春日井市松河戸町（JR勝川駅より車で5分・車通勤OK）</span><span class="ib">勤務時間：8:00〜17:00</span></p>
+<ul class="rc-job-l">{"".join(jobs)}</ul>
+<p class="rc-note">「詳細を見る」を押すと、採用サイト（Airワーク）の求人ページが開きます。くわしい条件の確認と応募はそちらからどうぞ。お電話（{TEL}）でもお問い合わせいただけます。</p>
+</div>
+</section>
+
+<section class="sec rc-iv" aria-labelledby="h-rc-iv">
+<div class="wrap rc-iv-in">
+<p class="cm-en" lang="en">INTERVIEW</p>
+<h2 class="t-ttl" id="h-rc-iv">社員インタビュー</h2>
+<p class="rc-who">解体作業員　29歳／入社3年目</p>
+{qa_html}
+</div>
+</section>
+'''
+
 def prio_of(label):
     for key, lv, why, ask, ewc in PRIO:
         if key in label:
@@ -1310,7 +1424,7 @@ def page_check():
 BUILDERS = {
     'index.html': page_index, 'about.html': page_about, 'jigyo.html': page_jigyo, 'price.html': page_price, 'case.html': page_case,
     'flow.html': page_flow, 'outline.html': page_outline, 'voice.html': page_voice, 'faq.html': page_faq,
-    'contact.html': page_contact, 'policy.html': page_policy,
+    'contact.html': page_contact, 'policy.html': page_policy, 'recruit.html': page_recruit,
 }
 
 
@@ -1341,7 +1455,7 @@ def main():
 
     for fname, builder in BUILDERS.items():
         CUR = fname
-        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'jigyo.html', 'price.html', 'case.html', 'flow.html', 'outline.html', 'faq.html'))))
+        write(fname, layout(fname, builder(), with_cta=(fname not in ('contact.html', 'index.html', 'about.html', 'jigyo.html', 'price.html', 'case.html', 'flow.html', 'outline.html', 'faq.html', 'recruit.html'))))
 
     if RELEASE:
         if (SITE / 'images').exists():
