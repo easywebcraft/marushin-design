@@ -2002,3 +2002,20 @@ html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{display:flex;align-items:
 }
 .rc-pay .nw{display:inline-block}
 @media (max-width:600px){.rc-ben-l{grid-template-columns:1fr 1fr;gap:8px}.rc-ben-l li{padding:10px 12px}.rc-ben-l b{font-size:14px}.rc-ben-l span{font-size:12px}}
+/* 求人の詳しい条件（ページの中で開く。2026-11-26 松本さん「3で」）。開いても隣の札は伸ばさない */
+.rc-job-l{align-items:start}
+.rc-more{grid-column:1/-1;border-top:1px solid var(--line);padding-top:10px}
+.rc-more>summary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border:1.5px solid var(--navy);border-radius:4px;color:var(--navy);font-weight:700;font-size:14.5px;cursor:pointer;list-style:none}
+.rc-more>summary::-webkit-details-marker{display:none}
+.rc-more>summary::after{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.rc-more[open]>summary::after{transform:translateY(2px) rotate(-135deg)}
+.rc-more>summary:hover{background:var(--pale2)}
+.rc-more[open]>summary{background:var(--navy);color:#fff}
+.rc-cond{margin-top:12px;font-size:14px;line-height:1.75}
+.rc-cond>div{display:grid;grid-template-columns:6.5em 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.rc-cond dt{font-weight:700;color:var(--navy)}
+.rc-more .rc-btns{margin-top:14px}
+.rc-more .rc-btn{min-height:46px;padding:0 22px;background:var(--btn-blk);color:#fff;border:2px solid var(--btn-org);font-size:15px}
+.rc-more .rc-btn:hover{background:#000}
+.rc-via{margin-top:6px;font-size:12px;color:var(--mute)}
+@media (max-width:600px){.rc-cond>div{grid-template-columns:1fr;gap:2px}.rc-more .rc-btn{flex:1 1 100%;justify-content:center}}
