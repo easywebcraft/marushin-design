@@ -376,10 +376,11 @@
 (function () {
   if (!window.matchMedia || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   document.documentElement.classList.add('rc-hover');
+  // 開け閉めは CSS の動き（:hover）に任せる。中身はいつも開いておき、見え方だけを滑らかに切り替える（2026-11-27「もっと滑らかに」）
   Array.prototype.forEach.call(document.querySelectorAll('.rc-job'), function (job) {
-    var d = job.querySelector('.rc-more'), t;
+    var d = job.querySelector('.rc-more');
     if (!d) return;
-    job.addEventListener('mouseenter', function () { t = setTimeout(function () { d.open = true; }, 120); });
-    job.addEventListener('mouseleave', function () { clearTimeout(t); d.open = false; });
+    d.open = true;
+    job.tabIndex = 0;   // キーボードでも札に合わせると開く
   });
 })();

@@ -2033,3 +2033,14 @@ html.rc-hover .rc-pop-h .rc-pay small{display:inline;margin-left:6px}
 html.rc-hover .rc-pop .rc-cond{margin-top:6px}
 @keyframes rcPop{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){html.rc-hover .rc-more .rc-pop{animation:none}}
+/* もっと滑らかに（2026-11-27 松本さん）：弾む動きをやめ、開くときも閉じるときも、ふわっと大きくなる・小さくなる */
+html.rc-hover .rc-more>summary{pointer-events:none;border-style:solid;border-color:var(--line);color:var(--mute);font-weight:600}
+html.rc-hover .rc-more>summary::after{display:none}
+html.rc-hover .rc-more>summary{font-size:0}
+html.rc-hover .rc-more>summary::before{content:"カーソルを合わせると詳しい条件が出ます";font-size:13.5px}
+html.rc-hover .rc-more .rc-pop{animation:none;opacity:0;visibility:hidden;transform:scale(.96) translateY(10px);
+  transition:opacity .22s ease,transform .3s cubic-bezier(.4,0,.2,1),visibility 0s linear .3s}
+html.rc-hover .rc-job:hover .rc-pop,html.rc-hover .rc-job:focus-within .rc-pop{opacity:1;visibility:visible;transform:none;
+  transition:opacity .45s cubic-bezier(.22,1,.36,1) .06s,transform .55s cubic-bezier(.22,1,.36,1) .06s,visibility 0s linear .06s}
+html.rc-hover .rc-job:focus-visible{outline:2px solid var(--btn-org);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){html.rc-hover .rc-more .rc-pop,html.rc-hover .rc-job:hover .rc-pop{transition:opacity .15s linear;transform:none}}
