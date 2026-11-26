@@ -2146,3 +2146,10 @@ main:has(.rc-about) .ph-au .ph-in{padding:34px var(--gut) 36px}
 .rc-more .rc-btn:hover,.rc-more .rc-btn:focus-visible{background:var(--btn-org);color:var(--btn-blk);border-color:var(--btn-org);box-shadow:0 10px 24px rgba(240,122,26,.4)}
 .rc-btn-ic{flex:none;width:22px;height:22px;color:var(--btn-org);transition:color .2s}
 .rc-more .rc-btn:hover .rc-btn-ic,.rc-more .rc-btn:focus-visible .rc-btn-ic{color:var(--btn-blk)}
+/* 採用の質問はお問い合わせフォームへ（2026-11-27 松本さん） */
+.rc-ask{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px;margin-top:22px;padding:18px 24px;background:#fff;border:1px solid var(--line);border-radius:6px}
+.rc-ask p{flex:1 1 420px;font-size:14px;line-height:1.8;color:var(--mute)}
+.rc-ask-btn{gap:10px;min-height:50px;padding:0 26px;background:#fff;color:var(--btn-blk);border:2px solid var(--btn-blk);border-radius:999px;font-weight:700}
+.rc-ask-btn .ic{color:var(--btn-org)}
+.rc-ask-btn:hover{background:var(--btn-blk);color:#fff}
+@media (max-width:600px){.rc-ask{padding:16px}.rc-ask-btn{width:100%;justify-content:center}.rc-ask p br{display:none}}

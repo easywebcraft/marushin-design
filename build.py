@@ -1417,7 +1417,8 @@ def page_recruit():
 <h2 class="t-ttl" id="h-rc-jobs">募集している仕事</h2>
 <p class="rc-common"><span class="ib">勤務地：春日井市松河戸町（JR勝川駅より車で5分・車通勤OK）</span><span class="ib">勤務時間：8:00〜17:00</span></p>
 <ul class="rc-job-l">{"".join(jobs)}</ul>
-<p class="rc-note">応募は各職種の「応募する」ボタンから採用サイト（Airワーク）の画面で受け付けています。お電話（<a href="{TEL_HREF}">{TEL}</a>）でもお問い合わせいただけます。</p>
+<div class="rc-ask"><p>応募は各職種の「応募する」ボタンから、採用サイト（Airワーク）の画面で受け付けています。<br>仕事の内容や働き方について聞きたいことは、お問い合わせフォームからお気軽にどうぞ。</p>
+<a class="btn rc-ask-btn" href="contact.html?about=recruit">{ic("mail")}採用についてのお問い合わせ<span aria-hidden="true">→</span></a></div>
 </div>
 </section>
 

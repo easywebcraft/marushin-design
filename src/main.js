@@ -432,3 +432,10 @@
   window.addEventListener('load', function () { if (mq.matches) fit(); });
   apply();
 })();
+
+/* 採用情報の「採用についてのお問い合わせ」から来たときは、お問合せ内容の最初に一行入れておく（2026-11-27 松本さん） */
+(function () {
+  var m = document.getElementById('message');
+  if (!m || m.value || !/[?&]about=recruit\b/.test(location.search)) return;
+  m.value = '【採用についてのお問い合わせ】\n';
+})();
