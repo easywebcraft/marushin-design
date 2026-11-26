@@ -2141,3 +2141,8 @@ main:has(.rc-about) .ph-au .ph-in{padding:34px var(--gut) 36px}
 .rc-more .rc-btn:hover .rc-btn-ar{transform:translateX(4px)}
 .rc-via{text-align:center;margin-top:8px}
 @media (max-width:600px){.rc-more .rc-btns{flex-direction:column}.rc-more .rc-btn{min-height:54px;font-size:16.5px}}
+/* 応募ボタンをお問い合わせのボタンと同じ形に（2026-11-27 松本さん）：黒地・オレンジの縁・丸い形。大きさはそのまま、合わせるとオレンジに */
+.rc-more .rc-btn{background:var(--btn-blk);color:#fff;border:2px solid var(--btn-org);border-radius:999px;box-shadow:0 6px 18px rgba(22,24,27,.22)}
+.rc-more .rc-btn:hover,.rc-more .rc-btn:focus-visible{background:var(--btn-org);color:var(--btn-blk);border-color:var(--btn-org);box-shadow:0 10px 24px rgba(240,122,26,.4)}
+.rc-btn-ic{flex:none;width:22px;height:22px;color:var(--btn-org);transition:color .2s}
+.rc-more .rc-btn:hover .rc-btn-ic,.rc-more .rc-btn:focus-visible .rc-btn-ic{color:var(--btn-blk)}

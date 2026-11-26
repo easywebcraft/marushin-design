@@ -1333,6 +1333,7 @@ def page_recruit():
         rows = ''.join(f'<div><dt>{esc(k)}</dt><dd>{"<br>".join(esc(x) for x in v)}</dd></div>' for k, v in JOB_COND[name])
         btn = ''.join(
             f'<a class="btn rc-btn" href="{RECRUIT_URL}/{j}/" target="_blank" rel="noopener">'
+            f'<svg class="rc-btn-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v5h5M10 13h6M10 17h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
             f'<span>{"この仕事に応募する" if len(pays) == 1 else esc(a.split(" ")[0]) + "の仕事に応募する"}</span><span class="rc-btn-ar" aria-hidden="true">→</span><span class="vh">（採用サイト・Airワークが開きます）</span></a>'
             for a, _b, j in pays)
         jobs.append(f'''<li class="rc-job"><img src="{src}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">
