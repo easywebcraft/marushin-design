@@ -2058,7 +2058,8 @@ html.rc-side .rc-off .rc-closed{display:inline-block;margin-top:10px}
 .rc-off-msg{display:inline-block;margin-top:18px;padding:8px 18px;border:1px solid var(--line);border-radius:3px;background:var(--pale2);font-size:16px;font-weight:700;color:var(--mute)}
 .rc-off-tx{margin-top:14px;font-size:14px;line-height:1.8;color:var(--mute)}
 /* 採用の会社の紹介：3つの話は押すと開く（2026-11-27 松本さん「ABOUT が長い」） */
-.rc-about-in{align-items:center}
+.rc-about-in{align-items:start}  /* 話を開いても写真が上下に動かないよう、上にそろえて止める（2026-11-27 松本さん） */
+.rc-staff{margin-top:56px}
 .rc-accs{margin-top:22px;border-top:1px solid var(--line)}
 .rc-acc{border-bottom:1px solid var(--line)}
 .rc-acc>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:54px;padding:0 4px 0 14px;border-left:3px solid var(--teal);margin:8px 0;font-size:16px;font-weight:700;color:var(--navy);cursor:pointer;list-style:none}
@@ -2070,3 +2071,4 @@ html.rc-side .rc-off .rc-closed{display:inline-block;margin-top:10px}
 .rc-acc-b p{margin-top:10px;line-height:1.95}
 .rc-acc-b p:first-child{margin-top:0}
 .rc-staff{position:static}
+@media (max-width:1000px){.rc-staff{margin-top:0}}
