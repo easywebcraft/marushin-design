@@ -1340,9 +1340,14 @@ def page_recruit():
 <div class="rc-pop-h" aria-hidden="true"><p class="rc-pop-n">{esc(name)}</p>{pay}</div><dl class="rc-cond">{rows}</dl>
 <div class="rc-btns">{btn}</div><p class="rc-via">応募は採用サイト（Airワーク）の画面で受け付けています</p></div></details></li>''')
     # 営業は「現在募集しておりません」（丸信さん）。押せる所は置かない
-    off = ('''<div class="rc-job rc-off"><img src="images/recruit/eigyo.jpg" alt="" width="400" height="250" loading="lazy" decoding="async">
+    # 営業も左の一覧に並べる（2026-11-27 松本さん）。右の枠には「現在募集しておりません」を出す。スマホでは開く欄なし
+    jobs.append('''<li class="rc-job rc-off"><img src="images/recruit/eigyo.jpg" alt="" width="400" height="250" loading="lazy" decoding="async">
 <div class="rc-job-tx"><h3>営業</h3><p class="rc-desc">ゼネコンや住宅メーカー、工務店などからのご依頼で、解体工事の見積もりから施工管理までを行います。</p>
-<p class="rc-closed">現在募集しておりません</p></div></div>''')
+<p class="rc-closed">現在募集しておりません</p></div>
+<details class="rc-more"><summary>詳しい条件を見る</summary><div class="rc-pop">
+<div class="rc-pop-h" aria-hidden="true"><p class="rc-pop-n">営業</p></div>
+<p class="rc-off-msg">現在募集しておりません</p>
+<p class="rc-off-tx">ゼネコンや住宅メーカー、工務店などからのご依頼で、解体工事の見積もりから施工管理までを行います。</p></div></details></li>''')
     bens = [('昇給・賞与あり', '昇給 年1回・賞与 年2回'), ('社会保険完備', '厚生年金・健康保険・雇用保険・労災保険'),
             ('退職金制度あり', '勤続2年以上が対象'), ('資格取得の支援', '業務に必要な資格の取得を支援')]
     ben_html = ''.join(f'<li><b>{t}</b><span>{d}</span></li>' for t, d in bens)
@@ -1403,7 +1408,6 @@ def page_recruit():
 <h2 class="t-ttl" id="h-rc-jobs">募集している仕事</h2>
 <p class="rc-common"><span class="ib">勤務地：春日井市松河戸町（JR勝川駅より車で5分・車通勤OK）</span><span class="ib">勤務時間：8:00〜17:00</span></p>
 <ul class="rc-job-l">{"".join(jobs)}</ul>
-{off}
 <p class="rc-note">応募は「応募する」から採用サイト（Airワーク）の画面で受け付けています。お電話（<a href="{TEL_HREF}">{TEL}</a>）でもお問い合わせいただけます。</p>
 </div>
 </section>
