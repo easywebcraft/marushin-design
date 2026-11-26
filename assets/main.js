@@ -385,7 +385,7 @@
   function fit() {   // 右の枠の高さを、いちばん長い条件に合わせる（切り替えでページが伸び縮みしないように）
     var h = 0;
     jobs.forEach(function (j) { var p = j.querySelector('.rc-pop'); if (p) h = Math.max(h, p.offsetHeight); });
-    list.style.minHeight = h + 'px';
+    list.style.minHeight = (h + 4) + 'px';
   }
   function apply() {
     var on = mq.matches;
@@ -402,8 +402,11 @@
       list.style.minHeight = '';
     }
   }
+  var wait;
   jobs.forEach(function (j) {
-    j.addEventListener('mouseenter', function () { if (mq.matches) pick(j); });
+    // 一覧の上をカーソルが通り過ぎるだけで次々に切り替わらないよう、少しだけ待ってから切り替える
+    j.addEventListener('mouseenter', function () { if (!mq.matches) return; clearTimeout(wait); wait = setTimeout(function () { pick(j); }, 90); });
+    j.addEventListener('mouseleave', function () { clearTimeout(wait); });
     j.addEventListener('focusin', function () { if (mq.matches) pick(j); });
   });
   if (mq.addEventListener) mq.addEventListener('change', apply); else mq.addListener(apply);
