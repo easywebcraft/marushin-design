@@ -2089,3 +2089,22 @@ html.rc-side .rc-off .rc-closed{display:inline-block;margin-top:10px}
 .rc-iv{background:var(--pale2)}
 @media (max-width:1000px){.rc-iv-top{grid-template-columns:1fr}.rc-iv-top img{min-height:0;aspect-ratio:16/9;height:auto}.rc-iv-top figcaption{padding:28px 24px}.rc-qas{grid-template-columns:1fr}}
 @media (max-width:600px){.rc-qas>.rc-qa{padding:18px}.rc-qa h3{font-size:16.5px}}
+/* 一言を写真の上に重ねる（2026-11-27 松本さん）。紺の面をやめ、写真の下側だけ暗くして白い文字を読みやすく */
+.rc-iv-top{position:relative;display:block;background:none;aspect-ratio:21/8;min-height:340px}
+.rc-iv-top img{position:absolute;inset:0;width:100%;height:100%;min-height:0;object-fit:cover;object-position:50% 40%}
+.rc-iv-top::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,26,46,.78) 0%,rgba(12,26,46,.5) 45%,rgba(12,26,46,0) 75%)}
+.rc-iv-top figcaption{position:absolute;z-index:1;left:0;bottom:0;top:0;max-width:620px;padding:40px 48px;justify-content:flex-end;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.rc-quote p{font-size:clamp(22px,2.6vw,32px)}
+.rc-iv-top .rc-who{text-shadow:none;background:rgba(12,26,46,.35)}
+@media (max-width:1000px){
+  .rc-iv-top{aspect-ratio:auto;min-height:0}
+  .rc-iv-top img{position:static;aspect-ratio:4/3;height:auto}
+  .rc-iv-top::after{background:linear-gradient(0deg,rgba(12,26,46,.85) 0%,rgba(12,26,46,.55) 40%,rgba(12,26,46,0) 70%)}
+  .rc-iv-top figcaption{top:auto;right:0;max-width:none;padding:24px 20px}
+  .rc-quote p{font-size:20px}
+}
+@media (max-width:1000px){
+  .rc-iv-top{background:var(--navy);border-radius:6px}
+  .rc-iv-top::after{display:none}
+  .rc-iv-top figcaption{position:static;padding:22px 20px 24px;text-shadow:none}
+}
