@@ -370,3 +370,16 @@
   }, { rootMargin: '0px 0px -25% 0px' });
   Array.prototype.forEach.call(boxes, function (box) { if (box.querySelector('.wk-rng')) io.observe(box); });
 })();
+
+/* 採用情報の求人の札：マウスのある画面では、カーソルを合わせると詳しい条件が札の上に開く（2026-11-27 松本さん）。
+   スマホは「詳しい条件を見る」を押して開く（details のまま） */
+(function () {
+  if (!window.matchMedia || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  document.documentElement.classList.add('rc-hover');
+  Array.prototype.forEach.call(document.querySelectorAll('.rc-job'), function (job) {
+    var d = job.querySelector('.rc-more'), t;
+    if (!d) return;
+    job.addEventListener('mouseenter', function () { t = setTimeout(function () { d.open = true; }, 120); });
+    job.addEventListener('mouseleave', function () { clearTimeout(t); d.open = false; });
+  });
+})();

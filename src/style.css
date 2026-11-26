@@ -2019,3 +2019,17 @@ html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{display:flex;align-items:
 .rc-more .rc-btn:hover{background:#000}
 .rc-via{margin-top:6px;font-size:12px;color:var(--mute)}
 @media (max-width:600px){.rc-cond>div{grid-template-columns:1fr;gap:2px}.rc-more .rc-btn{flex:1 1 100%;justify-content:center}}
+/* マウスのある画面：札にカーソルを合わせると、詳しい条件が札の上に大きく開く（2026-11-27 松本さん「ブワッと」） */
+.rc-pop-h{display:none}
+html.rc-hover .rc-job{position:relative}
+html.rc-hover .rc-job:hover{z-index:5}
+html.rc-hover .rc-more>summary{border-style:dashed}
+html.rc-hover .rc-more[open]>summary{background:transparent;color:var(--navy)}
+html.rc-hover .rc-more .rc-pop{position:absolute;left:-14px;right:-14px;top:-14px;z-index:6;padding:20px 24px 22px;background:#fff;border-top:4px solid var(--btn-org);border-radius:6px;box-shadow:0 24px 60px rgba(12,26,46,.28);transform-origin:50% 20%;animation:rcPop .26s cubic-bezier(.2,.9,.3,1.15)}
+html.rc-hover .rc-pop-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;padding-bottom:10px;border-bottom:2px solid var(--navy)}
+html.rc-hover .rc-pop-n{font-size:20px;font-weight:700;color:var(--navy)}
+html.rc-hover .rc-pop-h .rc-pay{margin:0}
+html.rc-hover .rc-pop-h .rc-pay small{display:inline;margin-left:6px}
+html.rc-hover .rc-pop .rc-cond{margin-top:6px}
+@keyframes rcPop{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html.rc-hover .rc-more .rc-pop{animation:none}}

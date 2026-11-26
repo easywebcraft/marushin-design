@@ -1326,7 +1326,8 @@ def page_recruit():
     for name, src, w, h, desc, pays, tags in JOBS:
         nw = lambda t: '〜'.join(f'<span class="nw">{esc(x)}</span>' for x in t.split('〜'))   # 金額の途中で折り返さない
         pay = ''.join(f'<p class="rc-pay"><b>{nw(a)}</b>{f"<small>{esc(b)}</small>" if b else ""}</p>' for a, b, _j in pays)
-        # 詳しい条件はページの中で開き、応募だけ AirWORK の求人ページへ（2026-11-26 松本さん「3で」）
+        # 詳しい条件はページの中で開き、応募だけ AirWORK の求人ページへ（2026-11-26 松本さん「3で」）。
+        # マウスのある画面では、札にカーソルを合わせると札の上に大きく開く（2026-11-27 松本さん。main.js の rc-job）
         rows = ''.join(f'<div><dt>{esc(k)}</dt><dd>{"<br>".join(esc(x) for x in v)}</dd></div>' for k, v in JOB_COND[name])
         btn = ''.join(
             f'<a class="btn rc-btn" href="{RECRUIT_URL}/{j}/" target="_blank" rel="noopener">'
@@ -1335,8 +1336,9 @@ def page_recruit():
         jobs.append(f'''<li class="rc-job"><img src="{src}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">
 <div class="rc-job-tx"><h3>{esc(name)}</h3><p class="rc-desc">{esc(desc)}</p>{pay}
 <ul class="rc-tags">{"".join(f"<li>{esc(t)}</li>" for t in tags)}</ul></div>
-<details class="rc-more"><summary>詳しい条件を見る</summary><dl class="rc-cond">{rows}</dl>
-<div class="rc-btns">{btn}</div><p class="rc-via">応募は採用サイト（Airワーク）の画面で受け付けています</p></details></li>''')
+<details class="rc-more"><summary>詳しい条件を見る</summary><div class="rc-pop">
+<div class="rc-pop-h" aria-hidden="true"><p class="rc-pop-n">{esc(name)}</p>{pay}</div><dl class="rc-cond">{rows}</dl>
+<div class="rc-btns">{btn}</div><p class="rc-via">応募は採用サイト（Airワーク）の画面で受け付けています</p></div></details></li>''')
     # 営業は「現在募集しておりません」（丸信さん）。押せる所は置かない
     jobs.append('''<li class="rc-job rc-off"><img src="images/recruit/eigyo.jpg" alt="" width="400" height="250" loading="lazy" decoding="async">
 <div class="rc-job-tx"><h3>営業</h3><p class="rc-desc">ゼネコンや住宅メーカー、工務店などからのご依頼で、解体工事の見積もりから施工管理までを行います。</p>
