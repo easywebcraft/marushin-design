@@ -2133,3 +2133,11 @@ main:has(.rc-about) .ph-au .ph-in{padding:34px var(--gut) 36px}
   .sec.rc-jobs{padding:28px 0 40px}
 }
 @media (max-width:767px){.rc-staff img{height:150px;object-fit:cover}}
+/* 応募ボタンを目立たせる（2026-11-27 松本さん）：オレンジ一色・横いっぱい・大きく。文字は濃い色で読みやすく */
+.rc-more .rc-btns{display:flex;gap:10px;margin-top:18px}
+.rc-more .rc-btn{flex:1 1 0;justify-content:center;gap:14px;min-height:60px;padding:0 24px;background:var(--btn-org);color:var(--btn-blk);border:0;border-radius:6px;font-size:18px;font-weight:800;letter-spacing:.04em;box-shadow:0 6px 18px rgba(240,122,26,.35);transition:transform .2s,box-shadow .2s,background-color .2s}
+.rc-more .rc-btn:hover,.rc-more .rc-btn:focus-visible{background:#FF8A2A;color:var(--btn-blk);transform:translateY(-2px);box-shadow:0 10px 24px rgba(240,122,26,.45)}
+.rc-btn-ar{display:inline-block;font-size:20px;transition:transform .2s}
+.rc-more .rc-btn:hover .rc-btn-ar{transform:translateX(4px)}
+.rc-via{text-align:center;margin-top:8px}
+@media (max-width:600px){.rc-more .rc-btns{flex-direction:column}.rc-more .rc-btn{min-height:54px;font-size:16.5px}}

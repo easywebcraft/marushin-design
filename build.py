@@ -1333,7 +1333,7 @@ def page_recruit():
         rows = ''.join(f'<div><dt>{esc(k)}</dt><dd>{"<br>".join(esc(x) for x in v)}</dd></div>' for k, v in JOB_COND[name])
         btn = ''.join(
             f'<a class="btn rc-btn" href="{RECRUIT_URL}/{j}/" target="_blank" rel="noopener">'
-            f'{"応募する" if len(pays) == 1 else esc(a.split(" ")[0]) + "で応募する"}{ext}<span class="vh">（採用サイト・Airワーク）</span></a>'
+            f'<span>{"この仕事に応募する" if len(pays) == 1 else esc(a.split(" ")[0]) + "の仕事に応募する"}</span><span class="rc-btn-ar" aria-hidden="true">→</span><span class="vh">（採用サイト・Airワークが開きます）</span></a>'
             for a, _b, j in pays)
         jobs.append(f'''<li class="rc-job"><img src="{src}" alt="" width="{w}" height="{h}" loading="lazy" decoding="async">
 <div class="rc-job-tx"><h3>{esc(name)}</h3><p class="rc-desc">{esc(desc)}</p>{pay}
@@ -1416,7 +1416,7 @@ def page_recruit():
 <h2 class="t-ttl" id="h-rc-jobs">募集している仕事</h2>
 <p class="rc-common"><span class="ib">勤務地：春日井市松河戸町（JR勝川駅より車で5分・車通勤OK）</span><span class="ib">勤務時間：8:00〜17:00</span></p>
 <ul class="rc-job-l">{"".join(jobs)}</ul>
-<p class="rc-note">応募は「応募する」から採用サイト（Airワーク）の画面で受け付けています。お電話（<a href="{TEL_HREF}">{TEL}</a>）でもお問い合わせいただけます。</p>
+<p class="rc-note">応募は各職種の「応募する」ボタンから採用サイト（Airワーク）の画面で受け付けています。お電話（<a href="{TEL_HREF}">{TEL}</a>）でもお問い合わせいただけます。</p>
 </div>
 </section>
 
