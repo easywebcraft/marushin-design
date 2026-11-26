@@ -147,6 +147,7 @@ PH_IMG = {
     'voice.html': ('images/ph/voice.jpg', '68% 58%'),    # 吹き出し
     'policy.html': ('images/ph/policy.jpg', '62% 60%'),  # 鍵を掛けたファイル
     'contact.html': ('images/ph/contact.jpg', '70% 42%'),  # 封筒とメモ
+    'recruit.html': ('images/ph/recruit.jpg', '74% 80%'),  # ロッカー前の作業着・ヘルメット・安全靴（2026-11-27 松本さん）
 }
 
 ASSET_V = ''  # main() で CSS・JS の中身から決める
