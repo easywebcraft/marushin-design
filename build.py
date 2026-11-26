@@ -1426,7 +1426,7 @@ def page_recruit():
 <h2 class="t-ttl" id="h-rc-iv">社員インタビュー</h2>
 <figure class="rc-iv-top">
 <img src="images/top/fv-1.jpg" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-<figcaption><blockquote class="rc-quote"><p>モノを壊してお金を貰えて<br>喜ばれる仕事なんて<br>めったにありません</p></blockquote>
+<figcaption><blockquote class="rc-quote"><p><span>やっと</span><br><span>自分に合った仕事を</span><br><span>見つけることができた</span></p></blockquote>
 <p class="rc-who">解体作業員　29歳／入社3年目</p></figcaption>
 </figure>
 <ul class="rc-qas">{qa_html}</ul>

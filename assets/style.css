@@ -2108,3 +2108,4 @@ html.rc-side .rc-off .rc-closed{display:inline-block;margin-top:10px}
   .rc-iv-top::after{display:none}
   .rc-iv-top figcaption{position:static;padding:22px 20px 24px;text-shadow:none}
 }
+.rc-quote p span{display:inline-block}  /* 一言は行の途中で折り返さない（2026-11-27） */
