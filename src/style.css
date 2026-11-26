@@ -1926,10 +1926,9 @@ html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{min-height:44px;padding:0
 .fq-all .qa-q{display:flex;align-items:baseline;min-width:2.6em}
 .fq .qa-q small{margin-left:2px;font-size:.8em;letter-spacing:.02em}
 .qa-ct .nw{display:inline-block}  /* 連絡先の行を「E-」「Mail」のように途中で折り返さない */
-/* プルダウンを黒×オレンジに（2026-11-26 松本さん「おすすめで」＝案2）。ボタンと同じ色で、重機のオレンジにそろえる。
-   上にすき間を空けない（マウスを下へ動かす途中で閉じないように）。小さな三角は箱の中から上へ出す */
-.gnav-sub{min-width:210px;padding:8px 0;background:var(--btn-blk);border-radius:6px;border-top:3px solid var(--btn-org)}
-.gnav-sub::before{content:"";position:absolute;left:28px;top:-11px;border:8px solid transparent;border-bottom-color:var(--btn-org)}
-html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;color:#fff;font-weight:600}
-.gnav-sub a::before{content:"›";order:2;color:var(--btn-org);font-size:18px;line-height:1}
-.gnav-sub a:hover,.gnav-sub a:focus-visible{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 3px 0 0 var(--btn-org)}
+/* プルダウンを細めの線のリストに（2026-11-26 松本さん「やっぱり案1で」）。白地に上の線・項目の間に区切り線・小さな矢印。
+   上にすき間を空けない（マウスを下へ動かす途中で閉じないように） */
+.gnav-sub{min-width:200px;padding:6px 0 8px;border-radius:0 0 6px 6px;border-top:3px solid var(--teal);box-shadow:0 10px 24px rgba(0,0,0,.14)}
+.gnav-sub li+li{border-top:1px solid var(--line)}
+html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{display:flex;align-items:center;gap:10px;min-height:46px;font-weight:600}
+.gnav-sub a::before{content:"";width:6px;height:6px;border-top:1.5px solid var(--teal-d);border-right:1.5px solid var(--teal-d);transform:rotate(45deg);flex:none}
