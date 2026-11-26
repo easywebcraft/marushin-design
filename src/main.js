@@ -409,6 +409,24 @@
     j.addEventListener('mouseleave', function () { clearTimeout(wait); });
     j.addEventListener('focusin', function () { if (mq.matches) pick(j); });
   });
+  // 「左を選ぶと右が変わる」ことが分かるよう、欄が画面に入ったら1周だけ自動で切り替えて見せる（2026-11-27 松本さん）。
+  // カーソルを合わせたら・押したらすぐ止める。動きを減らす設定の人には見せない
+  var tour = [], touched = false;
+  function stopTour() { touched = true; tour.forEach(clearTimeout); tour = []; }
+  list.addEventListener('mouseenter', stopTour);
+  list.addEventListener('focusin', stopTour);
+  list.addEventListener('pointerdown', stopTour);
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      if (touched || !mq.matches) return;
+      jobs.concat([jobs[0]]).slice(1).forEach(function (j, n) {
+        tour.push(setTimeout(function () { if (!touched) pick(j); }, 1200 + n * 1600));
+      });
+    }, { threshold: 0.6 });
+    io.observe(list);
+  }
   if (mq.addEventListener) mq.addEventListener('change', apply); else mq.addListener(apply);
   window.addEventListener('resize', function () { if (mq.matches) fit(); });
   window.addEventListener('load', function () { if (mq.matches) fit(); });
