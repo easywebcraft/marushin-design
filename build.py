@@ -1327,7 +1327,7 @@ def page_recruit():
         nw = lambda t: '〜'.join(f'<span class="nw">{esc(x)}</span>' for x in t.split('〜'))   # 金額の途中で折り返さない
         pay = ''.join(f'<p class="rc-pay"><b>{nw(a)}</b>{f"<small>{esc(b)}</small>" if b else ""}</p>' for a, b, _j in pays)
         # 詳しい条件はページの中で開き、応募だけ AirWORK の求人ページへ（2026-11-26 松本さん「3で」）。
-        # マウスのある画面では、札にカーソルを合わせると札の上に大きく開く（2026-11-27 松本さん。main.js の rc-job）
+        # パソコンでは左に職種の一覧・右に詳しい条件。カーソルを合わせた職種の条件に切り替わる（2026-11-27 松本さん。main.js の rc-job）
         rows = ''.join(f'<div><dt>{esc(k)}</dt><dd>{"<br>".join(esc(x) for x in v)}</dd></div>' for k, v in JOB_COND[name])
         btn = ''.join(
             f'<a class="btn rc-btn" href="{RECRUIT_URL}/{j}/" target="_blank" rel="noopener">'
@@ -1340,9 +1340,9 @@ def page_recruit():
 <div class="rc-pop-h" aria-hidden="true"><p class="rc-pop-n">{esc(name)}</p>{pay}</div><dl class="rc-cond">{rows}</dl>
 <div class="rc-btns">{btn}</div><p class="rc-via">応募は採用サイト（Airワーク）の画面で受け付けています</p></div></details></li>''')
     # 営業は「現在募集しておりません」（丸信さん）。押せる所は置かない
-    jobs.append('''<li class="rc-job rc-off"><img src="images/recruit/eigyo.jpg" alt="" width="400" height="250" loading="lazy" decoding="async">
+    off = ('''<div class="rc-job rc-off"><img src="images/recruit/eigyo.jpg" alt="" width="400" height="250" loading="lazy" decoding="async">
 <div class="rc-job-tx"><h3>営業</h3><p class="rc-desc">ゼネコンや住宅メーカー、工務店などからのご依頼で、解体工事の見積もりから施工管理までを行います。</p>
-<p class="rc-closed">現在募集しておりません</p></div></li>''')
+<p class="rc-closed">現在募集しておりません</p></div></div>''')
     bens = [('昇給・賞与あり', '昇給 年1回・賞与 年2回'), ('社会保険完備', '厚生年金・健康保険・雇用保険・労災保険'),
             ('退職金制度あり', '勤続2年以上が対象'), ('資格取得の支援', '業務に必要な資格の取得を支援')]
     ben_html = ''.join(f'<li><b>{t}</b><span>{d}</span></li>' for t, d in bens)
@@ -1403,6 +1403,7 @@ def page_recruit():
 <h2 class="t-ttl" id="h-rc-jobs">募集している仕事</h2>
 <p class="rc-common"><span class="ib">勤務地：春日井市松河戸町（JR勝川駅より車で5分・車通勤OK）</span><span class="ib">勤務時間：8:00〜17:00</span></p>
 <ul class="rc-job-l">{"".join(jobs)}</ul>
+{off}
 <p class="rc-note">応募は「応募する」から採用サイト（Airワーク）の画面で受け付けています。お電話（<a href="{TEL_HREF}">{TEL}</a>）でもお問い合わせいただけます。</p>
 </div>
 </section>

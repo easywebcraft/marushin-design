@@ -371,37 +371,43 @@
   Array.prototype.forEach.call(boxes, function (box) { if (box.querySelector('.wk-rng')) io.observe(box); });
 })();
 
-/* 採用情報の求人の札：マウスのある画面では、カーソルを合わせると詳しい条件が札の上に開く（2026-11-27 松本さん）。
-   スマホは「詳しい条件を見る」を押して開く（details のまま） */
+/* 採用情報の求人：パソコンでは左に職種の一覧・右に詳しい条件（2026-11-27 松本さん）。
+   カーソルを合わせた職種の条件に、押さなくても切り替わる。最初は1つ目を出しておく。
+   スマホ・幅の狭い画面は「詳しい条件を見る」を押して開く（details のまま） */
 (function () {
-  if (!window.matchMedia || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  document.documentElement.classList.add('rc-hover');
-  // 開け閉めは CSS の動き（:hover）に任せる。中身はいつも開いておき、見え方だけを滑らかに切り替える（2026-11-27「もっと滑らかに」）
-  Array.prototype.forEach.call(document.querySelectorAll('.rc-job'), function (job) {
-    var d = job.querySelector('.rc-more');
-    if (!d) return;
-    d.open = true;
-    job.tabIndex = 0;   // キーボードでも札に合わせると開く
-    // 開いた箱がいつも画面の中に全部収まるよう、札の位置に合わせて上下にずらす（2026-11-27 松本さん）。
-    // 上の帯（固定）の下から画面の下までに入れ、入りきらないときは箱の中でスクロール
-    var pop = job.querySelector('.rc-pop'), on = false, raf = 0;
-    if (!pop) return;
-    function place() {
-      raf = 0;
-      var hd = document.querySelector('.hd'), gap = 14;
-      var minY = (hd ? Math.max(0, hd.getBoundingClientRect().bottom) : 0) + gap, maxY = window.innerHeight - gap;
-      pop.style.maxHeight = (maxY - minY) + 'px';
-      var h = Math.min(pop.scrollHeight, maxY - minY), r = job.getBoundingClientRect(), y = r.top - gap;
-      y = Math.max(minY, Math.min(y, maxY - h));
-      pop.style.top = (y - r.top) + 'px';
+  var list = document.querySelector('.rc-job-l');
+  if (!list || !window.matchMedia) return;
+  var mq = matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1001px)');
+  var jobs = Array.prototype.slice.call(list.querySelectorAll('.rc-job'));
+  function pick(job) {
+    jobs.forEach(function (j) { j.classList.toggle('is-on', j === job); });
+  }
+  function fit() {   // 右の枠の高さを、いちばん長い条件に合わせる（切り替えでページが伸び縮みしないように）
+    var h = 0;
+    jobs.forEach(function (j) { var p = j.querySelector('.rc-pop'); if (p) h = Math.max(h, p.offsetHeight); });
+    list.style.minHeight = h + 'px';
+  }
+  function apply() {
+    var on = mq.matches;
+    document.documentElement.classList.toggle('rc-side', on);
+    jobs.forEach(function (j) {
+      var d = j.querySelector('.rc-more');
+      if (d) d.open = on;
+      j.tabIndex = on ? 0 : -1;
+    });
+    if (on) {
+      if (!list.querySelector('.is-on')) pick(jobs[0]);
+      fit();
+    } else {
+      list.style.minHeight = '';
     }
-    function show() { on = true; place(); }
-    function hide() { on = false; }
-    job.addEventListener('mouseenter', show);
-    job.addEventListener('mouseleave', hide);
-    job.addEventListener('focusin', show);
-    job.addEventListener('focusout', function (e) { if (!job.contains(e.relatedTarget)) hide(); });
-    window.addEventListener('scroll', function () { if (on && !raf) raf = requestAnimationFrame(place); }, { passive: true });
-    window.addEventListener('resize', function () { if (on && !raf) raf = requestAnimationFrame(place); });
+  }
+  jobs.forEach(function (j) {
+    j.addEventListener('mouseenter', function () { if (mq.matches) pick(j); });
+    j.addEventListener('focusin', function () { if (mq.matches) pick(j); });
   });
+  if (mq.addEventListener) mq.addEventListener('change', apply); else mq.addListener(apply);
+  window.addEventListener('resize', function () { if (mq.matches) fit(); });
+  window.addEventListener('load', function () { if (mq.matches) fit(); });
+  apply();
 })();

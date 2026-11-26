@@ -1973,7 +1973,7 @@ html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{display:flex;align-items:
 .rc-btn{min-height:40px;padding:0 16px;gap:6px;font-size:14px;background:var(--navy);color:#fff}
 .rc-btn:hover{background:var(--navy-d);color:#fff}
 .rc-btn .ic{width:14px;height:14px}
-.rc-off{grid-column:1/-1;grid-template-columns:110px 1fr;align-items:center;background:transparent;box-shadow:none;border:1px dashed var(--line)}
+.rc-off{margin-top:16px;grid-template-columns:110px 1fr;align-items:center;background:transparent;box-shadow:none;border:1px dashed var(--line)}
 .rc-off>img{width:110px;height:70px;filter:grayscale(.6);opacity:.8}
 .rc-off .rc-job-tx{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px}
 .rc-off .rc-desc{flex:1 1 320px;margin:0;color:var(--mute)}
@@ -2019,32 +2019,28 @@ html.js .hd-ovl:not(.is-solid) .gnav-sub a,.gnav-sub a{display:flex;align-items:
 .rc-more .rc-btn:hover{background:#000}
 .rc-via{margin-top:6px;font-size:12px;color:var(--mute)}
 @media (max-width:600px){.rc-cond>div{grid-template-columns:1fr;gap:2px}.rc-more .rc-btn{flex:1 1 100%;justify-content:center}}
-/* マウスのある画面：札にカーソルを合わせると、詳しい条件が札の上に大きく開く（2026-11-27 松本さん「ブワッと」） */
 .rc-pop-h{display:none}
-html.rc-hover .rc-job{position:relative}
-html.rc-hover .rc-job:hover{z-index:5}
-html.rc-hover .rc-more>summary{border-style:dashed}
-html.rc-hover .rc-more[open]>summary{background:transparent;color:var(--navy)}
-html.rc-hover .rc-more .rc-pop{position:absolute;left:-14px;right:-14px;top:-14px;z-index:6;padding:20px 24px 22px;background:#fff;border-top:4px solid var(--btn-org);border-radius:6px;box-shadow:0 24px 60px rgba(12,26,46,.28);transform-origin:50% 20%;animation:rcPop .26s cubic-bezier(.2,.9,.3,1.15)}
-html.rc-hover .rc-pop-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;padding-bottom:10px;border-bottom:2px solid var(--navy)}
-html.rc-hover .rc-pop-n{font-size:20px;font-weight:700;color:var(--navy)}
-html.rc-hover .rc-pop-h .rc-pay{margin:0}
-html.rc-hover .rc-pop-h .rc-pay small{display:inline;margin-left:6px}
-html.rc-hover .rc-pop .rc-cond{margin-top:6px}
-@keyframes rcPop{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){html.rc-hover .rc-more .rc-pop{animation:none}}
-/* もっと滑らかに（2026-11-27 松本さん）：弾む動きをやめ、開くときも閉じるときも、ふわっと大きくなる・小さくなる */
-html.rc-hover .rc-more>summary{pointer-events:none;border-style:solid;border-color:var(--line);color:var(--mute);font-weight:600}
-html.rc-hover .rc-more>summary::after{display:none}
-html.rc-hover .rc-more>summary{font-size:0}
-html.rc-hover .rc-more>summary::before{content:"カーソルを合わせると詳しい条件が出ます";font-size:13.5px}
-html.rc-hover .rc-more .rc-pop{animation:none;opacity:0;visibility:hidden;transform:scale(.96) translateY(10px);
-  transition:opacity .22s ease,transform .3s cubic-bezier(.4,0,.2,1),visibility 0s linear .3s}
-html.rc-hover .rc-job:hover .rc-pop,html.rc-hover .rc-job:focus-within .rc-pop{opacity:1;visibility:visible;transform:none;
-  transition:opacity .45s cubic-bezier(.22,1,.36,1) .06s,transform .55s cubic-bezier(.22,1,.36,1) .06s,visibility 0s linear .06s}
-html.rc-hover .rc-job:focus-visible{outline:2px solid var(--btn-org);outline-offset:3px}
-@media (prefers-reduced-motion:reduce){html.rc-hover .rc-more .rc-pop,html.rc-hover .rc-job:hover .rc-pop{transition:opacity .15s linear;transform:none}}
-/* 開いた箱は画面の中に収める（位置と高さは main.js が決める）。入りきらないときは箱の中でスクロール */
-html.rc-hover .rc-more .rc-pop{overflow-y:auto;overscroll-behavior:contain}
 /* 求人の欄は、開いた箱が欄の外（上の福利厚生の上など）へ出ても切れないように。透かし文字のはみ出しだけ横で切る */
 .rc-jobs.has-wm{overflow:visible;overflow-x:clip;z-index:2}
+/* パソコン：左に職種の一覧・右に詳しい条件（2026-11-27 松本さん）。重なりなしで、カーソルを合わせた職種に切り替わる */
+html.rc-side .rc-job-l{position:relative;display:block}
+html.rc-side .rc-job-l>.rc-job{position:static;width:420px;margin-top:12px;grid-template-columns:110px 1fr;gap:14px;padding:14px;cursor:default;border:1px solid transparent;border-left:4px solid transparent;transition:border-color .2s,box-shadow .2s,background-color .2s}
+html.rc-side .rc-job-l>.rc-job:first-child{margin-top:0}
+html.rc-side .rc-job-l>.rc-job>img{width:110px;height:82px}
+html.rc-side .rc-job-l .rc-desc,html.rc-side .rc-job-l .rc-tags,html.rc-side .rc-more>summary{display:none}
+html.rc-side .rc-job-l .rc-job h3{font-size:17px}
+html.rc-side .rc-job-l .rc-job-tx{position:relative;padding-right:22px}
+html.rc-side .rc-job-l .rc-job-tx::after{content:"";position:absolute;right:2px;top:50%;width:8px;height:8px;border-top:2px solid var(--line);border-right:2px solid var(--line);transform:translateY(-50%) rotate(45deg);transition:border-color .2s}
+html.rc-side .rc-job-l>.rc-job.is-on{border-color:var(--line);border-left-color:var(--btn-org);box-shadow:0 8px 24px rgba(20,38,64,.12)}
+html.rc-side .rc-job-l>.rc-job.is-on .rc-job-tx::after{border-color:var(--btn-org)}
+html.rc-side .rc-job-l>.rc-job:focus-visible{outline:2px solid var(--btn-org);outline-offset:2px}
+html.rc-side .rc-more{border:0;padding:0}
+html.rc-side .rc-pop{position:absolute;top:0;left:448px;right:0;padding:22px 28px 24px;background:#fff;border-top:4px solid var(--btn-org);border-radius:6px;box-shadow:0 12px 36px rgba(12,26,46,.12);
+  opacity:0;visibility:hidden;transform:translateX(10px);transition:opacity .25s ease,transform .3s ease,visibility 0s linear .3s}
+html.rc-side .rc-job.is-on .rc-pop{opacity:1;visibility:visible;transform:none;transition:opacity .35s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1),visibility 0s}
+html.rc-side .rc-pop-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;padding-bottom:10px;border-bottom:2px solid var(--navy)}
+html.rc-side .rc-pop-n{font-size:20px;font-weight:700;color:var(--navy)}
+html.rc-side .rc-pop-h .rc-pay{margin:0}
+html.rc-side .rc-pop-h .rc-pay small{display:inline;margin-left:6px}
+html.rc-side .rc-pop .rc-cond{margin-top:6px}
+@media (prefers-reduced-motion:reduce){html.rc-side .rc-pop,html.rc-side .rc-job.is-on .rc-pop{transition:none;transform:none}}
