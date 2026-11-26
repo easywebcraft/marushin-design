@@ -1374,7 +1374,8 @@ def page_recruit():
             '解体工事はサイクルが早いので、色んな現場を経験できて飽きません。',
             'そして、解体業はなくなることのない仕事なので、安定性も魅力です。']),
     ]
-    qa_html = ''.join(f'<div class="rc-qa"><h3><span aria-hidden="true">Q.</span>{esc(q)}</h3>{"".join(f"<p>{esc(a)}</p>" for a in ans)}</div>' for q, ans in qa)
+    # 上に答えの中の一言を大きく出し、その下に質問を2列の札で（2026-11-27 松本さん「大きな一言＋2列の札」）
+    qa_html = ''.join(f'<li class="rc-qa"><h3><span class="rc-qn" aria-hidden="true">Q{n}</span>{esc(q)}</h3>{"".join(f"<p>{esc(a)}</p>" for a in ans)}</li>' for n, (q, ans) in enumerate(qa, 1))
     return f'''{page_head('recruit.html')}
 <section class="sec rc-about" aria-labelledby="h-rc-about">
 <div class="wrap rc-about-in">
@@ -1420,11 +1421,15 @@ def page_recruit():
 </section>
 
 <section class="sec rc-iv" aria-labelledby="h-rc-iv">
-<div class="wrap rc-iv-in">
+<div class="wrap">
 <p class="cm-en" lang="en">INTERVIEW</p>
 <h2 class="t-ttl" id="h-rc-iv">社員インタビュー</h2>
-<p class="rc-who">解体作業員　29歳／入社3年目</p>
-{qa_html}
+<figure class="rc-iv-top">
+<img src="images/top/fv-1.jpg" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+<figcaption><blockquote class="rc-quote"><p>モノを壊してお金を貰えて<br>喜ばれる仕事なんて<br>めったにありません</p></blockquote>
+<p class="rc-who">解体作業員　29歳／入社3年目</p></figcaption>
+</figure>
+<ul class="rc-qas">{qa_html}</ul>
 </div>
 </section>
 '''

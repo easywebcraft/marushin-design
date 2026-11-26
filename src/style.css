@@ -2072,3 +2072,20 @@ html.rc-side .rc-off .rc-closed{display:inline-block;margin-top:10px}
 .rc-acc-b p:first-child{margin-top:0}
 .rc-staff{position:static}
 @media (max-width:1000px){.rc-staff{margin-top:0}}
+/* 社員インタビュー：大きな一言＋質問の2列の札（2026-11-27 松本さん） */
+.rc-iv-top{display:grid;grid-template-columns:1fr 1fr;margin:28px 0 0;background:var(--navy);border-radius:6px;overflow:hidden}
+.rc-iv-top img{width:100%;height:100%;min-height:280px;object-fit:cover}
+.rc-iv-top figcaption{display:flex;flex-direction:column;justify-content:center;padding:40px 48px;color:#fff}
+.rc-quote{margin:0;position:relative;padding-top:34px}
+.rc-quote::before{content:"“";position:absolute;top:-18px;left:-6px;font-family:var(--serif);font-size:84px;line-height:1;color:var(--btn-org)}
+.rc-quote p{font-family:var(--serif);font-size:clamp(22px,2.4vw,30px);font-weight:700;line-height:1.6}
+.rc-iv-top .rc-who{align-self:flex-start;margin-top:22px;background:transparent;border:1px solid rgba(255,255,255,.5)}
+.rc-qas{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.rc-qas>.rc-qa{margin:0;padding:24px 26px;background:#fff;border:1px solid var(--line);border-top:3px solid var(--teal);border-radius:4px}
+.rc-qas>.rc-qa:last-child:nth-child(odd){grid-column:1/-1}
+.rc-qa h3{align-items:baseline;gap:10px;font-size:18px;line-height:1.5}
+.rc-qn{flex:none;font-family:var(--serif);font-size:15px;color:var(--teal-d)}
+.rc-qa p{font-size:14.5px;line-height:1.9}
+.rc-iv{background:var(--pale2)}
+@media (max-width:1000px){.rc-iv-top{grid-template-columns:1fr}.rc-iv-top img{min-height:0;aspect-ratio:16/9;height:auto}.rc-iv-top figcaption{padding:28px 24px}.rc-qas{grid-template-columns:1fr}}
+@media (max-width:600px){.rc-qas>.rc-qa{padding:18px}.rc-qa h3{font-size:16.5px}}
