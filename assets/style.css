@@ -2044,3 +2044,7 @@ html.rc-hover .rc-job:hover .rc-pop,html.rc-hover .rc-job:focus-within .rc-pop{o
   transition:opacity .45s cubic-bezier(.22,1,.36,1) .06s,transform .55s cubic-bezier(.22,1,.36,1) .06s,visibility 0s linear .06s}
 html.rc-hover .rc-job:focus-visible{outline:2px solid var(--btn-org);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){html.rc-hover .rc-more .rc-pop,html.rc-hover .rc-job:hover .rc-pop{transition:opacity .15s linear;transform:none}}
+/* 開いた箱は画面の中に収める（位置と高さは main.js が決める）。入りきらないときは箱の中でスクロール */
+html.rc-hover .rc-more .rc-pop{overflow-y:auto;overscroll-behavior:contain}
+/* 求人の欄は、開いた箱が欄の外（上の福利厚生の上など）へ出ても切れないように。透かし文字のはみ出しだけ横で切る */
+.rc-jobs.has-wm{overflow:visible;overflow-x:clip;z-index:2}

@@ -382,5 +382,26 @@
     if (!d) return;
     d.open = true;
     job.tabIndex = 0;   // キーボードでも札に合わせると開く
+    // 開いた箱がいつも画面の中に全部収まるよう、札の位置に合わせて上下にずらす（2026-11-27 松本さん）。
+    // 上の帯（固定）の下から画面の下までに入れ、入りきらないときは箱の中でスクロール
+    var pop = job.querySelector('.rc-pop'), on = false, raf = 0;
+    if (!pop) return;
+    function place() {
+      raf = 0;
+      var hd = document.querySelector('.hd'), gap = 14;
+      var minY = (hd ? Math.max(0, hd.getBoundingClientRect().bottom) : 0) + gap, maxY = window.innerHeight - gap;
+      pop.style.maxHeight = (maxY - minY) + 'px';
+      var h = Math.min(pop.scrollHeight, maxY - minY), r = job.getBoundingClientRect(), y = r.top - gap;
+      y = Math.max(minY, Math.min(y, maxY - h));
+      pop.style.top = (y - r.top) + 'px';
+    }
+    function show() { on = true; place(); }
+    function hide() { on = false; }
+    job.addEventListener('mouseenter', show);
+    job.addEventListener('mouseleave', hide);
+    job.addEventListener('focusin', show);
+    job.addEventListener('focusout', function (e) { if (!job.contains(e.relatedTarget)) hide(); });
+    window.addEventListener('scroll', function () { if (on && !raf) raf = requestAnimationFrame(place); }, { passive: true });
+    window.addEventListener('resize', function () { if (on && !raf) raf = requestAnimationFrame(place); });
   });
 })();
