@@ -2057,3 +2057,16 @@ html.rc-side .rc-off .rc-job-tx{display:block}
 html.rc-side .rc-off .rc-closed{display:inline-block;margin-top:10px}
 .rc-off-msg{display:inline-block;margin-top:18px;padding:8px 18px;border:1px solid var(--line);border-radius:3px;background:var(--pale2);font-size:16px;font-weight:700;color:var(--mute)}
 .rc-off-tx{margin-top:14px;font-size:14px;line-height:1.8;color:var(--mute)}
+/* 採用の会社の紹介：3つの話は押すと開く（2026-11-27 松本さん「ABOUT が長い」） */
+.rc-about-in{align-items:center}
+.rc-accs{margin-top:22px;border-top:1px solid var(--line)}
+.rc-acc{border-bottom:1px solid var(--line)}
+.rc-acc>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:54px;padding:0 4px 0 14px;border-left:3px solid var(--teal);margin:8px 0;font-size:16px;font-weight:700;color:var(--navy);cursor:pointer;list-style:none}
+.rc-acc>summary::-webkit-details-marker{display:none}
+.rc-acc>summary::after{content:"";flex:none;width:9px;height:9px;margin-right:8px;border-right:2px solid var(--teal-d);border-bottom:2px solid var(--teal-d);transform:translateY(-3px) rotate(45deg);transition:transform .25s}
+.rc-acc[open]>summary::after{transform:translateY(2px) rotate(-135deg)}
+.rc-acc>summary:hover{background:var(--pale2)}
+.rc-acc-b{padding:0 4px 18px 17px}
+.rc-acc-b p{margin-top:10px;line-height:1.95}
+.rc-acc-b p:first-child{margin-top:0}
+.rc-staff{position:static}
